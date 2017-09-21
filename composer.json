@@ -1,5 +1,5 @@
 {
-    "name": "ramesh/cms",
+    "name": "phpworkers/cms",
     "description": "laravel cms",
     "type": "composer-plugin",
     "keywords": ["laravel", "laravel cms","cms","modules","plugins","admin","theme"],
