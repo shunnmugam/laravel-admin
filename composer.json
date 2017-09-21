@@ -1,0 +1,28 @@
+{
+    "name": "ramesh/cms",
+    "description": "laravel cms",
+    "type": "composer-plugin",
+    "keywords": ["laravel", "laravel cms","cms","modules","plugins","admin","theme"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ramesh",
+            "email": "shunramit@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ramesh\\Cms\\": "packages/ramesh/cms/src"
+        }
+    },
+    "files" : ["packages/ramesh/cms/src/Helper.php"],
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/support": "~5",
+        "laravelcollective/html": "~5.0",
+        "yajra/laravel-datatables-oracle": "7.2",
+        "unisharp/laravel-filemanager": "^1.8"
+    },
+    "require-dev": {
+    }
+}
