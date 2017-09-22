@@ -1,0 +1,16 @@
+{
+  "name": "admin",
+  "version": "0.0.1",
+  "type" : "core",
+  "providers": [
+    "providers\\AdminServiceProvider"
+  ],
+  "helpers" : {
+    "User":"cms\\layout\\helpers\\Layout"
+  },
+  "permissions" : {
+    "add" : ["Backend Access"],
+    "except" : ["create","edit","view","delete"]
+  }
+
+}

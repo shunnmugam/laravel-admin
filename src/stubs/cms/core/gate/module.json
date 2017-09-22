@@ -1,0 +1,16 @@
+{
+  "name": "gate",
+  "alias" : "Roles and Permissions",
+  "version": "0.0.1",
+  "type" : "core",
+  "providers": [
+    "providers\\CGateServiceProvider"
+  ],
+  "helpers" : {
+    "CGate" : "cms\\core\\gate\\helpers\\CGate"
+  },
+  "permissions" : {
+    "status" : false
+  }
+
+}

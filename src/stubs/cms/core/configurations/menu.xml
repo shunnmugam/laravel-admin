@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menus>
+    <group name="Configurations" order="2">
+        <menu name="Module Configurations" route="/administrator/configurations/module/1" is_url="1"/>
+        <menu name="Site Configurations" route="admin_site_configuration"/>
+        <menu name="Mail Configurations" route="admin_mail_configuration"/>
+    </group>
+</menus>

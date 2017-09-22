@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menus>
+    <group name="General" order="0">
+        <menugroup name="Blogs" icon="fa fa-edit" order="10">
+            <menu name="View Blogs" route="blog.index" />
+            <menu name="Add Blogs" route="blog.create" />
+
+            <menugroup name="Blog Category" icon="fa fa-edit" order="11">
+                <menu name="View Category" route="blog-category.index" />
+                <menu name="Add Category" route="blog-category.create" />
+            </menugroup>
+
+        </menugroup>
+    </group>
+</menus>

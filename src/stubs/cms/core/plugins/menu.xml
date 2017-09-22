@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menus>
+<group name="General" order="0">
+    <menugroup name="Plugins" icon="fa fa-user" order="4">
+        <menu name="View Plugins" route="plugin.index" />
+    </menugroup>
+
+</group>
+</menus>

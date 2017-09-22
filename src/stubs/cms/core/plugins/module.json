@@ -1,0 +1,12 @@
+{
+  "name": "plugins",
+  "version": "0.0.1",
+  "type" : "core",
+  "providers": [
+    "providers\\PluginsServiceProvider"
+  ],
+  "helpers" : {
+    "Plugins":"cms\\core\\plugins\\helpers\\Plugins"
+  },
+  "plugins" : "config\\plugins.php"
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menus>
+    <group name="General" order="0">
+        <menugroup name="FeedBacks" icon="fa fa-comments-o" order="5">
+            <menu name="View FeedBacks" route="feedback.index" />
+            <menu name="Add FeedBacks" route="feedback.create" />
+        </menugroup>
+    </group>
+</menus>

@@ -1,0 +1,12 @@
+{
+  "name": "configurations",
+  "version": "0.0.1",
+  "type" : "core",
+  "providers": [
+    "providers\\ConfigurationsServiceProvider"
+  ],
+  "helpers" : {
+    "Configurations" : "cms\\core\\configurations\\helpers\\Configurations"
+  }
+
+}
