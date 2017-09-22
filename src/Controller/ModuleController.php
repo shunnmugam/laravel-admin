@@ -29,6 +29,13 @@ class ModuleController extends CmsController
 
     }
     /*
+     * get module id
+     */
+    public function getId()
+    {
+
+    }
+    /*
      * get module path
      */
     public function getPath()
