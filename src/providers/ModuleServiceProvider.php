@@ -32,9 +32,15 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $this->registerLibrary();
 
-        $this->registerProviders();
-        $this->registerComposerAutoload();
-        $this->registerHelpers();
+        if(!config('cms') || config('cms')=='')
+        {
+            //first time
+        }
+        else{
+            $this->registerProviders();
+            $this->registerComposerAutoload();
+            $this->registerHelpers();
+        }
 
     }
     /*
