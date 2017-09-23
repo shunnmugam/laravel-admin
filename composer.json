@@ -17,11 +17,12 @@
     "files" : ["packages/ramesh/cms/src/Helper.php"],
     "minimum-stability": "dev",
     "require": {
-        "illuminate/support": "~5",
+        "php": ">=5.6.0",
+        "illuminate/support": "~5"
+    },
+    "require-dev": {
         "laravelcollective/html": "~5.0",
         "yajra/laravel-datatables-oracle": "7.2",
         "unisharp/laravel-filemanager": "^1.8"
-    },
-    "require-dev": {
     }
 }
