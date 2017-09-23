@@ -11,10 +11,10 @@
     ],
     "autoload": {
         "psr-4": {
-            "Ramesh\\Cms\\": "packages/ramesh/cms/src"
+            "Ramesh\\Cms\\": "src/"
         }
     },
-    "files" : ["packages/ramesh/cms/src/Helper.php"],
+    "files" : ["src/Helper.php"],
     "minimum-stability": "stable",
     "require": {
         "laravelcollective/html": "~5.0",
