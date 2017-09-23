@@ -62,7 +62,7 @@ class PluginsServiceProvider extends ServiceProvider
     {
 
         Route::prefix('administrator')
-            ->middleware(['web','Admin','Role'])
+            ->middleware(['web','Admin'])
             ->namespace('cms\core\plugins\Controllers')
             ->group(__DIR__ . '/../adminroutes.php');
 
