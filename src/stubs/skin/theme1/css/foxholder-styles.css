@@ -1,0 +1,150 @@
+/* common form styles */
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.form-item-block {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.form-container form input:not([type=checkbox]),
+.form-container form textarea {
+  outline: none !important;
+  box-shadow: none !important;
+  width: 100%;
+  padding: 20px;
+  height: 54px;
+  background-color: transparent;
+  font-size: 17px;
+  color: #222222;
+  font-family: inherit;
+  -moz-transition: all 0.2s linear 0s;
+  -webkit-transition: all 0.2s linear 0s;
+  transition: all 0.2s linear 0s;
+}
+
+.form-container form input:not([type=checkbox]) + label {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  font-weight: 700;
+  margin-bottom: 0px;
+  background: transparent;
+}
+
+.form-container form input:not([type=checkbox]) + label:before {
+  content: "";
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.form-container form input:not([type=checkbox]) + label span {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0px 20px;
+}
+
+
+.form-container form textarea {
+  resize: none;
+  height: 140px;
+  line-height: 24px;
+}
+
+.form-container form textarea + label {
+  line-height: 24px;
+  padding: 20px 0px;
+}
+
+.form-container form input + label {
+  height: calc(100% - 2px);
+}
+
+.form-container form button {
+  color: #222;
+  border: 1px solid #222;
+  background: transparent;
+  border-radius: 4px;
+  outline: none;
+  padding: 10px 20px;
+}
+
+/* example-15 styles */
+
+#example-15.form-container input:not([type=checkbox]) + label {
+  top: 1px;
+  left: 1px;
+  padding: 20px 20px 20px 50px;
+  -moz-transition: all 0.2s linear 0s;
+  -webkit-transition: all 0.2s linear 0s;
+  transition: all 0.2s linear 0s;
+}
+
+#example-15.form-container input:not([type=checkbox]),
+#example-15.form-container textarea {
+  -moz-transition: all 0.2s linear 0s;
+  -webkit-transition: all 0.2s linear 0s;
+  transition: all 0.2s linear 0s;
+}
+
+#example-15.form-container input:not([type=checkbox]):focus + label,
+#example-15.form-container input:not([type=checkbox]).active  + label,
+#example-15.form-container textarea:focus  + label,
+#example-15.form-container textarea.active + label {
+  background: #f04c1e;
+  color: #fff;
+  padding: 20px;
+}
+
+#example-15.form-container input:not([type=checkbox]) + label .top-triangle,
+#example-15.form-container input:not([type=checkbox]) + label .bottom-triangle {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  right: -32px;
+  border: 16px solid transparent;
+  -moz-transition: all 0.2s linear 0s;
+  -webkit-transition: all 0.2s linear 0s;
+  transition: all 0.2s linear 0s;
+}
+
+#example-15.form-container input:not([type=checkbox]) + label .top-triangle {
+  border-left: 16px solid transparent;
+  border-top: 16px solid transparent;
+  top: 0;
+}
+
+#example-15.form-container input:not([type=checkbox]) + label .bottom-triangle {
+  border-left: 16px solid transparent;
+  border-bottom: 16px solid transparent;
+  bottom: 0;
+}
+
+#example-15.form-container input:not([type=checkbox]):focus + label .top-triangle,
+#example-15.form-container input:not([type=checkbox]).active  + label .top-triangle,
+#example-15.form-container textarea:focus  + label .top-triangle,
+#example-15.form-container textarea.active + label .top-triangle {
+  border-left: 16px solid #f04c1e;
+  border-top: 16px solid #f04c1e;
+}
+
+#example-15.form-container input:not([type=checkbox]):focus + label .bottom-triangle,
+#example-15.form-container input:not([type=checkbox]).active  + label .bottom-triangle,
+#example-15.form-container textarea:focus  + label .bottom-triangle,
+#example-15.form-container textarea.active + label .bottom-triangle {
+  border-left: 16px solid #f04c1e;
+  border-bottom: 16px solid #f04c1e;
+}
+
+#example-15.form-container input:not([type=checkbox]):focus,
+#example-15.form-container input:not([type=checkbox]).active,
+#example-15.form-container textarea:focus,
+#example-15.form-container textarea.active {
+  border: 1px dotted #222;
+}
