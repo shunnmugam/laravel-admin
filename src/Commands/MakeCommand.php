@@ -48,5 +48,7 @@ class MakeCommand extends Command
             ->setModule($module_name)
             ->MakeCommand()
             ->create();
+
+        $this->info('command created');
     }
 }

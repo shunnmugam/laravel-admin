@@ -48,5 +48,7 @@ class MakeMiddleware extends Command
             ->setModule($module_name)
             ->MakeMiddleware()
             ->create();
+
+        $this->info('middleware created');
     }
 }

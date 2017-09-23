@@ -48,5 +48,7 @@ class MakeController extends Command
             ->setModule($module_name)
             ->MakeController($this->option('resource'))
             ->create();
+
+        $this->info('controller created');
     }
 }

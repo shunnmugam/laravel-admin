@@ -48,5 +48,7 @@ class MakeNotification extends Command
             ->setModule($module_name)
             ->MakeNotification($this->option('markdown'))
             ->create();
+
+        $this->info('notification created');
     }
 }

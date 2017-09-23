@@ -48,5 +48,7 @@ class MakeSeeder extends Command
             ->setModule($module_name)
             ->MakeSeeder()
             ->create();
+
+        $this->info('seeder created');
     }
 }

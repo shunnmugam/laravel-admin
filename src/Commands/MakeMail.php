@@ -48,5 +48,7 @@ class MakeMail extends Command
             ->setModule($module_name)
             ->MakeMail($this->option('view'),$this->option('markdown'))
             ->create();
+
+        $this->info('mail created');
     }
 }

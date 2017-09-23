@@ -51,6 +51,7 @@ class MakeListener extends Command
                 ->setEvent($event)
                 ->MakeListener()
                 ->create();
+            $this->info('Listener created');
         }
         else
             $this->error('Event is required');

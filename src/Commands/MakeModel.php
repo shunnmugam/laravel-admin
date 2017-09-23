@@ -48,5 +48,7 @@ class MakeModel extends Command
             ->setModule($module_name)
             ->MakeModel()
             ->create();
+
+        $this->info('model created');
     }
 }

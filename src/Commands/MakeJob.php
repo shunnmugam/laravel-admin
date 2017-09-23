@@ -48,5 +48,7 @@ class MakeJob extends Command
             ->setModule($module_name)
             ->MakeJob()
             ->create();
+
+        $this->info('job created');
     }
 }

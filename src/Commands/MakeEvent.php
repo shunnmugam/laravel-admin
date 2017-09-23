@@ -48,5 +48,6 @@ class MakeEvent extends Command
             ->setModule($module_name)
             ->MakeEvent()
             ->create();
+        $this->info('Event created');
     }
 }

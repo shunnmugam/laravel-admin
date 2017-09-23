@@ -48,5 +48,7 @@ class MakeProvider extends Command
             ->setModule($module_name)
             ->MakeProvider()
             ->create();
+
+        $this->info('provider created');
     }
 }
