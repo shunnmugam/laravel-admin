@@ -1,0 +1,13 @@
+{
+  "name": "menu",
+  "version": "0.0.1",
+  "type" : "core",
+  "providers": [
+    "providers\\MenuServiceProvider"
+  ],
+  "helpers" : {
+    "Menu":"cms\\core\\menu\\helpers\\Menu"
+  },
+  "roles" : "config\\roles.php"
+  
+}

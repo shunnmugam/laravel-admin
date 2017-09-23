@@ -1,0 +1,15 @@
+{
+  "name": "cms/user",
+  "description": "",
+  "authors": [
+    {
+      "name": "Ramesh",
+      "email": "shunramit@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      
+    }
+  }
+}

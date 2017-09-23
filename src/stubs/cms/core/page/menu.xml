@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menus>
+    <group name="General" order="0">
+        <menugroup name="Pages" icon="fa fa-edit" order="3">
+            <menu name="View Pages" route="page.index" />
+            <menu name="Add Pages" route="page.create" />
+        </menugroup>
+    </group>
+</menus>

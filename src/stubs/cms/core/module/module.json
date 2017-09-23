@@ -1,0 +1,14 @@
+{
+  "name": "module",
+  "version": "0.0.1",
+  "type" : "core",
+  "providers": [
+    "providers\\ModuleServiceProvider"
+  ],
+  "helpers" : {
+    "Module":"cms\\core\\module\\helpers\\Module"
+  },
+  "permissions" : {
+    "status" : false
+  }
+}
