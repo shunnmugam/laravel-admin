@@ -1,0 +1,14 @@
+{
+  "name": "user",
+  "version": "0.0.1",
+  "type" : "core",
+  "providers": [
+    "providers\\UserServiceProvider"
+  ],
+  "helpers" : {
+    "User":"cms\\core\\user\\helpers\\User"
+  },
+  "roles" : "config\\roles.php",
+  "configuration" : "user::admin.configuration.configuration",
+  "configuration_data" : "\\cms\\core\\user\\Controllers\\UserController@getConfigurationData"
+}

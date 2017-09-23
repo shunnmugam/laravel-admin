@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menus>
+    <group name="General" order="0">
+        <menugroup name="Users" icon="fa fa-user" order="0">
+            <menu name="View Users" route="user.index" />
+            <menu name="Add User" route="user.create" />
+        </menugroup>
+    </group>
+</menus>

@@ -1,0 +1,12 @@
+{
+  "name": "usergroup",
+  "version": "0.0.1",
+  "type" : "core",
+  "providers": [
+    "providers\\UserGroupServiceProvider"
+  ],
+  "helpers" : {
+
+  }
+  
+}
