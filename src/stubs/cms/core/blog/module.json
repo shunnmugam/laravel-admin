@@ -6,7 +6,7 @@
     "providers\\BlogServiceProvider"
   ],
   "helpers" : {
-    "Blog":"cms\\core\\blog\\helpers\\User"
+    "Blog":"cms\\core\\blog\\helpers\\Blog"
   },
   "permissions" : {
     "add" : ["view-blog-category","create-blog-category","edit-blog-category","delete-blog-category"]

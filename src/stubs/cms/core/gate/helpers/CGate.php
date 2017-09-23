@@ -85,6 +85,9 @@ class CGate
 
         $group_id = User::getUserGroup();
 
+        if(!$group_id) {
+            $group_id[] = 0;
+        }
 
         $obj = HasPermissionModel::select('status')->where('permission_id',$permission_id)
                 ->whereIn('group_id',$group_id)
@@ -93,8 +96,14 @@ class CGate
         if(count($obj)!=0) {
             return ($obj->status == 1) ? true : false;
         }
-        else
-            return true;
+        else {
+            $obj = HasPermissionModel::select('status')->where('permission_id',$permission_id)
+                ->first();
+            if(count($obj)!=0)
+                return false;
+            else
+                return true;
+        }
 
     }
     /*
@@ -123,7 +132,7 @@ class CGate
     /*
      * resource controller check
      */
-    public static function resouce($permission_group_name)
+    public static function resouce($permission_group_name,$excepts=array())
     {
         $currentAction = \Route::currentRouteAction();
         list($controller, $method) = explode('@', $currentAction);
@@ -136,6 +145,10 @@ class CGate
             'update'=>'edit-'.$permission_group_name,
             'destroy'=>'delete-'.$permission_group_name,
         ];
+        foreach ($excepts as $except )
+        {
+            unset($resource_array[$except]);
+        }
         if(isset($resource_array[$method]))
             self::authorize($resource_array[$method]);
     }

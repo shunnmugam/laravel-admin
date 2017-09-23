@@ -65,7 +65,7 @@ class BlogController extends Controller
             'title' => 'required|unique:'.(new BlogModel)->getTable().',title|max:191',
             'category' => 'required|exists:'.(new BlogCategoryModel)->getTable().',id',
             'image' => 'required',
-            'content' => 'required',
+            'contents' => 'required',
             'status' => 'required'
         ]);
 
