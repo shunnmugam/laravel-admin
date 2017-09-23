@@ -16,6 +16,10 @@ class CmsController extends Controller
      * url
      */
     protected $url;
+    /*
+     * check
+     */
+    protected $check = true;
     public function __construct()
     {
 
@@ -31,7 +35,7 @@ class CmsController extends Controller
      */
     public function getPath()
     {
-        return $this->getConfig()['path'];
+        return ($this->getConfig()['path']!='') ? $this->getConfig()['path'] : 'cms';
     }
 
     /******************get modules values ***********/
@@ -40,14 +44,14 @@ class CmsController extends Controller
      */
     public function getModulesPath()
     {
-        return $this->getConfig()['module']['path'];
+        return ($this->getConfig()['module']['path']!='') ? $this->getConfig()['module']['path'] : 'local';
     }
     /*
      * get core modules path
      */
     public function getModulesCorePath()
     {
-        return $this->getConfig()['module']['core_path'];
+        return ($this->getConfig()['module']['core_path']!='') ? $this->getConfig()['module']['core_path'] : 'core';
     }/*
      * get local modules path
      */
@@ -68,6 +72,9 @@ class CmsController extends Controller
      */
     public function allModules()
     {
+        if(!$this->check)
+            return [];
+
         $modules = $this->allModulesPath();
         //print_r($modules);exit;
 
@@ -169,6 +176,9 @@ class CmsController extends Controller
      */
     public function getConfig()
     {
+        if(!config('cms') || config('cms')=='')
+            $this->check = false;
+
         return config('cms');
     }
 
