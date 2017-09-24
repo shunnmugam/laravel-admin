@@ -1,17 +1,17 @@
 Content Management System using laravel framework
 
-Features:
-1.Cms
-2.Admin interface
-3.Module based app
-4.Theme based
-5.Plugins
-6.Roles and Permissions
-7.Menu creation
-8.User Management
-9.Page Creation
-10.Mail configurations
-11.Site Configuration,etc
+Features:<br>
+<li>Cms</li>
+<li>Admin interface</li>
+<li>Module based app</li>
+<li>Theme based</li>
+<li>Plugins</li>
+<li>Roles and Permissions</li>
+<li>Menu creation</li>
+<li>User Management</li>
+<li>Page Creation</li>
+<li>Mail configurations</li>
+<li>Site Configuration,etc</li>
 
 Install:
 composer require phpworkers/cms
