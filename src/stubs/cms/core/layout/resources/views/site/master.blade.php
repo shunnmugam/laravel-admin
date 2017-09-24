@@ -89,7 +89,7 @@
 <div class="familytreehead container-fluid">
     <div class="container head_fm">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 site_logo wow bounceIn" data-wow-duration="150ms">
-            <img class="site_fm_lg" src="skin/logo.png">
+            <img class="site_fm_lg" src="/skin/logo.png">
         </div>
 
         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 site_search wow bounceIn" data-wow-duration="150ms">
