@@ -41,8 +41,21 @@
   <li>Go to coomposer.json file and add following line to psr-4 autoload<br>
     "cms\\":"cms"<br>
   </li>
+  <li>Run composer dump-autoload</li>
   <li>Run Following artisan commands</li>
   <li>php artisan cms-migrate            (Migrate our tables)</li>
+  <li>php artisan db:cms-seed    (Seeding)
   <li>php artisan update:cms-module      (register modules to table)</li>
   <li>php artisan update:cms-plugins     (register plugins)</li>
   <li>php artisan update:cms-menu        (regiser menus)</li>
+  <li>Open your web.php<br>
+    Remove Following Lines(route)<br>
+    Route::get('/', function () {<br>
+      return view('welcome');<br>
+    });</br>
+  </li>
+  <li>now go to your site(localhost:8000)</li>
+  <li>localhost:8000/administrator<br>
+  <h3>Username : admin </h3>
+  <h3>Password : admin123</h3>
+  </li>
