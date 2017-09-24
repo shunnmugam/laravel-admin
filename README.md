@@ -13,7 +13,7 @@ Features:<br>
 <li>Mail configurations</li>
 <li>Site Configuration,etc</li>
 
-Install:
+<h1>Install:</h1>
 composer require phpworkers/cms
 
 Requiremments:
