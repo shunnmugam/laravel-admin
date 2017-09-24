@@ -27,6 +27,17 @@
 <h1>After Install:</h1>
 Run Following artisan commands
 <ol>
+  <li>Add following Lines to Provider array<br>
+     //html<br>
+        Collective\Html\HtmlServiceProvider::class,<br>
+        //datatable<br>
+        Yajra\Datatables\DatatablesServiceProvider::class,<br>
+    Ramesh\Cms\CmsServiceProvider::class,<br></li>
+  <li>Add Following Lines to alias array<br>
+    'Form' => Collective\Html\FormFacade::class,<br>
+        'Html' => Collective\Html\HtmlFacade::class,<br>
+        'Cms' => Ramesh\Cms\Facades\Cms::class,<br>
+  </li>
   <li>php artisan vendor:publish          (Publishing css,js,config files,core modules,theme,etc)</li>
   <li>php artisan cms-migrate            (Migrate our tables)</li>
   <li>php artisan update:cms-module      (register modules to table)</li>
