@@ -2,7 +2,7 @@
 <html>
 <head>
     @if(trim($__env->yieldContent('sIte_tItle')))
-        <title> Family Tree| @yield('sIte_tItle')</title>
+        <title>  @yield('sIte_tItle')</title>
     @else
         <title></title>
     @endif
