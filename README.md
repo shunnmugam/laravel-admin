@@ -1,6 +1,6 @@
-Content Management System using laravel framework
+<h1>Content Management System using laravel framework</h1>
 
-Features:<br>
+<h1>Features:</h1><ol>
 <li>Cms</li>
 <li>Admin interface</li>
 <li>Module based app</li>
@@ -12,7 +12,7 @@ Features:<br>
 <li>Page Creation</li>
 <li>Mail configurations</li>
 <li>Site Configuration,etc</li>
-
+</ol>
 <h1>Install:</h1>
 composer require phpworkers/cms
 
