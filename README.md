@@ -25,7 +25,6 @@
 </ol>
 
 <h1>After Install:</h1>
-Run Following artisan commands
 <ol>
   <li>Add following Lines to Provider array<br>
      //html<br>
@@ -39,6 +38,10 @@ Run Following artisan commands
         'Cms' => Ramesh\Cms\Facades\Cms::class,<br>
   </li>
   <li>php artisan vendor:publish          (Publishing css,js,config files,core modules,theme,etc)</li>
+  <li>Go to coomposer.json file and add following line to psr-4 autoload<br>
+    "cms\\":"cms"<br>
+  </li>
+  <li>Run Following artisan commands</li>
   <li>php artisan cms-migrate            (Migrate our tables)</li>
   <li>php artisan update:cms-module      (register modules to table)</li>
   <li>php artisan update:cms-plugins     (register plugins)</li>
