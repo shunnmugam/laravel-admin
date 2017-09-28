@@ -37,6 +37,7 @@ class ModuleServiceProvider extends ServiceProvider
             //first time
         }
         else{
+            $this->registerNamespace();
             $this->registerProviders();
             $this->registerComposerAutoload();
             $this->registerHelpers();
@@ -69,6 +70,19 @@ class ModuleServiceProvider extends ServiceProvider
             }
         }
 
+
+    }
+    protected function registerNamespace()
+    {
+        $modules = Cms::allModules();
+        $loader = require base_path() . '/vendor/autoload.php';
+        foreach($modules as $module)
+        {
+            if($module['type']=='local')
+            {
+                $loader->setPsr4('cms\\'.$module['name'].'\\',$module['path']);
+            }
+        }
     }
     /*
      * Register Helpers

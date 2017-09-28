@@ -60,7 +60,7 @@ class ModuleCommand extends Command
         $this->info('composer.json created');
 
         $this->call('make:cms-provider', [
-            'name' => ucfirst($this->module_name).'Provider',
+            'name' => ucfirst($this->module_name).'ServiceProvider',
             'module-name' => $this->module_name
         ]);
 

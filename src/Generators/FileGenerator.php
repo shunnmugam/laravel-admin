@@ -313,9 +313,10 @@ class FileGenerator
         $filename = __DIR__.'\..\stubs\module\Providers\provider.stub';
 
         $contents = File::get($filename);
-        $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Providers');
+        $this->setNamespace('cms'.DIRECTORY_SEPARATOR.'local'.DIRECTORY_SEPARATOR.Cms::getCurrentTheme().DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Providers');
         $contents = $this->changeNamespace($contents);
         $contents = $this->changeClass($contents);
+        $contents = $this->changeStrings($contents,'{module}',$this->modulename);
         $this->content = $contents;
         $this->makePath('Providers');
 
@@ -339,6 +340,37 @@ class FileGenerator
 
         $this->setPath($this->path.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Database'.DIRECTORY_SEPARATOR.'seeds'.DIRECTORY_SEPARATOR.$this->classname.".php");
 
+        return $this;
+    }
+    /*
+     * make module.json
+     */
+    public function makeModuleJson()
+    {
+        $filename = __DIR__.'\..\stubs\module\module.stub';
+
+        $contents = File::get($filename);
+        $contents = $this->changeClass($contents);
+        $contents = $this->changeStrings($contents,'{module}',$this->modulename);
+        $contents = $this->changeStrings($contents,'{C-module}',ucfirst($this->modulename));
+        $this->content = $contents;
+        $this->makePath('');
+        $this->setPath($this->path.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR."module.json");
+        return $this;
+    }
+    /*
+     * make module.json
+     */
+    public function makeModuleComposer()
+    {
+        $filename = __DIR__.'\..\stubs\module\composer.stub';
+
+        $contents = File::get($filename);
+        $contents = $this->changeClass($contents);
+        $contents = $this->changeStrings($contents,'{module}',$this->modulename);
+        $this->content = $contents;
+        $this->makePath('');
+        $this->setPath($this->path.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR."composer.json");
         return $this;
     }
     /*
@@ -400,6 +432,7 @@ class FileGenerator
     public function create()
     {
         $path = $this->path;
+       // echo $path;exit;
         /*check file exits or not*/
         $this->fileCheck($path);
         File::put($path,$this->content);

@@ -16,10 +16,6 @@ class CmsController extends Controller
      * url
      */
     protected $url;
-    /*
-     * check
-     */
-    protected $check = true;
     public function __construct()
     {
 
@@ -35,7 +31,7 @@ class CmsController extends Controller
      */
     public function getPath()
     {
-        return ($this->getConfig()['path']!='') ? $this->getConfig()['path'] : 'cms';
+        return $this->getConfig()['path'];
     }
 
     /******************get modules values ***********/
@@ -44,14 +40,14 @@ class CmsController extends Controller
      */
     public function getModulesPath()
     {
-        return ($this->getConfig()['module']['path']!='') ? $this->getConfig()['module']['path'] : 'local';
+        return $this->getConfig()['module']['path'];
     }
     /*
      * get core modules path
      */
     public function getModulesCorePath()
     {
-        return ($this->getConfig()['module']['core_path']!='') ? $this->getConfig()['module']['core_path'] : 'core';
+        return $this->getConfig()['module']['core_path'];
     }/*
      * get local modules path
      */
@@ -72,9 +68,6 @@ class CmsController extends Controller
      */
     public function allModules()
     {
-        if(!$this->check)
-            return [];
-
         $modules = $this->allModulesPath();
         //print_r($modules);exit;
 
@@ -91,12 +84,15 @@ class CmsController extends Controller
 
             foreach ($json_file['providers'] as $key => $provider)
             {
-                if($json_file['type'] == 'core')
+                if($json_file['type'] == 'core') {
                     $module_path = $this->getModulesCorePath();
-                else
-                    $module_path = $this->getModulesLocalPath();
+                    $json_file['providers'][$key] = $this->getPath() . DIRECTORY_SEPARATOR . $module_path . DIRECTORY_SEPARATOR . $current_module . DIRECTORY_SEPARATOR . $provider;
+                }else {
+                    $module_path = 'local';//$this->getModulesLocalPath();
+                $json_file['providers'][$key] = $this->getPath().DIRECTORY_SEPARATOR.$current_module.DIRECTORY_SEPARATOR.$provider;
+                }
 
-               $json_file['providers'][$key] = $this->getPath().DIRECTORY_SEPARATOR.$module_path.DIRECTORY_SEPARATOR.$current_module.DIRECTORY_SEPARATOR.$provider;
+
             }
             $json[] =array_merge($json_file,$path);
         }
@@ -176,9 +172,6 @@ class CmsController extends Controller
      */
     public function getConfig()
     {
-        if(!config('cms') || config('cms')=='')
-            $this->check = false;
-
         return config('cms');
     }
 

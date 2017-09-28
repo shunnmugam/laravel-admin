@@ -35,7 +35,7 @@ class CmsServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__.'\stubs\skin' => public_path('skin'),
+            __DIR__.'\skin' => public_path('skin'),
         ], 'public');
 
         $this->publishes([

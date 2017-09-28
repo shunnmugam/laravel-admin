@@ -29,6 +29,7 @@ class CommandProvider extends ServiceProvider
 
         'Ramesh\Cms\Commands\Migrate',
         'Ramesh\Cms\Commands\Seed',
+        'Ramesh\Cms\Commands\CmsPublish',
     ];
 
 
