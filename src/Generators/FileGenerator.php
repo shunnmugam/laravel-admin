@@ -313,7 +313,7 @@ class FileGenerator
         $filename = __DIR__.'\..\stubs\module\Providers\provider.stub';
 
         $contents = File::get($filename);
-        $this->setNamespace('cms'.DIRECTORY_SEPARATOR.'local'.DIRECTORY_SEPARATOR.Cms::getCurrentTheme().DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Providers');
+        $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Providers');
         $contents = $this->changeNamespace($contents);
         $contents = $this->changeClass($contents);
         $contents = $this->changeStrings($contents,'{module}',$this->modulename);
