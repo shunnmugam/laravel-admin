@@ -2,22 +2,22 @@
 <html>
 <head>
     @if(trim($__env->yieldContent('sIte_tItle')))
-        <title> Family Tree| @yield('sIte_tItle')</title>
+        <title>  @yield('sIte_tItle')</title>
     @else
         <title></title>
     @endif
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {!!Html::style('skin/theme1/theme/vendors/bootstrap/dist/css/bootstrap.min.css')!!}
-    {!!Html::script('skin/theme1/theme/vendors/jquery/dist/jquery.min.js')!!}
-    {!!Html::script('skin/theme1/theme/vendors/bootstrap/dist/js/bootstrap.min.js')!!}
+   {!!Cms::style('theme/vendors/bootstrap/dist/css/bootstrap.min.css')!!}
+    {!!Cms::style('css/extra-bootstrap.css')!!}
+	{!!Cms::style('css/animate.min.css')!!}
+	{!!Cms::style('css/reset.css')!!}
+    {!!Cms::style('css/top.css')!!}
 
-    {!!Html::style('css/animate.min.css')!!}
-    {!!Html::script('js/wow.min.js')!!}
-
-    {!!Html::style('css/reset.css')!!}
-    {!!Html::style('css/top.css')!!}
-    {!!Html::script('js/modernizr.js')!!}
+    {!!Cms::script('theme/vendors/jquery/dist/jquery.min.js')!!}
+    {!!Cms::script('theme/vendors/bootstrap/dist/js/bootstrap.min.js')!!}
+    {!!Cms::script('js/wow.min.js')!!}
+    {!!Cms::script('js/modernizr.js')!!}
 
 
     @yield('addlinks')
@@ -89,7 +89,7 @@
 <div class="familytreehead container-fluid">
     <div class="container head_fm">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 site_logo wow bounceIn" data-wow-duration="150ms">
-            <img class="site_fm_lg" src="skin/logo.png">
+            <img class="site_fm_lg" src="/skin/logo.png">
         </div>
 
         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 site_search wow bounceIn" data-wow-duration="150ms">

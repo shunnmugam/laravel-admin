@@ -6,7 +6,7 @@ return [
     /*
      * Login and Register Popup plugin
      */
-    "Slider" => [
+	"Slider" => [
 
         "version" => "0.0.1",
 
@@ -16,6 +16,5 @@ return [
 
         "adminview" => "layout::plugins.admin.slider" //backend view path
     ]
-
 
 ];
