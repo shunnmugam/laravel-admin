@@ -111,7 +111,9 @@ class Plugins
 
         $data = $obj->$function();
 
-        return [$plugin->view,$data];
+        //print_r(json_decode($plugin->parms));exit;
+
+        return [$plugin->view,$data,json_decode($plugin->parms)];
 
 
     }

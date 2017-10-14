@@ -10,10 +10,12 @@ return [
 
         "version" => "0.0.1",
 
-        "action" => "\cms\core\\feedback\Controllers\FeedbackPlugin@display",
+        "action" => "\cms\core\layout\Controllers\SliderPlugin@display", //collecting datas
 
-        "view"   => "feedback::plugins.Feedback",
+        "view"   => "layout::plugins.site.slider", //front view path
 
-        "adminview" => "feedback::plugins.admin.Feedback"
+        "adminview" => "layout::plugins.admin.slider" //backend view path
     ]
+
+
 ];

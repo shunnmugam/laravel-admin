@@ -4,8 +4,21 @@ namespace cms\core\page\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+//trait
+use cms\core\search\traits\Searchable;
+
 class PageModel extends Model
 {
+    use Searchable;
+
+
+    public $searchable = ['id',
+        'title',
+        'page_content',
+        'created_at',
+        'updated_at'];
+
     protected $table='pages';
 
 

@@ -1,10 +1,10 @@
 @if(!User::getUser())
-{{Cms::style('css/foxholder-styles.css')}}
-{{Cms::style('css/stylefm.css')}}
+{{Cms::style('theme/vendors/LRpopup/css/foxholder-styles.css')}}
+{{Cms::style('theme/vendors/LRpopup/css/stylefm.css')}}
 
-{{Cms::script('js/main.js')}}
-{{Cms::script('js/foxholder.js')}}
-{{Cms::script('js/jquery.form.min.js')}}
+{{Cms::script('theme/vendors/LRpopup/js/main.js')}}
+{{Cms::script('theme/vendors/LRpopup/js/foxholder.js')}}
+{{Cms::script('theme/vendors/LRpopup/js/jquery.form.min.js')}}
 
 <p class="col-lg-6 login_s"><a class="cd-signin" href="">Login</a></p>
 <p class="col-lg-6 reg_s"><a class="cd-signup" href="">Register</a></p>
@@ -159,6 +159,20 @@ $(document).ready(function(){
 </script>
 
 @else
-    <p class="col-lg-12 login_s"><a href="{{route('my_account')}}">({{User::getUser()->username}})</a><a class="" href="{{route('logout')}}">Logout</a></p>
+    <p class="col-lg-12 login_s">
+        @if(User::getUser()->images)
+            {!! Html::image(User::getUser()->images,'image',['class'=>"profile_img_plg"]) !!}
+         @endif
+        <a href="{{route('my_account')}}">({{User::getUser()->username}})</a><a class="" href="{{route('logout')}}">Logout</a>
+    </p>
 
 @endif
+
+
+    <style>
+        .profile_img_plg {
+            width: 20px;
+            border-radius: 50px;
+            height: 20px;
+        }
+    </style>
