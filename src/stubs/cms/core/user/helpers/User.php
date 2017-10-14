@@ -109,24 +109,33 @@ class User
     /*
      * create image
      */
-    public function imageCreate($image,$path)
+    public function imageCreate($image,$path,$is_admin_view=true)
     {
-        $path=public_path().DIRECTORY_SEPARATOR.'photos'.DIRECTORY_SEPARATOR.'1'.DIRECTORY_SEPARATOR.$path;
+        if($is_admin_view)
+            $path=public_path().DIRECTORY_SEPARATOR.'photos'.DIRECTORY_SEPARATOR.'1'.DIRECTORY_SEPARATOR.$path;
+        else
+            $path=public_path().DIRECTORY_SEPARATOR.$path;
+
         if(!File::exists($path)) {
             $result = File::makeDirectory($path,0777, true);
 
         }
         $ext=$image->getClientOriginalExtension();
         $uploadDirectory=$path.DIRECTORY_SEPARATOR;
-        $name=time().".".$ext;
+        $name=time().rand().".".$ext;
         //echo gettype($uploadDirectory);
         if (!move_uploaded_file($image, $uploadDirectory.$name)) {
+
             return false;
         }
         else
         {
             $this->createThumbnail($path.DIRECTORY_SEPARATOR,$name,$ext);
-            return str_replace(public_path(),'',$path.$name);
+            $name = str_replace(public_path(),'',$path.$name);
+
+            $name = str_replace(DIRECTORY_SEPARATOR, '/', $name);
+
+            return $name;
         }
     }
 
@@ -135,7 +144,6 @@ class User
         $thumbnailpath = $path_to_image_directory.'thumbs'.DIRECTORY_SEPARATOR;
         if(!File::exists($thumbnailpath)) {
             $result = File::makeDirectory($thumbnailpath , 0777, true);
-
         }
 
         if(is_int($width) && $width > 0)
@@ -202,6 +210,34 @@ class User
         else
             return false;
 
+    }
+
+    /*
+     * upload a file
+     */
+    public function fileUpload($image,$path,$is_admin_view=true)
+    {
+        if($is_admin_view)
+            $path=public_path().DIRECTORY_SEPARATOR.'photos'.DIRECTORY_SEPARATOR.'1'.DIRECTORY_SEPARATOR.$path;
+        else
+            $path=public_path().DIRECTORY_SEPARATOR.$path;
+
+        if(!File::exists($path)) {
+            $result = File::makeDirectory($path,0777, true);
+        }
+        $ext=$image->getClientOriginalExtension();
+        $uploadDirectory=$path.DIRECTORY_SEPARATOR;
+        $name=time().rand().".".$ext;
+        //echo gettype($uploadDirectory);
+        if (!move_uploaded_file($image, $uploadDirectory.$name)) {
+            return false;
+        }
+        else
+        {
+            $name = str_replace(public_path(),'',$path.$name);
+            $name = str_replace(DIRECTORY_SEPARATOR, '/', $name);
+            return $name;
+        }
     }
 
 

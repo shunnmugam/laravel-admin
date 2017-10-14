@@ -2,12 +2,14 @@
 
 @section('sIte_tItle','Profile')
 @section('addlinks')
-    {{Cms::style('css/foxholder-styles.css')}}
-    {{Cms::style('css/stylefm.css')}}
 
-    {{Cms::script('js/main.js')}}
-    {{Cms::script('js/foxholder.js')}}
-    {{Cms::script('js/jquery.form.min.js')}}
+    {{Cms::style('theme/vendors/LRpopup/css/foxholder-styles.css')}}
+    {{Cms::style('theme/vendors/LRpopup/css/stylefm.css')}}
+
+    {{Cms::script('theme/vendors/LRpopup/js/main.js')}}
+    {{Cms::script('theme/vendors/LRpopup/js/foxholder.js')}}
+    {{Cms::script('theme/vendors/LRpopup/js/jquery.form.min.js')}}
+
 @endsection
 
 @section('body')

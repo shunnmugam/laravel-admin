@@ -35,7 +35,7 @@ class UserRegisteredMailSendListener
      */
     public function handle(UserRegisteredEvent $event)
     {
-        $config = Configurations::getParm('user',1);
+        $config = @Configurations::getParm('user',1);
         $verification_type = $config->register_verification;
 
         $user = UserModel::with("group")->find($event->user_id);
@@ -51,7 +51,7 @@ class UserRegisteredMailSendListener
                 $to = $siteconfig->from_mail;
                 break;
             default:
-                $to = '';
+                $to = $user->email;;
         }
         if($to!='') {
             CmsMail::setMailConfig();

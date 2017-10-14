@@ -82,7 +82,7 @@
                     <label for="thumbnail" class="control-label col-md-3 col-sm-3 col-xs-12">Profile Image</label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <span class="input-group-btn">
-                            <input id="thumbnail" class="form-control" type="text" name="image" value="{{@$data->images}}" style="width: 75%;float: left">
+                            <input id="thumbnail" class="form-control" type="text" name="image" style="width: 75%;float: left">
                              <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary" style="width: 25%">
                                <i class="fa fa-picture-o"></i> Choose
                              </a>
