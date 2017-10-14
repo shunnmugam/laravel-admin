@@ -313,8 +313,8 @@ class UserController extends Controller
         $Hash=Hash::make($request->password);
         $data->password = $Hash;
 
-        $config = Configurations::getParm('user',1);
-        $verification_type = $config->register_verification;
+        $config = @Configurations::getParm('user',1);
+        $verification_type = @$config->register_verification;
         if($verification_type==0)
             $data->status = 1;
         else
@@ -346,7 +346,7 @@ class UserController extends Controller
      * user registration from frond end
      */
     public  function register(Request $request)
-    {   if(Configurations::getParm('user',1)->allow_user_registration!=1)
+    {   if(@Configurations::getParm('user',1)->allow_user_registration!=1)
         {
             Session::flash("error","Register is blocked");
             return redirect()->route('home');
@@ -364,7 +364,7 @@ class UserController extends Controller
 
         $Hash=Hash::make($request->password);
         $data->password = $Hash;
-        $config = Configurations::getParm('user',1);
+        $config = @Configurations::getParm('user',1);
         $verification_type = @$config->register_verification;
         if($verification_type==0)
             $data->status = 1;
@@ -560,6 +560,7 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         $user = User::getUser();
+        if(isset($user->id)){
         $users = UserModel::find($user->id);
 
         //change online to offline
@@ -567,7 +568,7 @@ class UserController extends Controller
         $users->ip = request()->ip();
         $users->lastactive = Carbon::now();
         $users->save();
-
+        }
         $request->session()->flush();
 
         $url = @Configurations::getParm('user',1)->logout_redirection_url;
@@ -608,7 +609,7 @@ class UserController extends Controller
         $data->mobile = $request->mobile;
         if($request->image) {
             $user_obj = new User;
-            $img = $user_obj->imageCreate($request->image,'user'.DIRECTORY_SEPARATOR);
+            $img = $user_obj->imageCreate($request->image,'user');
             $data->images = $img;
         }
         if($request->password) {
