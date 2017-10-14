@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* CSS Document */
+
+#menu {
+position: fixed;
+height: 60px;
+width: 100%;
+top: 0;
+left: 0;
+border-top: 5px solid #a1cb2f;
+background: #fff;
+-moz-box-shadow: 0 2px 3px 0px rgba(0, 0, 0, 0.16);
+-webkit-box-shadow: 0 2px 3px 0px rgba(0, 0, 0, 0.16);
+box-shadow: 0 2px 3px 0px rgba(0, 0, 0, 0.16);
+z-index: 999999;
+line-height: 60px;
+}
+
+.w {
+width: 900px;
+margin: 0 auto;
+margin-bottom: 40px;
+}
