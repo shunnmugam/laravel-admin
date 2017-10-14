@@ -152,5 +152,15 @@ class CGate
         if(isset($resource_array[$method]))
             self::authorize($resource_array[$method]);
     }
+    /*
+     * login only
+     */
+    public static function loginOnly()
+    {
+        if(!User::getUser()){
+           header('Location:'.url('/user'));
+           exit;
+        }
+    }
 
 }

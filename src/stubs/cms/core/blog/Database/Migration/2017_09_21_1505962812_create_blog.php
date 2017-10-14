@@ -19,6 +19,7 @@ class CreateBlog extends Migration
             $table->integer('category_id')->unsigned();
             $table->string('content',15000);
             $table->string('image')->nullable();
+            $table->string('author')->nullable();
             $table->integer('created_by');
             $table->integer('status');
             $table->timestamp('created_at')->useCurrent();

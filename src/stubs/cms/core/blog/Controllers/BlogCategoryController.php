@@ -63,6 +63,7 @@ class BlogCategoryController extends Controller
         $obj->name = $request->name;
         $obj->parent = $request->parent;
         $obj->order = $request->order;
+        $obj->image = $request->image;
         $obj->status = $request->status;
         $obj->created_by =User::getUser()->id;
         if($obj->save())
@@ -123,6 +124,7 @@ class BlogCategoryController extends Controller
         $obj = BlogCategoryModel::find($id);
         $obj->name = $request->name;
         $obj->parent = $request->parent;
+        $obj->image = $request->image;
         $obj->order = $request->order;
         $obj->status = $request->status;
         if($obj->save())

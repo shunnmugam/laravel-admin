@@ -22,7 +22,7 @@ class ConfigurationsController extends Controller
     {
         $config_data = ModuleModel::findorFail($module_id);
         $datas = '';
-        if(isset($config_data->configuration_data))
+        if($config_data->configuration_data)
         {
             $action = explode('@',$config_data->configuration_data);
 
@@ -33,7 +33,7 @@ class ConfigurationsController extends Controller
             $datas = $obj->$function();
         }
 
-        if(isset($config_data->configuration_parm))
+        if($config_data->configuration_parm)
         {
             $config_data->configuration_parm = json_decode($config_data->configuration_parm);
         }
@@ -65,7 +65,7 @@ class ConfigurationsController extends Controller
     public function getModuleList(View $view)
     {
         $module_list = ModuleModel::select('name','id')
-            ->where('type','=',DB::raw('(SELECT COUNT(*) FROM '.DB::getTablePrefix().(new ModuleModel)->getTable().' as b WHERE '.DB::getTablePrefix().(new ModuleModel)->getTable().'.name=b.name)'))
+            ->where('type','=',DB::raw('(SELECT COUNT(*) FROM '.DB::getTablePrefix().(new ModuleModel)->getTable().' as b WHERE family_tree_modules.name=b.name)'))
             ->get();
 
         $view->with('module_list',$module_list);
@@ -76,10 +76,7 @@ class ConfigurationsController extends Controller
      */
     public function site()
     {
-        $data = '';
-        $datas = ConfigurationModel::where('name','=','site')->first();
-        if(count($datas)!=0)
-        $data = json_decode($datas->parm);
+        $data = json_decode(ConfigurationModel::where('name','=','site')->first()->parm);
         //echo $data->site_online;exit;
         return view('configurations::admin.site',['data'=>$data]);
     }

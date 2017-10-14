@@ -233,6 +233,11 @@ class FeedBackController extends Controller
         $obj->username = $request->username;
         $obj->message = $request->message;
         $obj->email = $request->email;
+        if($request->image) {
+            $usr_obj = new \User;
+
+            $obj->image = $usr_obj->imageCreate($request->image,'feedback/user/');
+        }
         $obj->save();
 
         return 1;

@@ -1,5 +1,5 @@
-{!!Cms::script('js/jquery.feedBackBox.js')!!}
-{!!Cms::style('css/jquery.feedBackBox.css')!!}
+{!!Cms::script('theme/vendors/feedback/jquery.feedBackBox.js')!!}
+{!!Cms::style('theme/vendors/feedback/jquery.feedBackBox.css')!!}
 <script type="text/javascript">
     $(document).ready(function () {
         $('#feedback').feedBackBox({

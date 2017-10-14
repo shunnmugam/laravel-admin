@@ -75,6 +75,7 @@ class BlogController extends Controller
         $data->category_id  = $request->category;
         $data->content = $request->contents;
         $data->image = $request->image;
+        $data->author = $request->author;
         $data->status = $request->status;
         $data->created_by = User::getUser()->id;
 
@@ -140,6 +141,7 @@ class BlogController extends Controller
         $data->category_id  = $request->category;
         $data->content = $request->contents;
         $data->image = $request->image;
+        $data->author = $request->author;
         $data->status = $request->status;
 
         if($data->save()){

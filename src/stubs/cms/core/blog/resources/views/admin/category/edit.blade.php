@@ -40,6 +40,17 @@
                     'data-validate-length-range'=>"6",'placeholder'=>"Category Name",'required'=>"required"))}}
                 </div>
             </div>
+
+            <div class="item form-group">
+                <label for="thumbnail" class="control-label col-md-3 col-sm-3 col-xs-12">Category Image</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                <span class="input-group-btn">
+                    @include('layout::widget.image',['name'=>'image','id'=>'image','value'=>@$data->image])
+                </span>
+                </div>
+            </div>
+
+                <img id="holder" style="margin-top:15px;max-height:100px;">
             <div class="item form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Order <span class="required">*</span>
                 </label>
@@ -64,7 +75,8 @@
 
             </div>
 
-            <img id="holder" style="margin-top:15px;max-height:100px;">
+
+
        {{Form::close()}}
     </div>
 

@@ -6,7 +6,7 @@
     "providers\\AdminServiceProvider"
   ],
   "helpers" : {
-    "User":"cms\\layout\\helpers\\Layout"
+
   },
   "permissions" : {
     "add" : ["Backend Access"],

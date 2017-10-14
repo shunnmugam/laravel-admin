@@ -17,6 +17,7 @@ class CreateBlogCategory extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->integer('parent');
+            $table->string('image')->nullable();
             $table->integer('created_by');
             $table->integer('status')->default(1);
             $table->integer('order')->default(0);

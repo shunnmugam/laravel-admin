@@ -10,5 +10,8 @@
   },
   "permissions" : {
     "add" : ["view-blog-category","create-blog-category","edit-blog-category","delete-blog-category"]
+  },
+  "search" : {
+    "blog" : "search\\Blog"
   }
 }

@@ -40,7 +40,7 @@
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     {{Form::text('title',@$data->title,array('id'=>"title",'class'=>"form-control col-md-7 col-xs-12" ,
-                    'data-validate-length-range'=>"6",'placeholder'=>"both name(s) e.g Jon Doe",'required'=>"required"))}}
+                    'data-validate-length-range'=>"6",'placeholder'=>"e.g Story",'required'=>"required"))}}
                 </div>
             </div>
 
@@ -48,12 +48,21 @@
                 <label for="thumbnail" class="control-label col-md-3 col-sm-3 col-xs-12">Blog Image</label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <span class="input-group-btn">
-                        @include('layout::widget.image',['name'=>'image','value'=>@$data->image])
+                        @include('layout::widget.image',['name'=>'image','id'=>'image','value'=>@$data->image])
                     </span>
                 </div>
             </div>
 
             <div class="ln_solid"></div>
+
+                <div class="item form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Author
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    {{Form::text('author',@$data->author,array('id'=>"title",'class'=>"form-control col-md-7 col-xs-12" ,
+                    'placeholder'=>"both name(s) e.g Jon Doe"))}}
+                </div>
+            </div>
 
             </div>
             <div class="col-xs-12 col-sm-12 col-md-4">

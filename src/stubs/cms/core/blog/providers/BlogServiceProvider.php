@@ -34,7 +34,7 @@ class BlogServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerViews();
-        //$this->registerRoot();
+        $this->registerRoot();
         $this->registerAdminRoot();
     }
 
