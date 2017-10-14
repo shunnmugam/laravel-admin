@@ -73,7 +73,7 @@ class CmsController extends Controller
 
         $json = array();
 
-        foreach($modules as $module)
+        foreach($modules as $key => $module)
         {
             $path_arry = explode(DIRECTORY_SEPARATOR,$module);
             $current_module = $path_arry[count($path_arry)-1];
@@ -82,14 +82,21 @@ class CmsController extends Controller
             $path = array("path"=>$module);
            // print_r($json_file);exit;
 
+            if($json_file['type']=='core')
+                $name_space = 'cms'.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.$json_file['name'];
+            else
+                $name_space = 'cms'.DIRECTORY_SEPARATOR.$json_file['name'];
+
+            $json_file['namespace'] = $name_space;
+
             foreach ($json_file['providers'] as $key => $provider)
             {
                 if($json_file['type'] == 'core') {
                     $module_path = $this->getModulesCorePath();
-                    $json_file['providers'][$key] = $this->getPath() . DIRECTORY_SEPARATOR . $module_path . DIRECTORY_SEPARATOR . $current_module . DIRECTORY_SEPARATOR . $provider;
+                    $json_file['providers'][$key] = $this->getPath() . '\\' . $module_path . '\\' . $current_module . '\\' . $provider;
                 }else {
                     $module_path = 'local';//$this->getModulesLocalPath();
-                $json_file['providers'][$key] = $this->getPath().DIRECTORY_SEPARATOR.$current_module.DIRECTORY_SEPARATOR.$provider;
+                $json_file['providers'][$key] = $this->getPath().'\\'.$current_module.'\\'.$provider;
                 }
 
 
@@ -199,7 +206,7 @@ class CmsController extends Controller
      */
     public function script($url, $attributes = [], $secure = null)
     {
-        return Html::script('skin/theme1/'.$url,$attributes,$secure);
+        return Html::script('skin/'.$this->getCurrentTheme().'/'.$url,$attributes,$secure);
     }
 
     /**
@@ -207,8 +214,29 @@ class CmsController extends Controller
      */
     public function style($url, $attributes = [], $secure = null)
     {
-        return Html::style('skin/theme1/'.$url,$attributes,$secure);
+        return Html::style('skin/'.$this->getCurrentTheme().'/'.$url,$attributes,$secure);
     }
+    /**
+     * return html style
+     */
+    public function img($url,$alt='image not found',$attributes = [])
+    {
+
+        //$src = url('').$url;
+
+
+
+       // if (file_exists($src)) {
+           // echo public_path();
+        //}
+        //else
+           // echo 'fd';
+
+
+       // exit;
+        return Html::image($url,$alt,$attributes);
+    }
+
 
     /*
      * get Roles

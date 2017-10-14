@@ -50,7 +50,7 @@ class ModuleServiceProvider extends ServiceProvider
     protected function registerProviders()
     {
         $res = Cms::allModuleProvider();
-       // print_r($res);exit;
+        //print_r($res);exit;
         foreach ($res as $key => $provider) {
             $this->app->register($provider);
         }
