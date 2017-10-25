@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 use Cms;
 use Route;
+use CmsMail;
 
 class LayoutServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,7 @@ class LayoutServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        CmsMail::setMailConfig();
         /*
         $configPath = __DIR__ . '/../config/config.php';
 
