@@ -15,7 +15,7 @@ class CreateUserGroups extends Migration
     {
         Schema::create('user_groups', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
+            $table->string('group')->unique();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->integer('status')->default(1)->comment('-1=>trash,0=>disable,1=>active');
