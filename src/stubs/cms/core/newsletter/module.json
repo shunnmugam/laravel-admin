@@ -1,0 +1,9 @@
+{
+  "name": "newsletter",
+  "version": "0.0.1",
+  "type" : "core",
+  "providers": [
+    "Providers\\NewsletterServiceProvider"
+  ],
+  "plugins" : "config\\plugins.php"
+}
