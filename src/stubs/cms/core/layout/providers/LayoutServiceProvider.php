@@ -16,7 +16,7 @@ class LayoutServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        CmsMail::setMailConfig();
+        //CmsMail::setMailConfig();
         /*
         $configPath = __DIR__ . '/../config/config.php';
 
