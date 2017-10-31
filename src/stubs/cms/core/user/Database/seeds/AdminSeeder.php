@@ -15,11 +15,11 @@ class AdminSeeder extends Seeder
         //user groups
         DB::table('user_groups')->insert([
             [
-                'name' => 'Super Admin',
+                'group' => 'Super Admin',
                 'status' => 1
             ],
             [
-                'name' => 'Register',
+                'group' => 'Register',
                 'status' => 1
             ]
         ]);
