@@ -26,3 +26,10 @@ Route::post('deletemenug', 'WmenuController@deletemenug')->name('deletemenug');
 Route::post('createnewmenu', 'WmenuController@createnewmenu')->name('createnewmenu');
 Route::post('generatemenucontrol', 'WmenuController@generatemenucontrol')->name('generatemenucontrol');
 Route::post('updateitem', 'WmenuController@updateitem')->name('updateitem');
+
+
+Route::group(['prefix'=>'menu-assign'],function(){
+    Route::get('/','MenuController@menuAssign')->name('menu_assign_from_admin');
+
+    Route::post('do','MenuController@doMenuAssign')->name('do_menu_assign_from_admin');
+});

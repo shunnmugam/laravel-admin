@@ -18,6 +18,8 @@ use Session;
 use cms\core\user\Models\UserModel;
 use cms\core\usergroup\Models\UserGroupModel;
 use cms\core\page\Models\PageModel;
+use cms\core\menu\Models\AdminMenuPermissionModel;
+use cms\core\menu\Models\AdminMenuModel;
 
 class MenuController extends Controller
 {
@@ -273,5 +275,41 @@ class MenuController extends Controller
         return json_encode(array('status'=>1,'pages'=>$pages));
 
 
+    }
+
+    function menuAssign()
+    {
+        $groups = UserGroupModel::get();
+
+        $permissions = AdminMenuPermissionModel::get();
+        $permission = array();
+        foreach ($permissions as $datas)
+        {
+            $permission[$datas->group_id][$datas->menu_id] = $datas->status;
+        }
+
+        $menus = AdminMenuModel::get();
+
+        return view('wmenu::admin.menu_assign',['permission'=>$permission,'groups'=>$groups,'menus'=>$menus]);
+    }
+
+    function doMenuAssign(Request $request)
+    {
+        foreach($request->role as $group_id => $group)
+        {
+            foreach ($group as $menu_id => $role) {
+
+                $obj = AdminMenuPermissionModel::where('menu_id',$menu_id)
+                    ->where('group_id',$group_id)->first();
+                if(count($obj)==0)
+                    $obj = new AdminMenuPermissionModel;
+
+                $obj->menu_id = $menu_id;
+                $obj->group_id = $group_id;
+                $obj->status = $role;
+                $obj->save();
+            }
+        }
+        return redirect()->back();
     }
 }
