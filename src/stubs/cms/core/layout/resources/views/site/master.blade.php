@@ -89,11 +89,23 @@
 <div class="familytreehead container-fluid">
     <div class="container head_fm">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 site_logo wow bounceIn" data-wow-duration="150ms">
-            <img class="site_fm_lg" src="/skin/logo.png">
+            <a href="{{url('/')}}"><img class="site_fm_lg" src="/skin/logo.png"></a>
         </div>
 
         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 site_search wow bounceIn" data-wow-duration="150ms">
-
+		   <div class="search_bx" >
+                {{ Form::open(array('id' => 'site_search','url'=>array('search'), 'method' => 'GET')) }}
+                <div class="search-div">
+                {{ Form::text('search',
+                ((Request::url()==url('/search') && app('request')->input('search')!='')
+                ? app('request')->input('search') : ''),
+                ['class'=>"ser",'placeholder'=>"Search..."]) }}
+                    <button type="submit">
+                    <img class="img img-responsive" src="{{skin('/images/search.png')}}">
+                    </button>
+                </div>
+                {{ Form::close() }}
+            </div>
         </div>
 
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 site_login">
