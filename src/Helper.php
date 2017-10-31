@@ -4,7 +4,7 @@
  */
 function skin($url=false)
 {
-    $skin =  asset('/'.Cms::getPath().'/'.'skin'.'/'.Cms::getCurrentTheme().'/');
+    $skin =  asset('/'.'skin'.'/'.Cms::getCurrentTheme().'/');
     if($url)
         $skin.=$url;
     return $skin;
