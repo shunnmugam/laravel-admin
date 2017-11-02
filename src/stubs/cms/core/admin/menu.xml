@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menus>
     <group name="General" order="0">
-        <menu name="Permissions" icon="fa fa-check-square-o" route="roles_index_from_admin"/>
+        <menu name="Dashboard" icon="fa fa-dashboard" route="/administrator" is_url="1"/>
     </group>
 </menus>

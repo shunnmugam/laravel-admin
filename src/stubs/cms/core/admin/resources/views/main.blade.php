@@ -39,4 +39,25 @@
     <!-- /top tiles -->
 
     <br />
+
+    <div class="message-section">
+        @if(!isset(Configurations::getConfig('site')->site_name))
+            <div class="alert alert-danger">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Danger!</strong> Please Enter Site Details in Site Configuration Menu.
+            </div>
+        @endif
+        @if(!isset(Configurations::getConfig('mail')->from_mail))
+            <div class="alert alert-danger">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Danger!</strong> Please Enter Mail Details in Mail Configuration Menu.
+            </div>
+        @endif
+        @if(!isset(Configurations::getParm('user',1)->register_verification))
+            <div class="alert alert-danger">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Danger!</strong> Please Enter User Module Configuration in Module Configuration Menu.
+            </div>
+        @endif
+    </div>
 @endsection

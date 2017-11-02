@@ -62,8 +62,8 @@
                         <br />
 
                         <div>
-                            <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                            <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                            <h1><i class="fa fa-paw"></i>{{isset(Configurations::getConfig('site')->site_name) ? Configurations::getConfig('site')->site_name : '' }}</h1>
+                            <p>©2016 All Rights Reserved. {{isset(Configurations::getConfig('site')->site_name) ? Configurations::getConfig('site')->site_name : '' }}</p>
                         </div>
                     </div>
                 {{Form::close()}}

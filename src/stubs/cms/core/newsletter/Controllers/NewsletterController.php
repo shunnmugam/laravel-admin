@@ -176,6 +176,8 @@ class NewsletterController extends Controller
      */
     public function getData(Request $request)
     {
+        CGate::authorize('view-newsletter');
+
         $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
         //$sTart = 0;
         DB::statement(DB::raw('set @rownum='.$sTart));
@@ -260,7 +262,7 @@ class NewsletterController extends Controller
 
         $to = NewsLetterModel::where('status','=',1)->pluck('email');
 
-
+        \CmsMail::setMailConfig();
         if(count($to)!=0) {
             $to = $to->toArray();
 

@@ -182,12 +182,18 @@ class BlogController extends Controller
      */
     public function getData(Request $request)
     {
+        CGate::authorize('view-blog');
+
         $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
         //$sTart = 0;
         DB::statement(DB::raw('set @rownum='.$sTart));
 
 
-        $data = BlogModel::with('category')->select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),'blog.*',"id","title",DB::raw('(CASE WHEN '.DB::getTablePrefix().'blog.status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'))
+        $data = BlogModel::with('category')->select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),'blog.*',"id","title",
+            DB::raw('(CASE 
+            WHEN '.DB::getTablePrefix().(new BlogModel)->getTable().'.status = "0" THEN "Disabled"
+            WHEN '.DB::getTablePrefix().(new BlogModel)->getTable().'.status = "-1" THEN "Trashed"
+             ELSE "Enabled" END) AS status'))
             ->get();
 
         $datatables = Datatables::of($data)

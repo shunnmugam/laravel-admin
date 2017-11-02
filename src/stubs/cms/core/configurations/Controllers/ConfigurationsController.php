@@ -65,7 +65,7 @@ class ConfigurationsController extends Controller
     public function getModuleList(View $view)
     {
         $module_list = ModuleModel::select('name','id')
-            ->where('type','=',DB::raw('(SELECT COUNT(*) FROM '.DB::getTablePrefix().(new ModuleModel)->getTable().' as b WHERE family_tree_modules.name=b.name)'))
+            ->where('type','=',DB::raw('(SELECT COUNT(*) FROM '.DB::getTablePrefix().(new ModuleModel)->getTable().' as b WHERE '.DB::getTablePrefix().(new ModuleModel)->getTable().'.name=b.name)'))
             ->get();
 
         $view->with('module_list',$module_list);
@@ -76,7 +76,7 @@ class ConfigurationsController extends Controller
      */
     public function site()
     {
-        $data = json_decode(ConfigurationModel::where('name','=','site')->first()->parm);
+        $data = json_decode(@ConfigurationModel::where('name','=','site')->first()->parm);
         //echo $data->site_online;exit;
         return view('configurations::admin.site',['data'=>$data]);
     }

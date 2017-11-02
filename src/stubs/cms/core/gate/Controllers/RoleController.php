@@ -18,7 +18,7 @@ class RoleController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            CGate::SuperAdminonly('Super Admin');
+            CGate::SuperAdminonly();
             return $next($request);
         });
 

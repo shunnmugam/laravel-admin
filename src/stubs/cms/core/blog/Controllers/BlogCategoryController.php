@@ -172,7 +172,10 @@ class BlogCategoryController extends Controller
         DB::statement(DB::raw('set @rownum='.$sTart));
 
 
-        $data = BlogCategoryModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","name",DB::raw('(CASE WHEN '.DB::getTablePrefix().(new BlogCategoryModel)->getTable().'.status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'))
+        $data = BlogCategoryModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","name",
+            DB::raw('(CASE WHEN '.DB::getTablePrefix().(new BlogCategoryModel)->getTable().'.status = "0" THEN "Disabled" 
+            WHEN '.DB::getTablePrefix().(new BlogCategoryModel)->getTable().'.status = "-1" THEN "Trashed"
+            ELSE "Enabled" END) AS status'))
             ->get();
 
         $datatables = Datatables::of($data)

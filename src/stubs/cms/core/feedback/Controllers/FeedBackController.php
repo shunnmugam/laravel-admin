@@ -166,6 +166,8 @@ class FeedBackController extends Controller
      */
     public function getData(Request $request)
     {
+        CGate::authorize('view-feedback');
+
         $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
         //$sTart = 0;
         DB::statement(DB::raw('set @rownum='.$sTart));
@@ -203,6 +205,7 @@ class FeedBackController extends Controller
      */
     function statusChange(Request $request)
     {
+        CGate::authorize('edit-feedback');
 
         if(!empty($request->selected_feedbacks))
         {
