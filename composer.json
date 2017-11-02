@@ -1,7 +1,7 @@
 {
     "name": "phpworkers/cms",
     "description": "laravel cms",
-    "keywords": ["laravel", "laravel cms","cms","modules","plugins","admin","theme"],
+    "keywords": ["Laravel","laravel", "laravel cms","cms","modules","plugins","admin","theme"],
     "license": "MIT",
     "authors": [
         {
