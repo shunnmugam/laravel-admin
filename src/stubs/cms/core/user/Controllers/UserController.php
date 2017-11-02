@@ -20,6 +20,7 @@ use Plugins;
 use Configurations;
 use Event;
 use Mail;
+use CGate;
 //events
 use cms\core\user\Events\UserRegisteredEvent;
 //models
@@ -31,6 +32,16 @@ use cms\core\usergroup\Models\UserGroupMapModel;
 use cms\core\user\Mail\ForgetPasswordMail;
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            CGate::resouce('user');
+            return $next($request);
+        });
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -193,8 +204,7 @@ class UserController extends Controller
             if(($key = array_search(1, $request->selected_users)) !== false) {
                 $request->selected_users = array_except($request->selected_users, array($key));
             }
-
-            $delObj = new UsersModel;
+            $delObj = new UserModel;
             foreach ($request->selected_users as $k => $v) {
 
                 //echo $v;
@@ -221,12 +231,17 @@ class UserController extends Controller
      */
     public function getData(Request $request)
     {
+        CGate::authorize('view-user');
+
         $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
         //$sTart = 0;
         DB::statement(DB::raw('set @rownum='.$sTart));
 
 
-        $data = UserModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"users.id as id","name","username","email","mobile","user_groups.group",DB::raw('(CASE WHEN '.DB::getTablePrefix().'users.status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'),"images")
+        $data = UserModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"users.id as id","users.name","username","email","mobile","user_groups.group",
+            DB::raw('(CASE WHEN '.DB::getTablePrefix().(new UserModel)->getTable().'.status = "0" THEN "Disabled" 
+            WHEN '.DB::getTablePrefix().(new UserModel)->getTable().'.status = "-1" THEN "Trashed"
+            ELSE "Enabled" END) AS status'),"images")
             ->join('user_group_map', 'user_group_map.user_id', '=', 'users.id')
             ->join('user_groups', 'user_groups.id', '=', 'user_group_map.group_id')
             ->get();
@@ -268,6 +283,7 @@ class UserController extends Controller
      */
     function statusChange(Request $request)
     {
+        CGate::authorize('edit-user');
 
         if(!empty($request->selected_users))
         {
@@ -300,7 +316,7 @@ class UserController extends Controller
     {
 
         $this->validate($request, [
-            'email' => 'required|unique:users,email|max:191',
+            'email' => 'required|unique:users,email|email|max:191',
             'password' => 'required|min:4',
             'username' => 'required|unique:users,username|max:191',
         ]);
@@ -313,8 +329,8 @@ class UserController extends Controller
         $Hash=Hash::make($request->password);
         $data->password = $Hash;
 
-        $config = @Configurations::getParm('user',1);
-        $verification_type = @$config->register_verification;
+        $config = Configurations::getParm('user',1);
+        $verification_type = $config->register_verification;
         if($verification_type==0)
             $data->status = 1;
         else
@@ -346,7 +362,15 @@ class UserController extends Controller
      * user registration from frond end
      */
     public  function register(Request $request)
-    {   if(@Configurations::getParm('user',1)->allow_user_registration!=1)
+    {
+        $this->validate($request, [
+            'email' => 'required|unique:users,email|email|max:191',
+            'password' => 'required',
+            'username' => 'required|unique:users,username|max:191',
+        ]);
+
+
+        if(Configurations::getParm('user',1)->allow_user_registration!=1)
         {
             Session::flash("error","Register is blocked");
             return redirect()->route('home');
@@ -364,7 +388,7 @@ class UserController extends Controller
 
         $Hash=Hash::make($request->password);
         $data->password = $Hash;
-        $config = @Configurations::getParm('user',1);
+        $config = Configurations::getParm('user',1);
         $verification_type = @$config->register_verification;
         if($verification_type==0)
             $data->status = 1;
@@ -386,8 +410,10 @@ class UserController extends Controller
             $msg = "Something went wrong !! Please try again later !!";
         }
 
+        Session::flash("success",$msg);
+        return redirect()->back();
 
-        return ['status'=>1,'message'=>$msg];
+        //return ['status'=>1,'message'=>$msg];
     }
     /*
      * user login using ajax
@@ -399,14 +425,14 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::check(['username'=>$request->username,'password'=>$request->password]);
+        $user = User::check(['username'=>$request->username,'password'=>$request->password,'status'=>1]);
 
         if($user) {
             $users = UserModel::where('username','=',$request->username)->first();
             Session::put(['ACTIVE_USER' => strval($users->id)
                 ,'ACTIVE_USERNAME' => $users->username,
                 'ACTIVE_EMAIL' => $users->email
-                ]);
+            ]);
             //change offline to online
             $users->online = 1;
             $users->ip = request()->ip();
@@ -436,14 +462,14 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::check(['username'=>$request->username,'password'=>$request->password]);
+        $user = User::check(['username'=>$request->username,'password'=>$request->password,'status'=>1]);
 
         if($user) {
             $users = UserModel::where('username','=',$request->username)->first();
             Session::put(['ACTIVE_USER' => strval($users->id)
                 ,'ACTIVE_USERNAME' => $users->username,
                 'ACTIVE_EMAIL' => $users->email
-                ]);
+            ]);
             //change offline to online
             $users->online = 1;
             $users->ip = request()->ip();
@@ -560,7 +586,6 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         $user = User::getUser();
-        if(isset($user->id)){
         $users = UserModel::find($user->id);
 
         //change online to offline
@@ -568,7 +593,7 @@ class UserController extends Controller
         $users->ip = request()->ip();
         $users->lastactive = Carbon::now();
         $users->save();
-        }
+
         $request->session()->flush();
 
         $url = @Configurations::getParm('user',1)->logout_redirection_url;
@@ -594,7 +619,7 @@ class UserController extends Controller
     {
         $id = User::getUser()->id;
         $this->validate($request, [
-            'email' => 'required|unique:users,email,'.$id,
+            'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'sometimes',
             'name' => 'required',
             'username' => 'required|unique:users,username,'.$id,
@@ -606,10 +631,10 @@ class UserController extends Controller
         $data->username  = $request->username;
         $data->email = $request->email;
         if($request->mobile)
-        $data->mobile = $request->mobile;
+            $data->mobile = $request->mobile;
         if($request->image) {
             $user_obj = new User;
-            $img = $user_obj->imageCreate($request->image,'user');
+            $img = $user_obj->imageCreate($request->image,'user'.DIRECTORY_SEPARATOR);
             $data->images = $img;
         }
         if($request->password) {

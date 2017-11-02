@@ -13,12 +13,24 @@ use Yajra\Datatables\Facades\Datatables;
 use DB;
 use User;
 use Session;
+use CGate;
 
 //models
 use cms\core\usergroup\Models\UserGroupModel;
 
 class UserGroupController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            CGate::resouce('usergroup');
+            return $next($request);
+        });
+
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -169,12 +181,18 @@ class UserGroupController extends Controller
      */
     public function getData(Request $request)
     {
+
+        CGate::authorize('view-usergroup');
+
         $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
         //$sTart = 0;
         DB::statement(DB::raw('set @rownum='.$sTart));
 
 
-        $data = UserGroupModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","group",DB::raw('(CASE WHEN '.DB::getTablePrefix().(new UserGroupModel)->getTable().'.status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'))
+        $data = UserGroupModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","group",
+            DB::raw('(CASE WHEN '.DB::getTablePrefix().(new UserGroupModel)->getTable().'.status = "0" THEN "Disabled"
+             WHEN '.DB::getTablePrefix().(new UserGroupModel)->getTable().'.status = "-1" THEN "Trashed"
+             ELSE "Enabled" END) AS status'))
             ->get();
 
         $datatables = Datatables::of($data)
@@ -214,6 +232,7 @@ class UserGroupController extends Controller
      */
     function statusChange(Request $request)
     {
+        CGate::authorize('edit-usergroup');
 
         if(!empty($request->selected_groups))
         {

@@ -38,7 +38,7 @@
     </div>
 </div>
 <div class="item form-group">
-    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="status">Logout Regirection Url
+    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="status">Verification
     </label>
     <div class="col-md-3 col-sm-3 col-xs-12">
         {{ Form::select('register_verification',[0=>'None',1=>'Self',2=>'Administrator'],@$data->configuration_parm->register_verification,array('id'=>'logout_redirection_url','class' => 'form-control' )) }}
