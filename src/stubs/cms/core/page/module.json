@@ -6,7 +6,7 @@
     "providers\\PageServiceProvider"
   ],
   "helpers" : {
-
+	"Page" : "cms\\core\\page\\helpers\\Page"
   },
   "search" : {
     "page" : "search\\Page"

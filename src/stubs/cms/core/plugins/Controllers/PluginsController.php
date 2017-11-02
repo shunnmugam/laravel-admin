@@ -14,6 +14,7 @@ use DB;
 use Session;
 use Cms;
 use Plugins;
+use CGate;
 
 
 //models
@@ -21,6 +22,15 @@ use cms\core\plugins\Models\PluginsModel;
 
 class PluginsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            CGate::resouce('plugins');
+            return $next($request);
+        });
+
+    }
+
     /**
      * Display a listing of the resource.
      *

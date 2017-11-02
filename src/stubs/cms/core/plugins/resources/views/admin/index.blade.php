@@ -65,12 +65,12 @@
                 {
                     name : "Trash",
                     url : "{{route('plugins_action_from_admin',-1)}}"
-                },
-                {
+                }
+                /*{
                     name : "Delete",
                     url : "{{route('plugin.destroy',1)}}",
                     method : "DELETE"
-                }
+                }*/
             ],
 
         }

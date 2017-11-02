@@ -23,6 +23,17 @@ use cms\core\menu\Models\AdminMenuModel;
 
 class MenuController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            \CGate::SuperAdminonly();
+            return $next($request);
+        });
+
+    }
+
     /**
      * Display a listing of the resource.
      *

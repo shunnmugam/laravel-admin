@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menus>
     <group name="General" order="0">
-        <menu name="Menus" route="wmenuindex" icon="fa fa-laptop"/>
-        <menu name="Menu Assignment" route="menu_assign_from_admin" icon="fa fa-laptop"/>
+        <menu name="Menus" route="wmenuindex" icon="fa fa-braille"/>
+        <menu name="Menu Assignment" route="menu_assign_from_admin" icon="fa fa-exchange"/>
     </group>
 </menus>

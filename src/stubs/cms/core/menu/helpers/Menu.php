@@ -127,17 +127,17 @@ abstract class Menu
             {
                 $permission[$datas->group_id][$datas->menu_id] = $datas->status;
             }
-
             foreach ($menugroup as $groupkey => $group)
             {
                 foreach ($group['menu'] as $menu_key => $menu)
                 {
-                   if($permission[$current_user_group][$menu['id']]==0)
+                   if(!isset($permission[$current_user_group][$menu['id']]) || $permission[$current_user_group][$menu['id']]==0)
                    {
                        unset($menugroup[$groupkey]['menu'][$menu_key]);
                    }
                 }
             }
+
         }
 
         $return_array = self::buildTree($menugroup);

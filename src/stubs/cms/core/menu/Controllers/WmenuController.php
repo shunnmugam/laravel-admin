@@ -5,6 +5,7 @@ use cms\core\menu\Models\Menu;
 
 use Illuminate\Support\Facades\Input;
 use View;
+use CGate;
 
 //models
 use cms\core\page\Models\PageModel;
@@ -12,6 +13,7 @@ use cms\core\page\Models\PageModel;
 class WmenuController extends BaseController {
 
     public function wmenuindex() {
+        CGate::authorize('view-menu');
 
         $menuitems = new MenuItem();
         $menulist = Menu::pluck("name", "id");
@@ -36,6 +38,7 @@ class WmenuController extends BaseController {
         }
     }
     public function createnewmenu() {
+        CGate::authorize('create-menu');
 
         $menu = new Menu();
         $menu -> name = Input::get("menuname");
@@ -44,12 +47,13 @@ class WmenuController extends BaseController {
 
     }
     public function deleteitemmenu() {
+        CGate::authorize('delete-menu');
 
         $menuitem = MenuItem::find(Input::get("id"));
         $menuitem -> delete();
     }
     public function deletemenug() {
-
+        CGate::authorize('delete-menu');
         $menus = new MenuItem();
         $getall = $menus -> getall(Input::get("id"));
         if (count($getall) == 0) {
@@ -61,7 +65,7 @@ class WmenuController extends BaseController {
         }
     }
     public function updateitem() {
-
+        CGate::authorize('edit-menu');
         $menuitem = MenuItem::find(Input::get("id"));
         $menuitem -> label = Input::get("label");
         $menuitem -> link = Input::get("url");
@@ -69,7 +73,7 @@ class WmenuController extends BaseController {
 		$menuitem -> save();
 	}
     public function addcustommenu() {
-
+        CGate::authorize('create-menu');
         $menuitem = new MenuItem();
         $menuitem -> label = Input::get("labelmenu");
         $menuitem -> link = Input::get("linkmenu");
@@ -77,6 +81,9 @@ class WmenuController extends BaseController {
         $menuitem -> save();
     }
     public function addcustompagemenu() {
+
+        CGate::authorize('create-menu');
+
         $obj = Input::get("obj");
 
         foreach ($obj as $ob) {
@@ -88,6 +95,8 @@ class WmenuController extends BaseController {
         }
     }
     public function generatemenucontrol() {
+
+        CGate::authorize('create-menu');
 
         if(Input::get("idmenu")) {
             $menu = Menu::find(Input::get("idmenu"));

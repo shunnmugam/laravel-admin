@@ -97,7 +97,6 @@ class PageController extends Controller
      */
     public function show($name)
     {
-
         $data = PageModel::where('url','=',$name)->first();
         $can = $data->can;
         if($can===NULL)
@@ -195,13 +194,17 @@ class PageController extends Controller
      */
     public function getData(Request $request)
     {
+        CGate::authorize('view-page');
+
         $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
         //$sTart = 0;
         DB::statement(DB::raw('set @rownum='.$sTart));
 
 
-        $data = PageModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","title","url",DB::raw('(CASE WHEN '.DB::getTablePrefix().(new PageModel)->getTable().'.status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'))
-
+        $data = PageModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","title","url",
+            DB::raw('(CASE WHEN '.DB::getTablePrefix().(new PageModel)->getTable().'.status = "0" THEN "Disabled"
+            WHEN '.DB::getTablePrefix().(new PageModel)->getTable().'.status = "-1" THEN "Trashed"
+             ELSE "Enabled" END) AS status'))
             ->get();
 
         $datatables = Datatables::of($data)
@@ -237,7 +240,7 @@ class PageController extends Controller
      */
     function statusChange(Request $request)
     {
-
+        CGate::authorize('edit-page');
         if(!empty($request->selected_pages))
         {
             $obj = new PageModel ;

@@ -6,8 +6,8 @@
 {{Cms::script('theme/vendors/LRpopup/js/foxholder.js')}}
 {{Cms::script('theme/vendors/LRpopup/js/jquery.form.min.js')}}
 
-<p class="col-lg-6 login_s"><a class="cd-signin" href="">Login</a></p>
-<p class="col-lg-6 reg_s"><a class="cd-signup" href="">Register</a></p>
+<p class="col-lg-6 login_s"><p class="cd-signin" href="">Login</p></p>
+<p class="col-lg-6 reg_s"><p class="cd-signup" href="">Register</p></p>
 
 <div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
     <div class="cd-user-modal-container"> <!-- this is the container wrapper -->
