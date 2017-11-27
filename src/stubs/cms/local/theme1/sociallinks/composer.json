@@ -1,0 +1,15 @@
+{
+  "name": "cms/sociallinks",
+  "description": "",
+  "authors": [
+    {
+      "name": "Ramesh",
+      "email": "shunramit@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      
+    }
+  }
+}

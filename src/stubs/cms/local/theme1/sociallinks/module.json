@@ -1,0 +1,9 @@
+{
+  "name": "sociallinks",
+  "version": "0.0.1",
+  "type" : "local",
+  "providers": [
+    "Providers\\SociallinksServiceProvider"
+  ],
+  "plugins" : "config\\plugins.php"
+}
