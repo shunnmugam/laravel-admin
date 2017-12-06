@@ -16,8 +16,19 @@ class CmsController extends Controller
      * url
      */
     protected $url;
+    /*
+     * current theme
+     */
+    public $currentTheme;
+    /*
+     * skin path
+     */
+    public $skinPath;
+
     public function __construct()
     {
+        $this->currentTheme = $this->getCurrentTheme();
+        $this->skinPath = $this->getSkinPath();
 
     }
 
@@ -53,7 +64,7 @@ class CmsController extends Controller
      */
     public function getModulesLocalPath()
     {
-        return $this->getConfig()['module']['local_path'].DIRECTORY_SEPARATOR.$this->getCurrentTheme();
+        return $this->getConfig()['module']['local_path'].DIRECTORY_SEPARATOR.$this->currentTheme;
     }
     /*
      * get module configuration file
@@ -195,9 +206,40 @@ class CmsController extends Controller
     }
     public function getCurrentTheme()
     {
+
+        if (class_exists(\Configurations::class)) {
+           return \Configurations::getCurrentTheme();
+
+        }
+        elseif(\Illuminate\Support\Facades\Schema::hasTable('configurations')) {
+            $data = \DB::table('configurations')->where('name','=','site')->first();
+
+            if(count($data)>0 && isset($data->parm)) {
+                $data =  json_decode($data->parm);
+
+                if(isset($data->active_theme))
+                    return $data->active_theme;
+            }
+
+        }
         return $this->getThemeConfig()['active'];
     }
 
+    /*
+     * skin path
+     */
+    protected function getSkinPath()
+    {
+        $skin = 'skin'.'/'.$this->currentTheme;
+
+
+        if(!File::exists(asset('/'.'skin'.'/'.$this->currentTheme))) {
+            $skin =  'skin'.'/theme1';
+        }
+
+
+        return $skin;
+    }
 
 
     /**
@@ -206,7 +248,7 @@ class CmsController extends Controller
      */
     public function script($url, $attributes = [], $secure = null)
     {
-        return Html::script('skin/'.$this->getCurrentTheme().'/'.$url,$attributes,$secure);
+        return Html::script($this->skinPath.'/'.$url,$attributes,$secure);
     }
 
     /**
@@ -214,7 +256,7 @@ class CmsController extends Controller
      */
     public function style($url, $attributes = [], $secure = null)
     {
-        return Html::style('skin/'.$this->getCurrentTheme().'/'.$url,$attributes,$secure);
+        return Html::style($this->skinPath.'/'.$url,$attributes,$secure);
     }
     /**
      * return html style
@@ -344,7 +386,7 @@ class CmsController extends Controller
     {
         $FileGenerator = new FileGenerator;
         $FileGenerator
-            ->setPath(base_path().DIRECTORY_SEPARATOR.'cms'.DIRECTORY_SEPARATOR.$this->getModulesPath().DIRECTORY_SEPARATOR.$this->getCurrentTheme())
+            ->setPath(base_path().DIRECTORY_SEPARATOR.'cms'.DIRECTORY_SEPARATOR.$this->getModulesPath().DIRECTORY_SEPARATOR.$this->currentTheme)
             ->setClass('Test')
             ->setModule('dummy')
             ->MakeController()
