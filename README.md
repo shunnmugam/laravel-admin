@@ -26,20 +26,35 @@
 
 <h1>After Install:</h1>
 <ol>
-  <li>Add following Lines to Provider array<br>
+  <li>Add following Lines to config/app.php providers array<br>
      //html<br>
         Collective\Html\HtmlServiceProvider::class,<br>
         //datatable<br>
         Yajra\Datatables\DatatablesServiceProvider::class,<br>
     Ramesh\Cms\CmsServiceProvider::class,<br></li>
-  <li>Add Following Lines to alias array<br>
-    'Form' => Collective\Html\FormFacade::class,<br>
+  <li>Add Following Lines to config/app.php  aliases array<br>
+        'Form' => Collective\Html\FormFacade::class,<br>
         'Html' => Collective\Html\HtmlFacade::class,<br>
         'Cms' => Ramesh\Cms\Facades\Cms::class,<br>
   </li>
-  <li>php artisan vendor:publish          (Publishing css,js,config files,core modules,theme,etc)</li>
-  <li>Go to coomposer.json file and add following line to psr-4 autoload<br>
+  <li>run   php artisan vendor:publish          (Publishing css,js,config files,core modules,theme,etc)</li>
+  <li>Go to coomposer.json file and add following line to autoload psr-4<br>
     "cms\\":"cms"<br>
+    
+    
+    
+    eg
+    <br>
+    "autoload": { <br>
+        "classmap": [ <br>
+            "database" <br>
+        ], <br>
+        "psr-4": { <br>
+            "App\\": "app/", <br>
+            "cms\\" : "cms" <br>
+        } <br>
+    }, <br>
+    
   </li>
   <li>Run composer dump-autoload</li>
   <li>Run Following artisan commands</li>
