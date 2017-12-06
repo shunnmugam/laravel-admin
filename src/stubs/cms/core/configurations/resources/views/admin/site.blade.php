@@ -43,6 +43,16 @@
                 </div>
             </div>
         </div>
+        <div class="col-xs-12">
+            <h3>Theme Details</h3>
+            <div class="item form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Theme<span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    {{Form::select('active_theme',$themes,@$data->active_theme,['class'=>'form-control'])}}
+                </div>
+            </div>
+        </div>
         {{Form::close()}}
     </div>
 @endsection
