@@ -44,7 +44,7 @@
     
     
     eg
-    <br>
+    
     "autoload": { 
         "classmap": [ 
             "database" 
@@ -56,8 +56,9 @@
     }, 
     
   </li>
-  <li>Run composer dump-autoload</li>
-  <li>Run Following artisan commands</li>
+  
+  <li>Run Following commands</li>
+  <li>composer dump-autoload</li>
   <li>php artisan cms-migrate            (Migrate our tables)</li>
   <li>php artisan db:cms-seed    (Seeding)
   <li>php artisan update:cms-module      (register modules to table)</li>
