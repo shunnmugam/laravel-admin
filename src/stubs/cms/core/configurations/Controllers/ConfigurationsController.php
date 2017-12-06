@@ -8,9 +8,13 @@ use Illuminate\View\View;
 use Session;
 use DB;
 use Configurations;
+use Cms;
+use File;
 
 //models
 use cms\core\configurations\Models\ConfigurationModel;
+
+
 
 class ConfigurationsController extends Controller
 {
@@ -76,9 +80,19 @@ class ConfigurationsController extends Controller
      */
     public function site()
     {
+
+       // echo Cms::getCurrentTheme();exit;
+        $list = File::directories(base_path() . DIRECTORY_SEPARATOR . 'cms' . DIRECTORY_SEPARATOR . Cms::getModulesPath());
+        $themes = array();
+        foreach ($list as $theme) {
+            $ee = explode("\\", $theme);
+            $themes[end($ee)] = end($ee);
+        }
+
         $data = json_decode(@ConfigurationModel::where('name','=','site')->first()->parm);
+
         //echo $data->site_online;exit;
-        return view('configurations::admin.site',['data'=>$data]);
+        return view('configurations::admin.site',['data'=>$data,'themes'=>$themes]);
     }
     /*
      * site configuration save
