@@ -45,15 +45,15 @@
     
     eg
     <br>
-    "autoload": { <br>
-        "classmap": [ <br>
-            "database" <br>
-        ], <br>
-        "psr-4": { <br>
-            "App\\": "app/", <br>
-            "cms\\" : "cms" <br>
-        } <br>
-    }, <br>
+    "autoload": { 
+        "classmap": [ 
+            "database" 
+        ], 
+        "psr-4": { 
+            "App\\": "app/", 
+            "cms\\" : "cms"
+        } 
+    }, 
     
   </li>
   <li>Run composer dump-autoload</li>
