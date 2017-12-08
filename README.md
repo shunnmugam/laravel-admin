@@ -38,24 +38,8 @@
         'Cms' => Ramesh\Cms\Facades\Cms::class,<br>
   </li>
   <li>run   php artisan vendor:publish          (Publishing css,js,config files,core modules,theme,etc)</li>
-  <li>Go to coomposer.json file and add following line to autoload psr-4<br>
-    "cms\\":"cms"<br>
-    
-    
-    
-    eg
-    
-    "autoload": { 
-        "classmap": [ 
-            "database" 
-        ], 
-        "psr-4": { 
-            "App\\": "app/", 
-            "cms\\" : "cms"
-        } 
-    }, 
-    
-  </li>
+  
+  
   
   <li>Run Following commands</li>
   <li>composer dump-autoload</li>
