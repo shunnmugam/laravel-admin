@@ -56,6 +56,10 @@ class CmsServiceProvider extends ServiceProvider
         $this->app->singleton('Cms', function ($app) {
             return new CmsController();
         });
+        
+         $loader = require base_path() . '/vendor/autoload.php';
+        $loader->setPsr4('cms\\core\\',base_path('cms/core'));
+        
 
         $this->app->register(ModuleServiceProvider::class);
         $this->app->register(CommandProvider::class);
