@@ -24,11 +24,21 @@ class CmsController extends Controller
      * skin path
      */
     public $skinPath;
+    /*
+     * skin base path
+     */
+    public $skinBasePath;
+    /*
+     * fall back theme
+     */
+    public $fallBackTheme;
 
     public function __construct()
     {
         $this->currentTheme = $this->getCurrentTheme();
         $this->skinPath = $this->getSkinPath();
+        $this->skinBasePath = $this->getConfig()['skin']['path'];
+        $this->fallBackTheme = $this->getFallBackTheme();
 
     }
 
@@ -233,12 +243,19 @@ class CmsController extends Controller
         $skin = 'skin'.'/'.$this->currentTheme;
 
 
-        if(!File::exists(asset('/'.'skin'.'/'.$this->currentTheme))) {
-            $skin =  'skin'.'/theme1';
-        }
+        //if(!File::exists(asset('/'.'skin'.'/'.$this->currentTheme))) {
+            //$skin =  'skin'.'/theme1';
+       // }
 
 
         return $skin;
+    }
+    /*
+     * get fall back theme
+     */
+    public function getFallBackTheme()
+    {
+        return $this->getThemeConfig()['fall_back'];
     }
 
 
@@ -248,7 +265,10 @@ class CmsController extends Controller
      */
     public function script($url, $attributes = [], $secure = null)
     {
-        return Html::script($this->skinPath.'/'.$url,$attributes,$secure);
+        if (file_exists($this->skinBasePath.'/'.$this->currentTheme.'/'.$url))
+            return Html::script($this->skinPath.'/'.$url,$attributes,$secure);
+        else
+            return Html::script('skin'.'/'.$this->fallBackTheme.'/'.$url,$attributes,$secure);
     }
 
     /**
@@ -256,7 +276,12 @@ class CmsController extends Controller
      */
     public function style($url, $attributes = [], $secure = null)
     {
-        return Html::style($this->skinPath.'/'.$url,$attributes,$secure);
+        if (file_exists($this->skinBasePath.'/'.$this->currentTheme.'/'.$url))
+            return Html::style($this->skinPath.'/'.$url,$attributes,$secure);
+        else
+            return Html::style('skin'.'/'.$this->fallBackTheme.'/'.$url,$attributes,$secure);
+
+        //return Html::style($this->skinPath.'/'.$url,$attributes,$secure);
     }
     /**
      * return html style
