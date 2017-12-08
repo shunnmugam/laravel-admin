@@ -33,6 +33,16 @@ return[
      * Theme
      */
     'theme' => [
-        'active' => 'theme1'
+        'active' => 'theme2',
+        /*
+         * fall back theme
+         */
+        'fall_back' => 'theme1'
+    ],
+    /*
+     * skin
+     */
+    'skin' => [
+        'path' => public_path('skin')
     ]
 ];
