@@ -38,7 +38,7 @@ class ModuleServiceProvider extends ServiceProvider
         }
         else{
             $this->registerNamespace();
-            $this->registerProviders();
+
             $this->registerComposerAutoload();
             $this->registerHelpers();
         }
@@ -51,6 +51,7 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $res = Cms::allModuleProvider();
         //print_r($res);exit;
+        $this->app->register('cms\tablebooking\Providers\TablebookingServiceProvider');
         foreach ($res as $key => $provider) {
             $this->app->register($provider);
         }
@@ -83,6 +84,9 @@ class ModuleServiceProvider extends ServiceProvider
                 $loader->setPsr4('cms\\'.$module['name'].'\\',$module['path']);
             }
         }
+
+        $this->registerProviders();
+       // exit;
     }
     /*
      * Register Helpers
