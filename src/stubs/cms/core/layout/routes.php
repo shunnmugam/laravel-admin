@@ -6,7 +6,7 @@ Route::get('/',function(){
 Route::get('/assets/{module}/{type}/{file}', [ function ($module, $type, $file) {
     $module = ucfirst($module);
 
-    $path = base_path("cms/local/".Cms::getCurrentTheme()."/$module/resources/asserts/$type/$file");
+    $path = base_path("cms/local/".Cms::getCurrentTheme()."/$module/resources/assets/$type/$file");
 
     if (\File::exists($path)) {
         //return response()->download($path, "$file");
