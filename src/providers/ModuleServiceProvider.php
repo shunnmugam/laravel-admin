@@ -51,7 +51,7 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $res = Cms::allModuleProvider();
         //print_r($res);exit;
-        $this->app->register('cms\tablebooking\Providers\TablebookingServiceProvider');
+        
         foreach ($res as $key => $provider) {
             $this->app->register($provider);
         }
