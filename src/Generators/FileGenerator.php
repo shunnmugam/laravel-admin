@@ -70,6 +70,13 @@ class FileGenerator
      */
     public function setNamespace($namespace)
     {
+      if (DIRECTORY_SEPARATOR == '/') {
+        $namespace = str_replace('/', '\\', $namespace);
+      }
+
+      // if (DIRECTORY_SEPARATOR == '\\') {
+      //   // windows
+      // }
         $this->namespace = $namespace;
         return $this;
     }
@@ -98,9 +105,9 @@ class FileGenerator
     public function MakeController($resource=false)
     {
         if($resource)
-            $filename = __DIR__.'\..\stubs\module\Controllers\ModuleRController.stub';
+            $filename = __DIR__.'/../stubs/module/Controllers/ModuleRController.stub';
         else
-            $filename = __DIR__.'\..\stubs\module\Controllers\ModuleController.stub';
+            $filename = __DIR__.'/../stubs/module/Controllers/ModuleController.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Controllers');
@@ -118,7 +125,7 @@ class FileGenerator
 
     public function MakeModel()
     {
-        $filename = __DIR__.'\..\stubs\module\Models\Model.stub';
+        $filename = __DIR__.'/../stubs/module/Models/Model.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Models');
@@ -139,14 +146,14 @@ class FileGenerator
     {
         if($create){
             $this->tablename = $create;
-            $filename = __DIR__.'\..\stubs\module\Database\Migration\createmigtration.stub';
+            $filename = __DIR__.'/../stubs/module/Database/Migration/createmigtration.stub';
         }
         elseif ($table) {
             $this->tablename = $table;
-            $filename = __DIR__.'\..\stubs\module\Database\Migration\tablemigration.stub';
+            $filename = __DIR__.'/../stubs/module/Database/Migration/tablemigration.stub';
         }
         else
-            $filename = __DIR__.'\..\stubs\module\Database\Migration\Migration.stub';
+            $filename = __DIR__.'/../stubs/module/Database/Migration/Migration.stub';
 
         $contents = File::get($filename);
         $this->temprory = $this->classname;
@@ -166,7 +173,7 @@ class FileGenerator
      */
     public function MakeCommand()
     {
-        $filename = __DIR__.'\..\stubs\module\Console\Commands\command.stub';
+        $filename = __DIR__.'/../stubs/module/Console/Commands/command.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Console'.DIRECTORY_SEPARATOR.'Commands');
@@ -184,7 +191,7 @@ class FileGenerator
      */
     public function MakeEvent()
     {
-        $filename = __DIR__.'\..\stubs\module\Events\event.stub';
+        $filename = __DIR__.'/../stubs/module/Events/event.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Events');
@@ -202,7 +209,7 @@ class FileGenerator
      */
     public function MakeJob()
     {
-        $filename = __DIR__.'\..\stubs\module\Jobs\job.stub';
+        $filename = __DIR__.'/../stubs/module/Jobs/job.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Jobs');
@@ -220,7 +227,7 @@ class FileGenerator
      */
     public function MakeListener()
     {
-        $filename = __DIR__.'\..\stubs\module\Listeners\listener.stub';
+        $filename = __DIR__.'/../stubs/module/Listeners/listener.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Listeners');
@@ -240,7 +247,7 @@ class FileGenerator
      */
     public function MakeMail($view='view.name',$markdown=false)
     {
-        $filename = __DIR__.'\..\stubs\module\Mail\mail.stub';
+        $filename = __DIR__.'/../stubs/module/Mail/mail.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Mail');
@@ -264,7 +271,7 @@ class FileGenerator
      */
     public function MakeNotification($markdown=false)
     {
-        $filename = __DIR__.'\..\stubs\module\Notifications\notification.stub';
+        $filename = __DIR__.'/../stubs/module/Notifications/notification.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Notifications');
@@ -292,7 +299,7 @@ class FileGenerator
      */
     public function MakeMiddleware()
     {
-        $filename = __DIR__.'\..\stubs\module\Middleware\middleware.stub';
+        $filename = __DIR__.'/../stubs/module/Middleware/middleware.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Middleware');
@@ -310,7 +317,7 @@ class FileGenerator
      */
     public function MakeProvider()
     {
-        $filename = __DIR__.'\..\stubs\module\Providers\provider.stub';
+        $filename = __DIR__.'/../stubs/module/Providers/provider.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Providers');
@@ -329,7 +336,7 @@ class FileGenerator
      */
     public function MakeSeeder()
     {
-        $filename = __DIR__.'\..\stubs\module\Database\Seeds\seeder.stub';
+        $filename = __DIR__.'/../stubs/module/Database/Seeds/seeder.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.Cms::getModulesPath().DIRECTORY_SEPARATOR.Cms::getCurrentTheme().DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Database'.DIRECTORY_SEPARATOR.'seeds');
@@ -347,7 +354,7 @@ class FileGenerator
      */
     public function makeModuleJson()
     {
-        $filename = __DIR__.'\..\stubs\module\module.stub';
+        $filename = __DIR__.'/../stubs/module/module.stub';
 
         $contents = File::get($filename);
         $contents = $this->changeClass($contents);
@@ -363,7 +370,7 @@ class FileGenerator
      */
     public function makeModuleComposer()
     {
-        $filename = __DIR__.'\..\stubs\module\composer.stub';
+        $filename = __DIR__.'/../stubs/module/composer.stub';
 
         $contents = File::get($filename);
         $contents = $this->changeClass($contents);
