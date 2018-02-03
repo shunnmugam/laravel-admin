@@ -5,6 +5,7 @@ namespace cms\core\configurations\helpers;
 use Auth;
 use cms\core\module\Models\ModuleModel;
 use Session;
+use Cms;
 //models
 use cms\core\user\Models\UserModel;
 use cms\core\configurations\Models\ConfigurationModel;
@@ -40,5 +41,30 @@ class Configurations
             $parm = json_decode($parm->parm);
 
         return $parm;
+    }
+
+    public static function getAllConfig()
+    {
+        $parm = ConfigurationModel::pluck('parm','name');
+
+        foreach ($parm as $key => $value)
+            $parm[$key] = json_decode($value);
+
+        return $parm;
+    }
+
+    public static function getCurrentTheme()
+    {
+        $data = ConfigurationModel::where('name','=','site')->first();
+
+        if(count($data)>0 && isset($data->parm)) {
+            $data =  json_decode($data->parm);
+
+            if(isset($data->active_theme))
+                return $data->active_theme;
+        }
+
+        return Cms::getThemeConfig()['active'];
+
     }
 }
