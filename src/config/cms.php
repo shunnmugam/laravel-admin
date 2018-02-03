@@ -33,7 +33,7 @@ return[
      * Theme
      */
     'theme' => [
-        'active' => 'theme2',
+        'active' => 'theme1',
         /*
          * fall back theme
          */
