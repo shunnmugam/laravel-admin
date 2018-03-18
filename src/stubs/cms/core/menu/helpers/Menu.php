@@ -114,7 +114,9 @@ abstract class Menu
 
     static function getAdminMenu()
     {
-        $menugroup = AdminMenuGroupModel::with('menu')
+        $menugroup = AdminMenuGroupModel::with(['menu'=>function($q){
+                    $q->where('status',1);
+                }])
                 ->where('status','=',1)
                 ->orderBy('order','ASC')
                 ->get()->toArray();

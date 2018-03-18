@@ -101,7 +101,7 @@
         <!-- footer content -->
         <footer>
             <div class="pull-right">
-                Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                 @ Copyrights {{date('Y')}} | Powered by <a href="www.github.com/shunnmugam/LaravelCms">phpworkers/laravelcms</a>
             </div>
             <div class="clearfix"></div>
         </footer>
