@@ -64,10 +64,11 @@
     <ul>
       <li>Folder Structure</li>
       <li>Theme</li>
+      <li>What is Module?</li>
       <li>Core</li>
       <li>Local</li>
-      <li>What is Module?</li>
       <li>List of core modules</li>
+      <li>Create Own module
       <li>Artisian Commands</li>
       <li>Skin</li>
       <li>Helper</li>
@@ -136,4 +137,169 @@ Default theme is <b>theme1</b>
 <h4>Change theme</h4>
   If you want to change theme?its very easy <br>
   Go to adminpanel->site configuration->change theme <br>
+<br>
+<br>
+<h3>Modules</h3>
+Module is is a mechanism to group controller, views, modules, etc that are related, otherword module is pice of code or package of laravel
 
+<h3>Core</h3>
+core is folder,that contain core modules <b>(pre-defind)</b> Module<<br>
+<i>Note: Don't change any code of core module's</i>
+
+<h3>Local</h3>
+local folder contain local module,which is created by user
+
+<h3>Create own module</h3>
+<b>php artisan make:cms-module {module-name} </b>
+<br>
+eg : <b>php artisan make:cms-module helloworld</b>
+<br>helloworld module is created under current theme folder
+<br>
+then register our module to database for feature use
+<br>
+<b>php artisan update:cms-module</b>
+thats all :) ,lets see files in modules,<br>
+<ol>
+<li>module.json ->file</li>
+<li>composer.json ->file</li>
+<li>menu.xml -> file</li>
+<li>routes.php -> file</li>
+<li>adminroutes -> file</li>
+<li>Controller  -> folder</li>
+<li>Database ->folder</li>
+<li>Models -> folder</li>
+<li>config -> folder</li>
+<li>resourcesc-> folder</li>
+<li>Events -> folder</li>
+<li>Listeners -> folder</li>
+<li>Mail -> folder</li>
+<li>Middleware -> folder</li>
+<li>helpers ->folder</li>
+</ol>
+
+<h4>module.json</h4>
+<code>
+  {
+  "name": "helloworld",
+  "version": "0.0.1",
+  "type" : "local",
+  "providers": [
+    "Providers\\HelloworldServiceProvider"
+  ]
+}
+
+</code>
+<br>
+<table>
+  <thead>
+    <tr>
+      <th>
+        Parameter
+      </th>
+      <th>
+        Data type
+      </th>
+      <th>
+        Use
+      </th>
+      <th>
+        is optional?
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        name
+      </td>
+      <td>
+        string 
+      </td>
+      <td>
+        name of the module
+      </td>
+      <td>
+        NO
+      </td>
+    </tr>
+    <tr>
+      <td>
+        version
+      </td>
+      <td>
+        string 
+      </td>
+      <td>
+        version of the module
+      </td>
+      <td>
+        NO
+      </td>
+    </tr>
+    <tr>
+      <td>
+        type
+      </td>
+      <td>
+        string (core/local) 
+      </td>
+      <td>
+        type of the module
+      </td>
+      <td>
+        NO
+      </td>
+    </tr>
+    <tr>
+      <td>
+        providers
+      </td>
+      <td>
+        Array 
+      </td>
+      <td>
+        Provider of this module,provider is register point of our module
+      </td>
+      <td>
+        NO
+      </td>
+    </tr>
+    <tr>
+      <td>
+        plugins
+      </td>
+      <td>
+        string "relative path of plugin" 
+      </td>
+      <td>
+        plugin path,that used to defind plugin
+      </td>
+      <td>
+        YES
+      </td>
+    </tr>
+    <tr>
+      <td>
+        helpers
+      </td>
+      <td>
+        object "relative path of helpers" 
+      </td>
+      <td>
+        helpers path,that used to defind helpers,helpers contain common functions,we can use any where
+        <br>
+        eg:<br>
+        <code>
+          "helpers" : {
+              "HelperName1":"cms\\core\\blog\\helpers\\Blog",
+              "HelperName2":"some path",
+              ....
+            }
+        </code>
+      </td>
+      <td>
+        YES
+      </td>
+    </tr>
+  </tbody>
+</table>
