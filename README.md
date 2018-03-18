@@ -77,19 +77,19 @@
 <h3>Folder Structure</h3>
 <p>
   <h4>Main path</h4>
-
-  cms (main)
-    |
-    |__core
-    |  |
-    |  |__core modules
-    |
-    |
-    |__local
-        |
-        |__themes
-            |
-            |__local modules
+<br>
+  cms (main)<br>
+    |<br>
+    |__core<br>
+    |  |<br>
+    |  |__core modules<br>
+    |<br>
+    |<br>
+    |__local<br>
+        |<br>
+        |__themes<br>
+            |<br>
+            |__local modules<br>
 
 
 
