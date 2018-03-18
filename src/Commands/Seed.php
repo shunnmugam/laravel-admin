@@ -51,7 +51,7 @@ class Seed extends Command
         {
             if($class) {
                 $this->call('db:seed', [
-                    '--class' =>  Cms::getPath() . '\\' . Cms::getModulesPath() . '\\'.Cms::getCurrentTheme().'\\' . $module . '\\Database\\seeds\\'.$class
+                    '--class' =>  Cms::getPath() . '/' . Cms::getModulesPath() . '/'.Cms::getCurrentTheme().'/' . $module . 'Database\\seeds\\'.$class
                 ]);
             }
             else
@@ -61,7 +61,7 @@ class Seed extends Command
                 foreach ($files as $file) {
                     echo $class_name = preg_replace('/\..+$/', '', $file);
                     $this->call('db:seed', [
-                        '--class' =>  Cms::getPath() . '\\' . Cms::getModulesPath() . '\\'.Cms::getCurrentTheme().'\\' . $module . '\\Database\\seeds\\'.$class_name
+                        '--class' =>  Cms::getPath() . '/' . Cms::getModulesPath() . '/'.Cms::getCurrentTheme().'/' . $module . '/Database/seeds/'.$class_name
                     ]);
                 }
 
@@ -71,6 +71,8 @@ class Seed extends Command
             $cms = Cms::allModulesPath(false);
             foreach ($cms as $module)
             {
+
+
                 if($class) {
                     if (File::exists(base_path().'/' . $module . '/Database/seeds/'.$class.'.php')) {
                         $this->call('db:seed', [
@@ -79,19 +81,23 @@ class Seed extends Command
                     }
                 }
                 else {
+
                     $files = $this->getAllFileInFolder(base_path() . '/' . $module . '/Database/seeds');
                     //print_r($files);
                     foreach ($files as $file) {
                         $class_name = preg_replace('/\..+$/', '', $file);
+                        $m = ltrim($module, '/');
+                        $m = str_replace('/', '\\', $m);
                         $this->call('db:seed', [
-                            '--class' => $module . '\\Database\\seeds\\' . $class_name
+                            '--class' => $m . '\\Database\\seeds\\' . $class_name
                         ]);
+                        //echo 'hai';
                     }
                 }
 
             }
         }
-
+          //echo 'success';
     }
 
     protected function getAllFileInFolder($folder)
