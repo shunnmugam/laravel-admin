@@ -8,5 +8,5 @@
   "helpers" : {
     "Plugins":"cms\\core\\plugins\\helpers\\Plugins"
   },
-  "plugins" : "config\\plugins.php"
+  "plugins" : "config/plugins.php"
 }

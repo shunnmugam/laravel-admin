@@ -5,5 +5,5 @@
   "providers": [
     "Providers\\SociallinksServiceProvider"
   ],
-  "plugins" : "config\\plugins.php"
+  "plugins" : "config/plugins.php"
 }

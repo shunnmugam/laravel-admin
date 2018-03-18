@@ -8,7 +8,7 @@
   "helpers" : {
     "CmsMail":"cms\\core\\layout\\helpers\\CmsMail"
   },
-  "plugins" : "config\\plugins.php",
+  "plugins" : "config/plugins.php",
   "permissions" : {
     "status" : false
   }

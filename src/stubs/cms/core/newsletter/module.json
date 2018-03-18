@@ -5,5 +5,5 @@
   "providers": [
     "Providers\\NewsletterServiceProvider"
   ],
-  "plugins" : "config\\plugins.php"
+  "plugins" : "config/plugins.php"
 }
