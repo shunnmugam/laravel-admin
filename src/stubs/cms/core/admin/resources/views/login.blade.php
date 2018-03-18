@@ -33,6 +33,7 @@
 </head>
 
 <body class="login">
+@include('layout::site.notifications')
 <div>
     <a class="hiddenanchor" id="signup"></a>
     <a class="hiddenanchor" id="signin"></a>
