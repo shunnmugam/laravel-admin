@@ -35,11 +35,11 @@ class CmsServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__.'\stubs\skin' => public_path('skin'),
+            __DIR__.'/stubs/skin' => public_path('skin'),
         ], 'public');
 
         $this->publishes([
-            __DIR__.'\stubs\cms' => base_path('cms'),
+            __DIR__.'/stubs/cms' => base_path('cms'),
         ], 'public');
 
         Schema::defaultStringLength(191);
