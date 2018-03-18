@@ -100,6 +100,40 @@
 
     1.1 : core : core path is core module path ,that contain number of core modules,avoid to write core modules
 
+        1.1.1 : core modules -> core path contain number of core modules
+
     1.2 : local : local path contain theme,we can create multiple theme
 
+      1.2.1 : local modules -> theme path contain number of local module(user create module)
 </p>
+<h4>Skin path</h4>
+<br>
+<p>
+  public
+    public (main)<br>
+    |<br>
+    |_skin<br>
+    &nbsp;|<br>
+    &nbsp;|__theme name<br>
+    &nbsp;&nbsp;&nbsp;|<br>
+    &nbsp;&nbsp;&nbsp;|__css,js,vendor,fonts,etc <br>
+    
+    1 : public ->public folder is default folder in laravel
+
+        1.1 : skin -> skin folder is our assets folder
+
+        1.1.1 : theme name -> folder name is theme name , that contain css, fonts ,js,etc
+</p>
+<h3>
+  Theme
+</h3>
+Theme is main part of our package,we can create multiple theme,our package is theme and moduler based,all theme is placed on cms->local folder <br>
+Default theme is <b>theme1</b>
+
+<h4>Create Theme</h4>
+  Just create new folder inside of cms->local.<br>
+
+<h4>Change theme</h4>
+  If you want to change theme?its very easy <br>
+  Go to adminpanel->site configuration->change theme <br>
+
