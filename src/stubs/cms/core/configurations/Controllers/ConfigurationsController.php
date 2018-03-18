@@ -86,6 +86,7 @@ class ConfigurationsController extends Controller
         $themes = array();
         foreach ($list as $theme) {
             $ee = explode("\\", $theme);
+            $ee = explode("/", $theme);
             $themes[end($ee)] = end($ee);
         }
 

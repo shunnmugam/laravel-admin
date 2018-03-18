@@ -54,7 +54,7 @@
                 <!-- menu profile quick info -->
                 <div class="profile clearfix">
                     <div class="profile_pic">
-                        <img src="{{((User::getUser()->images!='') ? User::getUser()->images : '/images/no-image.png' )}}" alt="..." class="img-circle profile_img">
+                        <img src="{{((User::getUser()->images!='') ? User::getUser()->images : skin().'/img/no-image.png' )}}" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Welcome,</span>
