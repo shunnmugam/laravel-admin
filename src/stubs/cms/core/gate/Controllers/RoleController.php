@@ -28,7 +28,7 @@ class RoleController extends Controller
     {
         CGate::registerPermission();
        //echo  \CGate::allows('create-blog');
-        $module = ModuleModel::with('permissions')->get();
+        $module = ModuleModel::with('permissions')->where('status',1)->get();
         $groups = UserGroupModel::get();
 
 

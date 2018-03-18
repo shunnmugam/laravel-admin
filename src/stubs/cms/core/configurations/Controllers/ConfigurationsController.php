@@ -70,6 +70,7 @@ class ConfigurationsController extends Controller
     {
         $module_list = ModuleModel::select('name','id')
             ->where('type','=',DB::raw('(SELECT COUNT(*) FROM '.DB::getTablePrefix().(new ModuleModel)->getTable().' as b WHERE '.DB::getTablePrefix().(new ModuleModel)->getTable().'.name=b.name)'))
+            ->where('status',1)
             ->get();
 
         $view->with('module_list',$module_list);
