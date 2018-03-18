@@ -74,3 +74,32 @@
       <li>Core Helper functions</li>
       <li>Plugins</li>
     </ul>
+<h3>Folder Structure</h3>
+<p>
+  <h4>Main path</h4>
+
+  cms (main)
+    |
+    |__core
+    |  |
+    |  |__core modules
+    |
+    |
+    |__local
+        |
+        |__themes
+            |
+            |__local modules
+
+
+
+  1.cms : cms path is the main path of our app,that contain 
+
+      1.1 : core
+      1.2 : local
+
+    1.1 : core : core path is core module path ,that contain number of core modules,avoid to write core modules
+
+    1.2 : local : local path contain theme,we can create multiple theme
+
+</p>
