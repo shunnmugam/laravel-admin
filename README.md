@@ -269,7 +269,7 @@ thats all :) ,lets see files in modules,<br>
         plugins
       </td>
       <td>
-        string "relative path of plugin" 
+        string (relative path of plugin)
       </td>
       <td>
         plugin path,that used to defind plugin
@@ -283,10 +283,33 @@ thats all :) ,lets see files in modules,<br>
         helpers
       </td>
       <td>
-        object "relative path of helpers" 
+        object (relative path of helpers)
       </td>
       <td>
         helpers path,that used to defind helpers,helpers contain common functions,we can use any where
+        <br>
+        eg:<br>
+        <code>
+          "helpers" : {
+              "HelperName1":"cms\\core\\blog\\helpers\\Blog",
+              "HelperName2":"some path",
+              ....
+            }
+        </code>
+      </td>
+      <td>
+        YES
+      </td>
+    </tr>
+    <tr>
+      <td>
+        search
+      </td>
+      <td>
+        object (relative path of search class)
+      </td>
+      <td>
+        search path,that used to defind search helper,search class functions, this is used to make our module is searchable
         <br>
         eg:<br>
         <code>
