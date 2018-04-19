@@ -18,7 +18,7 @@
 
 <h1>Requiremments:</h1>
 <ol>
-  <li>Laravel 5.4</li>
+  <li>Laravel 5.4 or later</li>
   <li>laravelcollective/html: ~5.0</li>
   <li>yajra/laravel-datatables-oracle: 7.2</li>
   <li>unisharp/laravel-filemanager: ^1.8</li>
