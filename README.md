@@ -400,7 +400,7 @@ just leave it this one, we will add autoload feature in later
 <h4>menu.xml</h4>
 menu.xml is used for add menu and menu group in adminpanel like joomla menu
 <br />
-<code>
+<pre class='brush: xml;'>
   <?xml version="1.0" encoding="utf-8"?>
   <menus>
       <group name="General" order="0">
@@ -410,7 +410,7 @@ menu.xml is used for add menu and menu group in adminpanel like joomla menu
           </menugroup>
       </group>
   </menus>
-</code>
+</pre>
 <table>
   <thead>
     <tr>
