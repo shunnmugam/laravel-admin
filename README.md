@@ -401,15 +401,15 @@ just leave it this one, we will add autoload feature in later
 menu.xml is used for add menu and menu group in adminpanel like joomla menu
 <br />
 <pre class='brush: xml;'>
-  <?xml version="1.0" encoding="utf-8"?>
-  <menus>
-      <group name="General" order="0">
-          <menugroup name="Users" icon="fa fa-user" order="0">
-              <menu name="View Users" route="user.index" />
-              <menu name="Add User" route="user.create" />
-          </menugroup>
-      </group>
-  </menus>
+  &lt; ?xml version="1.0" encoding="utf-8"? &gt;
+ &lt;menus>
+     &lt;group name="General" order="0">
+         &lt;menugroup name="Users" icon="fa fa-user" order="0">
+             &lt;menu name="View Users" route="user.index" />
+             &lt;menu name="Add User" route="user.create" />
+          &lt;/menugroup>
+      &lt;/group>
+  &lt;/menus>
 </pre>
 <table>
   <thead>
@@ -431,7 +431,7 @@ menu.xml is used for add menu and menu group in adminpanel like joomla menu
   <tbody>
     <tr>
       <td>
-         <code><menus></code>
+         <code>&lt;menus></code>
       </td>
       <td>
         menus tag is main tag of the menu.xml,that is bootstarp of menu.xml
@@ -445,13 +445,13 @@ menu.xml is used for add menu and menu group in adminpanel like joomla menu
     </tr>
     <tr>
       <td>
-         <code><group></code>
+         <code>&lt;group></code>
       </td>
       <td>
         group tag is defind menu type,default type is general,you can create own group using name attribute
       </td>
       <td>
-        <code><menus></code>
+        <code>&lt;menus></code>
       </td>
       <td>
         <ul>
@@ -468,14 +468,14 @@ menu.xml is used for add menu and menu group in adminpanel like joomla menu
     </tr>
     <tr>
       <td>
-         <code><menugroup></code>
+         <code>&lt;menugroup></code>
       </td>
       <td>
         menugroup tag is defind menu group for example user module menus is placed under user menugroup
         <i>Menugroup is optional</i>
       </td>
       <td>
-        <code><menus></code>
+        <code>&lt;menus></code>
       </td>
       <td>
         <ul>
@@ -492,13 +492,13 @@ menu.xml is used for add menu and menu group in adminpanel like joomla menu
     </tr>
     <tr>
       <td>
-         <code><menu></code>
+         <code>&lt;menu></code>
       </td>
       <td>
         menu tag is used to give a link otherword its just clickable link
       </td>
       <td>
-        <code><menus> OR <menugroup> </code>
+        <code>&lt;menus> OR &lt;menugroup> </code>
       </td>
       <td>
         <ul>
@@ -514,7 +514,7 @@ menu.xml is used for add menu and menu group in adminpanel like joomla menu
             <i>if you want add url?just use <b>is_url<b> attribute <br />
               eg : <br />
               <code>
-                <menu name="Module Configurations" route="/administrator/configurations/module/1" is_url="1"/>
+                &lt;menu name="Module Configurations" route="/administrator/configurations/module/1" is_url="1"/>
               </code>
             </i>
           </li>
