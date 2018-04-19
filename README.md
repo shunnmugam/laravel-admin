@@ -324,5 +324,20 @@ thats all :) ,lets see files in modules,<br>
         YES
       </td>
     </tr>
+    <tr>
+      <td>configuration</td>
+      <td>string (view file path of configuration)</td>
+      <td>configuration is used to view or edit module configuration
+        eg:<br />
+        <code>
+          "configuration" : "user::admin.configuration.configuration",
+        </code>
+        <br />
+        Above example is taken from user module,that mean user configuration is place on cms/core/user/admin/configuration/configuraion.blade.php
+      </td>
+      <td>
+        YES
+      </td>
+    </tr>
   </tbody>
 </table>
