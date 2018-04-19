@@ -149,8 +149,8 @@ Default theme is <b>theme1</b>
 Module is is a mechanism to group controller, views, modules, etc that are related, otherword module is pice of code or package of laravel
 
 <h3>Core</h3>
-core is folder,that contain core modules <b>(pre-defind)</b> Module<<br>
-<i>Note: Don't change any code of core module's</i>
+core is folder,that contain core modules <b>(pre-defind)</b> Module<br>
+<i>Note: Don't change any code of core module's </i>
 
 <h3>Local</h3>
 local folder contain local module,which is created by user
@@ -163,7 +163,22 @@ eg : <b>php artisan make:cms-module helloworld</b>
 <br>
 then register our module to database for feature use
 <br>
-<b>php artisan update:cms-module</b>
+<b>php artisan update:cms-module</b> <br />
+<h5>Where is the entry point (provider) of the module?</h5>
+open provider folder under cms/local/{module} <br />
+that provider is same as laravel provider so boot and register method is important and additionaly we have some functions <br />
+<ol>
+  <li>
+    registerRoot   -> registerRoot method is used to registreing our custom module routes
+  </li>
+  <li>
+    registerAdminRoot -> registerAdminRoot method is used to registering our custom module admin routes
+  </li>
+  <li>
+    registerViews -> registerViews method is used to registering our custom module views
+  </li>
+</ol>
+if you want to enable this method,just uncommands calls inside register method of your provider
 thats all :) ,lets see files in modules,<br>
 <ol>
 <li>module.json ->file</li>
@@ -511,7 +526,7 @@ menu.xml is used for add menu and menu group in adminpanel like joomla menu
           </li>
           <li>route <br />
             route attribute is accept named route<br />
-            <i>if you want add url?just use <b>is_url<b> attribute <br />
+            <i>if you want add url?just use <b>is_url </b> attribute <br />
               eg : <br />
               <code>
                 &lt;menu name="Module Configurations" route="/administrator/configurations/module/1" is_url="1"/>
@@ -530,3 +545,191 @@ menu.xml is used for add menu and menu group in adminpanel like joomla menu
     </tr>
   </tbody>
 </table>
+<h4>
+  routes.php
+</h4>
+<p>routes.php file contain routes of the frontend app exclude admin routes<br />
+don't have routes.php?,just create it.. :) <br />
+if you don't like file name?<br />
+we have good solution for you <br />
+go to your module main provider and find registerRoot function then change it <br />
+</p>
+<h4>adminroutes.php</h4>
+<p>
+  adminroutes.php file contain routes of the admin <br />
+  this file is include admin middlewares and admin route group with administrator prefix<br />
+  if you dont want admin middleware of current module <br />
+  go to your module provider and find registerAdminRoot method and remove middleware
+</p>
+<h4>Folders of the modules</h4>
+<table>
+  <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Use
+      </th>
+      <th>
+        Sub-folders
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        Controller
+      </td>
+      <td>
+        controller folder contain controllers
+      </td>
+      <td>
+        -
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Database
+      </td>
+      <td>
+        Database folder contain migrations and seeds
+      </td>
+      <td>
+        Migration  -> that contain migrations
+        Seeds  -> that contain seeds
+      </td>
+    </tr>
+    <tr>
+      <td>Models</td>
+      <td>Models folder contain Models class</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>helpers</td>
+      <td>helpers folder contain helpers class</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>providers</td>
+      <td>providers folder contain providers class</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>resources</td>
+      <td>resources folder contain assets and views</td>
+      <td>views,assets</td>
+    </tr>
+    <tr>
+      <td>Mail</td>
+      <td>Mail folder contain Mail class</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Events</td>
+      <td>Events folder contain Events class</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Listeners</td>
+      <td>Listeners folder contain Listeners class</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Middleware</td>
+      <td>Middleware folder contain Middleware class</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Console</td>
+      <td>Console folder contain artisan comands</td>
+      <td>Commands</td>
+    </tr> 
+    <tr>
+      <td>config </td>
+      <td>config folder contain config array like roles (deprecated) and mailer configurations</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Artisian Commands</h3>
+<p>we provide more artisan commands</p>
+<p>imagin we have more than 30 artisan commands,its not remebarable,but you know default laravel commands so we have some idea,we added one common word for all laravel commands,thats it,now easily you can remember our commands</p>
+eg: <br />
+default command for creating laravel controller is <br />
+<b>php artisan make:controller {controller-name} </b>
+<br />
+our comand is <br />
+<b>php artisan make:<u>cms-</u>controller {controller-name} <u>{module-name}</u></b>
+<br />
+deafult migrate command is <br>
+<b>php artisan migrate</b>
+our migrate command is <br>
+<b>php artisan cms-migrate</b> <br>
+and one more we have our own commands,its not high count,but very usefull
+<h4>List of our commands</h4>
+<ol>
+  <li>
+    <b>php artisan make:cms-module {module-name}</b>
+    <br />
+    this is used to make new module
+  </li>
+  <li>
+    <b>php artisan update:cms-menu</b> <br>
+    this command is used to update or register menus
+  </li>
+</ol>
+<h4>create new artisan commands for your module</h4>
+if you want create new comand <br />
+<b>php artisan make:cms-command {command-name} {module-name}</b>
+<br>
+file is created under console/commands folder inside of your module
+<br>
+<h4>how to enable own commands?</h4>
+<br>
+open your module provider then create commands array <br>
+eg : 
+<br />
+<pre>
+    /*
+     * artisan command
+     */
+    protected $commands = [
+        'cms\core\{module-name}\Console\Commands\{Commandclass}'
+    ];
+</pre>
+please replace module-name and commandclass like
+<pre>
+    /*
+     * artisan command
+     */
+    protected $commands = [
+        'cms\core\menu\Console\Commands\AdminMenu'
+    ];
+</pre>
+<br>
+then create method <br>
+<pre>
+    /*
+     * register commands
+     */
+    protected function registerCommand()
+    {
+        $this->commands($this->commands);
+    }
+</pre>
+then add following line to register method
+<pre>
+  $this->registerCommand();
+</pre>
+eg:
+<pre>
+  public function register()
+  {
+      $this->registerViews();
+      $this->registerRoot();
+      $this->registerAdminRoot();
+      $this->registerCommand();
+  }
+</pre>
+
