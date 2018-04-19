@@ -1,9 +1,3 @@
-<style type="text/css">
-  code {
-  display: block;
-  white-space: pre-wrap   
-}
-</style>
 <h1>Content Management System using laravel framework</h1>
 
 <h1>Features:</h1><ol>
