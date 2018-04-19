@@ -339,5 +339,33 @@ thats all :) ,lets see files in modules,<br>
         YES
       </td>
     </tr>
+    <tr>
+      <td>configuration_data</td>
+      <td>string (configuration data function path)</td>
+      <td>configuration data is get module configuration from function,its define function name,this function should return module configuration<br />
+        eg:<br />
+        <code>
+          "configuration_data" : "\\cms\\core\\user\\Controllers\\UserController@getConfigurationData"
+        </code>
+        <br />
+        Above example is taken from user module,that mean user configuration function is place on cms/core/user/controller/UserController.php and function name is getConfigurationData
+        <br />
+        <code>
+          /*
+           * configurations option
+           */
+          public function getConfigurationData()
+          {
+              $group = UserGroupModel::where('status',1)->where('id','!=',1)->orderBy('group','Asc')->pluck("group","id");
+              return ['user_group'=>$group];
+          }
+        </code>
+        <br />
+        Above function return available user groups
+      </td> 
+      <td>
+        YES
+      </td>
+    </tr>
   </tbody>
 </table>
