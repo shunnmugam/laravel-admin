@@ -1,3 +1,9 @@
+<style type="text/css">
+  code {
+  display: block;
+  white-space: pre-wrap   
+}
+</style>
 <h1>Content Management System using laravel framework</h1>
 
 <h1>Features:</h1><ol>
@@ -348,23 +354,178 @@ thats all :) ,lets see files in modules,<br>
           "configuration_data" : "\\cms\\core\\user\\Controllers\\UserController@getConfigurationData"
         </code>
         <br />
-        Above example is taken from user module,that mean user configuration function is place on cms/core/user/controller/UserController.php and function name is getConfigurationData
+        Above example is taken from user module, <br />
+        that mean user configuration function is place on <b>cms/core/user/controller/UserController.php <b>and function name is <b>getConfigurationData</b>
         <br />
         <code>
-          /*
-           * configurations option
-           */
-          public function getConfigurationData()
-          {
-              $group = UserGroupModel::where('status',1)->where('id','!=',1)->orderBy('group','Asc')->pluck("group","id");
-              return ['user_group'=>$group];
-          }
+          /* <br />
+           * configurations option<br />
+           */<br />
+          public function getConfigurationData()<br />
+          {<br />
+              $group = UserGroupModel::where('status',1)->where('id','!=',1)->orderBy('group','Asc')->pluck("group","id");<br />
+              return ['user_group'=>$group];<br />
+          }<br />
         </code>
         <br />
         Above function return available user groups
       </td> 
       <td>
         YES
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4>composer.json</h4>
+<code>
+  {
+  "name": "cms/user",
+  "description": "",
+  "authors": [
+    {
+      "name": "Ramesh",
+      "email": "shunramit@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {     
+    }
+  }
+}
+</code><br />
+composer.json file is contain detail about module and author and that contain autoload
+<br />
+just leave it this one, we will add autoload feature in later
+<br />
+<h4>menu.xml</h4>
+menu.xml is used for add menu and menu group in adminpanel like joomla menu
+<br />
+<code>
+  <?xml version="1.0" encoding="utf-8"?>
+  <menus>
+      <group name="General" order="0">
+          <menugroup name="Users" icon="fa fa-user" order="0">
+              <menu name="View Users" route="user.index" />
+              <menu name="Add User" route="user.create" />
+          </menugroup>
+      </group>
+  </menus>
+</code>
+<table>
+  <thead>
+    <tr>
+      <th>
+        Tag
+      </th>
+      <th>
+        Use
+      </th>
+      <th>
+        Parent
+      </th>
+      <th>
+        Attributes
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+         <code><menus></code>
+      </td>
+      <td>
+        menus tag is main tag of the menu.xml,that is bootstarp of menu.xml
+      </td>
+      <td>
+        NULL
+      </td>
+      <td>
+        NULL
+      </td>
+    </tr>
+    <tr>
+      <td>
+         <code><group></code>
+      </td>
+      <td>
+        group tag is defind menu type,default type is general,you can create own group using name attribute
+      </td>
+      <td>
+        <code><menus></code>
+      </td>
+      <td>
+        <ul>
+          <li>name <br />
+            name attribute is defind name of the menu type<br />
+            name is mandtory attribute
+          </li>
+          <li>
+            order <br />
+            order attribute defind order of the menutype
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+         <code><menugroup></code>
+      </td>
+      <td>
+        menugroup tag is defind menu group for example user module menus is placed under user menugroup
+        <i>Menugroup is optional</i>
+      </td>
+      <td>
+        <code><menus></code>
+      </td>
+      <td>
+        <ul>
+          <li>name <br />
+            name attribute is defind name of the menu group<br />
+            name is mandtory attribute
+          </li>
+          <li>
+            order <br />
+            order attribute defind order of the menu group
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+         <code><menu></code>
+      </td>
+      <td>
+        menu tag is used to give a link otherword its just clickable link
+      </td>
+      <td>
+        <code><menus> OR <menugroup> </code>
+      </td>
+      <td>
+        <ul>
+          <li>name <br />
+            name attribute is defind name of the menu group<br />
+            name is mandtory attribute
+          </li>
+          <li>icon <br />
+            icon attribute is used to add font awsome icon<br />
+          </li>
+          <li>route <br />
+            route attribute is accept named route<br />
+            <i>if you want add url?just use <b>is_url<b> attribute <br />
+              eg : <br />
+              <code>
+                <menu name="Module Configurations" route="/administrator/configurations/module/1" is_url="1"/>
+              </code>
+            </i>
+          </li>
+          <li>is_url <br />
+            is_url attribute is used to identify given menu route is url or named route,if is_url="1" means given route is url otherwise given route is named roue
+          </li>
+          <li>
+            order <br />
+            order attribute defind order of the menu group
+          </li>
+        </ul>
       </td>
     </tr>
   </tbody>
