@@ -13,6 +13,19 @@
 <li>Mail configurations</li>
 <li>Site Configuration,etc</li>
 </ol>
+
+<h1>Version</h1>
+<table>
+<thead>
+<th><td>Laravel Version</td><td>Version</td></th>
+</thead>
+<tbody>
+<tr><td>5.4</td><td>1.0 to 2.0</td></tr>
+<tr><td>5.5</td><td>2.1</td></tr>
+<tr><td>5.6</td><td>2.1</td></tr>
+<tr><td>5.7</td><td>2.1</td></tr>
+</tbody>
+
 <h1>Install:</h1>
 <h3>composer require phpworkers/cms<h3>
 
