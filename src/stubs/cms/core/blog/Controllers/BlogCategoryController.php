@@ -12,7 +12,7 @@ use User;
 use CGate;
 //models
 use cms\core\blog\Models\BlogCategoryModel;
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\Datatables;
 class BlogCategoryController extends Controller
 {
     public function __construct()

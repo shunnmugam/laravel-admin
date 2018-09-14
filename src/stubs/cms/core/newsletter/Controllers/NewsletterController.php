@@ -13,7 +13,7 @@ use CmsMail;
 use cms\core\newsletter\Mail\NewsLetterMail;
 use cms\core\newsletter\Jobs\SendNewsLetter;
 
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\Datatables;
 
 //models
 use cms\core\newsletter\Models\NewsLetterModel;

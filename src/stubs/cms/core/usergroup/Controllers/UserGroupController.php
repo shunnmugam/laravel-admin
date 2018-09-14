@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\Datatables;
 
 //helpers
 use DB;

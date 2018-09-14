@@ -44,7 +44,7 @@
      //html<br>
         Collective\Html\HtmlServiceProvider::class,<br>
         //datatable<br>
-        Yajra\Datatables\DatatablesServiceProvider::class,<br>
+        Yajra\DataTables\DatatablesServiceProvider::class,<br>
     Ramesh\Cms\CmsServiceProvider::class,<br></li>
   <li>Add Following Lines to config/app.php  aliases array<br>
         'Form' => Collective\Html\FormFacade::class,<br>
