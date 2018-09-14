@@ -17,7 +17,7 @@
 <h1>Version</h1>
 <table>
 <thead>
-<th><td>Laravel Version</td><td>Version</td></th>
+<tr><th>Laravel Version</th><th>Version</th></tr>
 </thead>
 <tbody>
 <tr><td>5.4</td><td>1.0 to 2.0</td></tr>
