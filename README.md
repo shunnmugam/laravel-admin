@@ -25,6 +25,7 @@
 <tr><td>5.6</td><td>2.1</td></tr>
 <tr><td>5.7</td><td>2.1</td></tr>
 </tbody>
+</table>
 
 <h1>Install:</h1>
 <h3>composer require phpworkers/cms<h3>
