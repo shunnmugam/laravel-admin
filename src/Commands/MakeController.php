@@ -12,7 +12,7 @@ class MakeController extends Command
      *
      * @var string
      */
-    protected $signature = 'make:cms-controller {controller-name} {module-name} {--resource}';
+    protected $signature = 'make:cms-controller {controller-name} {module-name} {--r|resource}';
 
     /**
      * The console command description.
