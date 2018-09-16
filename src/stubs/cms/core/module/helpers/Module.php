@@ -20,7 +20,7 @@ Class Module
                 ->where('name','=',$module['name'])
                 ->where('type','=',$type)->first();
             //already available
-            if(count($old)>0)
+            if(count((array) $old)>0)
             {
                 //check version is same
                 if($old->version != $module['version'])
@@ -58,7 +58,7 @@ Class Module
                         ->where('type',$type)
                         ->select('id')
                         ->first();
-         if(count($data))
+         if(count((array) $data))
              return $data->id;
          else
              return 0;

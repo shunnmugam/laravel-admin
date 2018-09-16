@@ -270,7 +270,7 @@ class UserController extends Controller
 
 
         // return $data;
-        if(count($data)==0)
+        if(count((array) $data)==0)
             return [];
 
         return $datatables->make(true);
@@ -500,7 +500,7 @@ class UserController extends Controller
     public function activate($token)
     {
         $users = UserModel::where('remember_token','=',$token)->first();
-        if(count($users)) {
+        if(count((array) $users)) {
             $users->status = 1;
             $users->remember_token='';
             $users->save();
@@ -518,7 +518,7 @@ class UserController extends Controller
     public function forgetPassword(Request $request)
     {
         $users = UserModel::with('group')->where('email','=',$request->email)->first();
-        if(count($users)) {
+        if(count((array) $users)) {
             $user_group = User::getUserGroup($users->id);
 
             if(in_array(1,$user_group))
@@ -550,7 +550,7 @@ class UserController extends Controller
     public function verifyForgetPassword($token)
     {
         $users = UserModel::where('remember_token','=',$token)->first();
-        if(count($users)) {
+        if(count((array) $users)) {
             return view('user::site.password_change',['token'=>$token]);
         }
         else
@@ -567,7 +567,7 @@ class UserController extends Controller
         ]);
 
         $users = UserModel::where('remember_token','=',$request->token)->first();
-        if(count($users)) {
+        if(count((array) $users)) {
             $users->remember_token='';
             $Hash=Hash::make($request->password);
             $users->password = $Hash;

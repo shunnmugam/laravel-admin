@@ -33,7 +33,7 @@ class Plugins
                 $row = PluginsModel::select('id')
                     ->where('name', '=', $plugin_name)
                     ->first();
-                if(count($row))
+                if(count((array) $row))
                 {
                     $row = PluginsModel::find($row->id);
                     $row->name = $plugin_name;
@@ -69,7 +69,7 @@ class Plugins
      */
     public static function getName($plugin_id)
     {
-        return count($data = self::getOptions($plugin_id))>0 ? $data->name : '';
+        return count((array) $data = self::getOptions($plugin_id))>0 ? $data->name : '';
     }
     /*
      * get plugins
@@ -80,7 +80,7 @@ class Plugins
             ->where('id','=',$plugin_id)
             ->where('status',1)
             ->first();
-        return (count($parm)>0) ? $parm->parm : array();
+        return (count((array) $parm)>0) ? $parm->parm : array();
     }
     /*
      * get options
@@ -91,7 +91,7 @@ class Plugins
             ->where('id','=',$plugin_id)
             ->where('status',1)
             ->first();
-        return (count($parm)>0) ? $parm : array();
+        return (count((array) $parm)>0) ? $parm : array();
     }
 
     public static function get($name)
@@ -100,7 +100,7 @@ class Plugins
                     ->where('status',1)
                     ->first();
 
-        if(count($plugin)==0)
+        if(count((array) $plugin)==0)
             return ['',''];
 
         $action = explode('@',$plugin->action);

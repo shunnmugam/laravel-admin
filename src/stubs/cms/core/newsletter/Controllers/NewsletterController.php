@@ -210,7 +210,7 @@ class NewsletterController extends Controller
 
 
         // return $data;
-        if(count($data)==0)
+        if(count((array) $data)==0)
             return [];
 
         return $datatables->make(true);
@@ -263,7 +263,7 @@ class NewsletterController extends Controller
         $to = NewsLetterModel::where('status','=',1)->pluck('email');
 
         \CmsMail::setMailConfig();
-        if(count($to)!=0) {
+        if(count((array) $to)!=0) {
             $to = $to->toArray();
 
 

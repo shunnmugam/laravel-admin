@@ -73,7 +73,7 @@ class RoleController extends Controller
 
                 $obj = HasPermissionModel::where('permission_id',$role_id)
                                 ->where('group_id',$group_id)->first();
-                if(count($obj)==0)
+                if(count((array) $obj)==0)
                     $obj = new HasPermissionModel;
 
                 $obj->permission_id = $role_id;

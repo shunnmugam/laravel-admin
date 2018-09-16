@@ -47,7 +47,7 @@ class Blog
         else
             $data = $data->paginate($paginate);
 
-        if(count($data)==0)
+        if(count((array) $data)==0)
             $data = array();
         elseif ($paginate==false)
             $data = $data->toArray();
@@ -59,7 +59,7 @@ class Blog
     {
         $data =  BlogCategoryModel::where('parent','=',$parent)->get();
 
-        if(count($data)==0)
+        if(count((array) $data)==0)
             $data = array();
         else
             $data = $data->toArray();
@@ -74,7 +74,7 @@ class Blog
     {
         $data =  BlogCategoryModel::where('name','=',$name)->first();
 
-        if(count($data)==0)
+        if(count((array) $data)==0)
             $data = array();
         else
             $data = $data->toArray();
@@ -88,7 +88,7 @@ class Blog
     {
         $data =  BlogCategoryModel::where('id','=',$id)->first();
 
-        if(count($data)==0)
+        if(count((array) $data)==0)
             $data = array();
         else
             $data = $data->toArray();
@@ -102,7 +102,7 @@ class Blog
     {
         $data =  BlogCategoryModel::where('status','=',1)->get();
 
-        if(count($data)!=0)
+        if(count((array) $data)!=0)
         {
             return self::buildTree($data->toArray(),$start);
         }

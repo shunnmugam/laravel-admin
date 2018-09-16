@@ -12,7 +12,7 @@
     @endphp
     <div class="container">
     <div class="row">
-        @if(count($datas)==0)
+        @if(count((array) $datas)==0)
             No data
         @endif
         @foreach($datas as $key =>$data)

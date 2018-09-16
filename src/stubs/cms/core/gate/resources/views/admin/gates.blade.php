@@ -24,7 +24,7 @@
             <div class="tab-pane {{($loop->iteration == 1) ? 'active' : ''}}" id="group-{{str_replace(' ','',$group->group)}}">
                 <div class="row">
                     @foreach($module as $key => $value)
-                        @if(count($value->permissions)!=0)
+                        @if(count((array) $value->permissions)!=0)
                         <div class="col-xs-12 col-sm-6 col-md-3">
                             <fieldset>
                                 <legend>{{$value->name}}</legend>

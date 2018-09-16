@@ -56,7 +56,7 @@ class WmenuController extends BaseController {
         CGate::authorize('delete-menu');
         $menus = new MenuItem();
         $getall = $menus -> getall(Input::get("id"));
-        if (count($getall) == 0) {
+        if (count((array) $getall) == 0) {
             $menudelete = Menu::find(Input::get("id"));
             $menudelete -> delete();
             return json_encode(array("resp" => "you delete this item"));

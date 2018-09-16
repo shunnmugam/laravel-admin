@@ -155,7 +155,7 @@
             notify('Info','{{Session::get("info")}}','info',true);
         @endif
 
-        @if(count($errors) > 0)
+        @if(count((array) $errors) > 0)
         @foreach ($errors->all() as $error)
             notify('Error','{{$error}}','error',true);
         @endforeach

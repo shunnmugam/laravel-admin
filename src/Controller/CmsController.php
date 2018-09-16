@@ -97,7 +97,7 @@ class CmsController extends Controller
         foreach($modules as $key => $module)
         {
             $path_arry = explode(DIRECTORY_SEPARATOR,$module);
-            $current_module = $path_arry[count($path_arry)-1];
+            $current_module = $path_arry[count((array) $path_arry)-1];
             $json_file = json_decode(file_get_contents($module.DIRECTORY_SEPARATOR.$this->getModulesConfigurationName()), true);
            // $path =array("path"=>$this->getPath().DIRECTORY_SEPARATOR.$this->getModulesCorePath().DIRECTORY_SEPARATOR.$module);
             $path = array("path"=>$module);
@@ -224,7 +224,7 @@ class CmsController extends Controller
         elseif(\Illuminate\Support\Facades\Schema::hasTable('configurations')) {
             $data = \DB::table('configurations')->where('name','=','site')->first();
 
-            if(count($data)>0 && isset($data->parm)) {
+            if(count((array) $data)>0 && isset($data->parm)) {
                 $data =  json_decode($data->parm);
 
                 if(isset($data->active_theme))
