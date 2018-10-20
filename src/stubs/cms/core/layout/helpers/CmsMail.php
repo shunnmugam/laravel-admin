@@ -13,7 +13,7 @@ class CmsMail
      */
     public static function setMailConfig($config=[])
     {
-        if(count($config)==0) {
+        if(count((array) $config)==0) {
             $mailer=Configurations::getConfig('mail');
             $mail = (object) self::getMailerList($mailer->from_mailer);
             $config = array(

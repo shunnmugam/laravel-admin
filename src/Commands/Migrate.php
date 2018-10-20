@@ -66,10 +66,12 @@ class Migrate extends Command
             $cms = Cms::allModulesPath(false);
             foreach ($cms as $module)
             {
-                $files = \File::files(base_path().$module.DIRECTORY_SEPARATOR.'Database'.DIRECTORY_SEPARATOR.'Migration'.DIRECTORY_SEPARATOR);
-                foreach ($files as $file)
-                {
-                    \File::copy($file, base_path().DIRECTORY_SEPARATOR.'cms'.DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'migration'.DIRECTORY_SEPARATOR.substr($file, strrpos($file, DIRECTORY_SEPARATOR) + 1));
+                if(\File::exists(base_path().$module.DIRECTORY_SEPARATOR.'Database'.DIRECTORY_SEPARATOR.'Migration'.DIRECTORY_SEPARATOR)) {
+                    $files = \File::files(base_path().$module.DIRECTORY_SEPARATOR.'Database'.DIRECTORY_SEPARATOR.'Migration'.DIRECTORY_SEPARATOR);
+
+                    foreach ($files as $file) {
+                        \File::copy($file, base_path() . DIRECTORY_SEPARATOR . 'cms' . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'migration' . DIRECTORY_SEPARATOR . substr($file, strrpos($file, DIRECTORY_SEPARATOR) + 1));
+                    }
                 }
 
             }

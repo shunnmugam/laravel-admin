@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 
 //helpers
 use DB;
@@ -173,8 +173,7 @@ class FeedBackController extends Controller
         DB::statement(DB::raw('set @rownum='.$sTart));
 
 
-        $data = FeedBackModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","username","email","message")
-            ->get();
+        $data = FeedBackModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","username","email","message");
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')
@@ -192,7 +191,7 @@ class FeedBackController extends Controller
 
 
         // return $data;
-        if(count($data)==0)
+        if(count((array) $data)==0)
             return [];
 
         return $datatables->make(true);

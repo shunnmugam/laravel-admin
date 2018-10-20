@@ -12,7 +12,7 @@ use User;
 use CGate;
 //models
 use cms\core\blog\Models\BlogCategoryModel;
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 class BlogCategoryController extends Controller
 {
     public function __construct()
@@ -175,8 +175,7 @@ class BlogCategoryController extends Controller
         $data = BlogCategoryModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","name",
             DB::raw('(CASE WHEN '.DB::getTablePrefix().(new BlogCategoryModel)->getTable().'.status = "0" THEN "Disabled" 
             WHEN '.DB::getTablePrefix().(new BlogCategoryModel)->getTable().'.status = "-1" THEN "Trashed"
-            ELSE "Enabled" END) AS status'))
-            ->get();
+            ELSE "Enabled" END) AS status'));
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')
@@ -202,7 +201,7 @@ class BlogCategoryController extends Controller
 
 
         // return $data;
-        if(count($data)==0)
+        if(count((array) $data)==0)
             return [];
 
         return $datatables->make(true);

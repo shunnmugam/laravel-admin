@@ -48,7 +48,7 @@ class CGate
                 foreach ($common_permissions as $common_permission) {
                     $name = (in_array($common_permission,$temp_permissions) ? $common_permission . '-' . $module['name'] : $common_permission);
                     $obj = PermissionModel::where('name', $name)->first();
-                    if (count($obj) == 0)
+                    if (count((array) $obj) == 0)
                         $obj = new PermissionModel;
 
                     $obj->name = $name;
@@ -78,7 +78,7 @@ class CGate
 
         $permissions = PermissionModel::select('id')->where('name', $permission_name)->first();
 
-        if(count($permissions)==0)
+        if(count((array) $permissions)==0)
             return -1; //permission not found
 
         $permission_id = $permissions->id;
@@ -93,13 +93,13 @@ class CGate
                 ->whereIn('group_id',$group_id)
                 ->first();
 
-        if(count($obj)!=0) {
+        if(count((array) $obj)!=0) {
             return ($obj->status == 1) ? true : false;
         }
         else {
             $obj = HasPermissionModel::select('status')->where('permission_id',$permission_id)
                 ->first();
-            if(count($obj)!=0)
+            if(count((array) $obj)!=0)
                 return false;
             else
                 return true;

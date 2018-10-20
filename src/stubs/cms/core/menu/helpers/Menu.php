@@ -38,7 +38,7 @@ abstract class Menu
                     $menugroup = AdminMenuGroupModel::where('name',$name)
                         ->where('parent',0)
                         ->first();
-                    if(count($menugroup)==0)
+                    if(count((array) $menugroup)==0)
                         $menugroup = new AdminMenuGroupModel;
 
                     $menugroup->name = $name;
@@ -71,7 +71,7 @@ abstract class Menu
         $menugroup = AdminMenuGroupModel::where('name',$name)
             ->where('parent',$parent_id)
             ->first();
-        if(count($menugroup)==0)
+        if(count((array) $menugroup)==0)
             $menugroup = new AdminMenuGroupModel;
 
         $menugroup->name = $name;
@@ -98,7 +98,7 @@ abstract class Menu
             $menumodel = AdminMenuModel::where('name',$menu['name'])
                 ->where('group_id',$parent_id)
                 ->first();
-            if(count($menumodel)==0)
+            if(count((array) $menumodel)==0)
                 $menumodel = new AdminMenuModel;
 
             $menumodel->name = $menu['name'];
@@ -145,7 +145,7 @@ abstract class Menu
         $return_array = self::buildTree($menugroup);
         if(User::isSuperAdmin()==false) {
             foreach ($return_array as $key_n => $gorup_n) {
-                if (count($gorup_n['menu']) == 0 && !isset($gorup_n['group'])) {
+                if (count((array) $gorup_n['menu']) == 0 && !isset($gorup_n['group'])) {
                     unset($return_array[$key_n]);
                 }
             }
@@ -162,7 +162,7 @@ abstract class Menu
                 if ($children) {
                     $element['group'] = $children;
                 }
-                if(count($element['menu'])!=0 || $parentId==0)
+                if(count((array) $element['menu'])!=0 || $parentId==0)
                     $branch[] = $element;
             }
         }

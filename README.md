@@ -13,6 +13,20 @@
 <li>Mail configurations</li>
 <li>Site Configuration,etc</li>
 </ol>
+
+<h1>Version</h1>
+<table>
+<thead>
+<tr><th>Laravel Version</th><th>Version</th></tr>
+</thead>
+<tbody>
+<tr><td>5.4</td><td>1.0 to 2.0</td></tr>
+<tr><td>5.5</td><td>2.1</td></tr>
+<tr><td>5.6</td><td>2.1</td></tr>
+<tr><td>5.7</td><td>2.1</td></tr>
+</tbody>
+</table>
+
 <h1>Install:</h1>
 <h3>composer require phpworkers/cms<h3>
 
@@ -30,7 +44,7 @@
      //html<br>
         Collective\Html\HtmlServiceProvider::class,<br>
         //datatable<br>
-        Yajra\Datatables\DatatablesServiceProvider::class,<br>
+        Yajra\DataTables\DatatablesServiceProvider::class,<br>
     Ramesh\Cms\CmsServiceProvider::class,<br></li>
   <li>Add Following Lines to config/app.php  aliases array<br>
         'Form' => Collective\Html\FormFacade::class,<br>

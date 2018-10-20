@@ -87,7 +87,10 @@ class ConfigurationsController extends Controller
         $themes = array();
         foreach ($list as $theme) {
             $ee = explode("\\", $theme);
-            $ee = explode("/", $theme);
+            if(count((array) $ee)==1)
+                $ee = explode("/", $theme);
+            if(count((array) $ee)==1)
+                $ee = explode(DIRECTORY_SEPARATOR, $theme);
             $themes[end($ee)] = end($ee);
         }
 
@@ -102,7 +105,7 @@ class ConfigurationsController extends Controller
     public function sitesave(Request $request)
     {
         $obj = ConfigurationModel::where('name','=','site')->first();
-        if(count($obj)==0)
+        if(count((array) $obj)==0)
             $obj = new ConfigurationModel;
 
         $form_data = $request->all();
@@ -137,7 +140,7 @@ class ConfigurationsController extends Controller
     function mailsave(Request $request)
     {
         $obj = ConfigurationModel::where('name','=','mail')->first();
-        if(count($obj)==0)
+        if(count((array) $obj)==0)
             $obj = new ConfigurationModel;
 
         $form_data = $request->all();

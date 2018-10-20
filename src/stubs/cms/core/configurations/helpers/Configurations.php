@@ -57,7 +57,7 @@ class Configurations
     {
         $data = ConfigurationModel::where('name','=','site')->first();
 
-        if(count($data)>0 && isset($data->parm)) {
+        if(count((array) $data)>0 && isset($data->parm)) {
             $data =  json_decode($data->parm);
 
             if(isset($data->active_theme))

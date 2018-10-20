@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 
 //helpers
 use DB;
@@ -178,7 +178,7 @@ class PluginsController extends Controller
 
 
         // return $data;
-        if(count($data)==0)
+        if(count((array) $data)==0)
             return [];
 
         return $datatables->make(true);

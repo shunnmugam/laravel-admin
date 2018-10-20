@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 
 //helpers
 use DB;
@@ -237,7 +237,7 @@ class MenuController extends Controller
 
 
         // return $data;
-        if(count($data)==0)
+        if(count((array) $data)==0)
             return [];
 
         return $datatables->make(true);
@@ -280,7 +280,7 @@ class MenuController extends Controller
     {
         $pages = PageModel::where('status',1)->select('title','url','id')->get();
 
-        if(count($pages)==0)
+        if(count((array) $pages)==0)
             $pages = array();
 
         return json_encode(array('status'=>1,'pages'=>$pages));
@@ -312,7 +312,7 @@ class MenuController extends Controller
 
                 $obj = AdminMenuPermissionModel::where('menu_id',$menu_id)
                     ->where('group_id',$group_id)->first();
-                if(count($obj)==0)
+                if(count((array) $obj)==0)
                     $obj = new AdminMenuPermissionModel;
 
                 $obj->menu_id = $menu_id;

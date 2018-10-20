@@ -4,7 +4,7 @@
             <div class="menu_section">
                 <h3>{{$menu['name']}}</h3>
                 <ul class="nav side-menu">
-                    @if(count($menu)>0)
+                    @if(count((array) $menu)>0)
                         @php
                             if(isset($menu['group']))
                                 printMenuGroup($menu['group'])
@@ -34,7 +34,7 @@
         foreach($groups as $group) {
         ?>
         <li class="{{($is_submenu) ? 'sub_menu' : ''}}"><a><i class="{{($group['icon']) ? $group['icon'] : ''}}"></i> {{$group['name']}} <span class="fa fa-chevron-down"></span></a>
-            @if(isset($group['menu']) && count($group['menu'])>0)
+            @if(isset($group['menu']) && count((array) $group['menu'])>0)
                 <ul class="nav child_menu">
                     <?php
                     foreach($group['menu'] as $menus){

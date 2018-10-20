@@ -13,7 +13,7 @@ use CmsMail;
 use cms\core\newsletter\Mail\NewsLetterMail;
 use cms\core\newsletter\Jobs\SendNewsLetter;
 
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 
 //models
 use cms\core\newsletter\Models\NewsLetterModel;
@@ -183,8 +183,7 @@ class NewsletterController extends Controller
         DB::statement(DB::raw('set @rownum='.$sTart));
 
 
-        $data = NewsLetterModel::select('*',DB::raw('@rownum  := @rownum  + 1 AS rownum'),DB::raw('(CASE WHEN status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'))
-            ->get();
+        $data = NewsLetterModel::select('*',DB::raw('@rownum  := @rownum  + 1 AS rownum'),DB::raw('(CASE WHEN status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'));
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')
@@ -210,7 +209,7 @@ class NewsletterController extends Controller
 
 
         // return $data;
-        if(count($data)==0)
+        if(count((array) $data)==0)
             return [];
 
         return $datatables->make(true);
@@ -263,7 +262,7 @@ class NewsletterController extends Controller
         $to = NewsLetterModel::where('status','=',1)->pluck('email');
 
         \CmsMail::setMailConfig();
-        if(count($to)!=0) {
+        if(count((array) $to)!=0) {
             $to = $to->toArray();
 
 

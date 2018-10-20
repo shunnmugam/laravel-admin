@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 
 //helpers
 use DB;
@@ -204,8 +204,7 @@ class PageController extends Controller
         $data = PageModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","title","url",
             DB::raw('(CASE WHEN '.DB::getTablePrefix().(new PageModel)->getTable().'.status = "0" THEN "Disabled"
             WHEN '.DB::getTablePrefix().(new PageModel)->getTable().'.status = "-1" THEN "Trashed"
-             ELSE "Enabled" END) AS status'))
-            ->get();
+             ELSE "Enabled" END) AS status'));
 
         $datatables = Datatables::of($data)
             ->addColumn('check', function($data) {
@@ -227,7 +226,7 @@ class PageController extends Controller
 
 
         // return $data;
-        if(count($data)==0)
+        if(count((array) $data)==0)
             return [];
 
         return $datatables->make(true);

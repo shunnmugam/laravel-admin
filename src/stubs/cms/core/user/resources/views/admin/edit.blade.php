@@ -43,7 +43,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">User Name <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    {{Form::text('username',@$data->username,array('id'=>"name",'class'=>"form-control col-md-7 col-xs-12" ,
+                    {{Form::text('username',@$data->username,array('id'=>"username",'class'=>"form-control col-md-7 col-xs-12" ,
                     'data-validate-length-range'=>"6",'placeholder'=>"User name",'required'=>"required"))}}
                 </div>
             </div>
@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="item form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Number 
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Number
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     {{Form::number('mobile',@$data->mobile,array('id'=>"number",'class'=>"form-control col-md-7 col-xs-12" ,
@@ -78,18 +78,18 @@
                 </div>
             </div>
 
-                <div class="item form-group">
-                    <label for="thumbnail" class="control-label col-md-3 col-sm-3 col-xs-12">Profile Image</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <span class="input-group-btn">
-                            <input id="thumbnail" class="form-control" type="text" name="image" style="width: 75%;float: left">
-                             <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary" style="width: 25%">
-                               <i class="fa fa-picture-o"></i> Choose
-                             </a>
-                        </span>
 
+                <div class="item form-group">
+                    <label for="thumbnail" class="control-label col-md-3 col-sm-3 col-xs-12">Blog Image</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <span class="input-group-btn">
+                        @include('layout::widget.image',['name'=>'image','id'=>'image','value'=>@$data->image])
+                    </span>
                     </div>
                 </div>
+
+
+
 
 
             <div class="ln_solid"></div>
@@ -117,8 +117,5 @@
 
     <!-- validator -->
     {!! Cms::script("theme/vendors/validator/validator.js") !!}
-    <script src="/vendor/laravel-filemanager/js/lfm.js"></script>
-    <script>
-        $('#lfm').filemanager('image');
-    </script>
-    @endsection
+
+@endsection

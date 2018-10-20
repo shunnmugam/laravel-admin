@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 
 //helpers
 use DB;
@@ -193,8 +193,7 @@ class BlogController extends Controller
             DB::raw('(CASE 
             WHEN '.DB::getTablePrefix().(new BlogModel)->getTable().'.status = "0" THEN "Disabled"
             WHEN '.DB::getTablePrefix().(new BlogModel)->getTable().'.status = "-1" THEN "Trashed"
-             ELSE "Enabled" END) AS status'))
-            ->get();
+             ELSE "Enabled" END) AS status'));
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')
@@ -220,7 +219,7 @@ class BlogController extends Controller
 
 
         // return $data;
-        if(count($data)==0)
+        if(count((array) $data)==0)
             return [];
 
         return $datatables->make(true);

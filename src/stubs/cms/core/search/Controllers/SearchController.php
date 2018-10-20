@@ -61,7 +61,7 @@ class SearchController extends Controller
         $currentPageSearchResults = $collection->slice($currentPage * $perPage, $perPage)->all();
 
         //Create our paginator and pass it to the view
-        $result= new LengthAwarePaginator($currentPageSearchResults, count($collection), $perPage);
+        $result= new LengthAwarePaginator($currentPageSearchResults, count((array) $collection), $perPage);
 
         //print_r($paginatedSearchResults);exit;
 
