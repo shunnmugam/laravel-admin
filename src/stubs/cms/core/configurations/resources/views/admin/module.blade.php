@@ -24,7 +24,7 @@
     <div class="col-xs-12 col-sm-4 col-md-3" id="side-menu-div ">
         <ul id="module-side-menu">
         @foreach($module_list as $modules)
-                <li class="{{($data->id==$modules->id) ? 'active' : ''}}"><a href="{{url('/administrator/configurations/module/'.$modules->id)}}">{{$modules->name}}</a></li>
+                <li class="{{($data->id==$modules->id) ? 'active' : ''}}"><a href="{{url('/administrator/configurations/module/'.$modules->id)}}">{{$modules->name }} ({{ $modules->type==1 ? 'core' : 'local' }})</a></li>
         @endforeach
         </ul>
     </div>
