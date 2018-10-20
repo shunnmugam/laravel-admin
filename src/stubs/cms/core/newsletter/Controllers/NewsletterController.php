@@ -183,8 +183,7 @@ class NewsletterController extends Controller
         DB::statement(DB::raw('set @rownum='.$sTart));
 
 
-        $data = NewsLetterModel::select('*',DB::raw('@rownum  := @rownum  + 1 AS rownum'),DB::raw('(CASE WHEN status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'))
-            ->get();
+        $data = NewsLetterModel::select('*',DB::raw('@rownum  := @rownum  + 1 AS rownum'),DB::raw('(CASE WHEN status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'));
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')

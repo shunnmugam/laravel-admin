@@ -243,8 +243,7 @@ class UserController extends Controller
             WHEN '.DB::getTablePrefix().(new UserModel)->getTable().'.status = "-1" THEN "Trashed"
             ELSE "Enabled" END) AS status'),"images")
             ->join('user_group_map', 'user_group_map.user_id', '=', 'users.id')
-            ->join('user_groups', 'user_groups.id', '=', 'user_group_map.group_id')
-            ->get();
+            ->join('user_groups', 'user_groups.id', '=', 'user_group_map.group_id');
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')

@@ -204,8 +204,7 @@ class PageController extends Controller
         $data = PageModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","title","url",
             DB::raw('(CASE WHEN '.DB::getTablePrefix().(new PageModel)->getTable().'.status = "0" THEN "Disabled"
             WHEN '.DB::getTablePrefix().(new PageModel)->getTable().'.status = "-1" THEN "Trashed"
-             ELSE "Enabled" END) AS status'))
-            ->get();
+             ELSE "Enabled" END) AS status'));
 
         $datatables = Datatables::of($data)
             ->addColumn('check', function($data) {
