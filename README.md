@@ -28,7 +28,7 @@
 </table>
 <h1>Change Logs</h1>
 <h3>Version v2.1.1</h3>
-1.CRUD Module added
+1.CRUD Module added<br />
   easy crud module with single command<br />
   <b>php artisan make:cms-module {module-name} {--crud}</b><br />
   eg: <br />
