@@ -21,12 +21,18 @@
 </thead>
 <tbody>
 <tr><td>5.4</td><td>1.0 to 2.0</td></tr>
-<tr><td>5.5</td><td>2.1</td></tr>
-<tr><td>5.6</td><td>2.1</td></tr>
-<tr><td>5.7</td><td>2.1</td></tr>
+<tr><td>5.5</td><td>>=2.1</td></tr>
+<tr><td>5.6</td><td>>=2.1</td></tr>
+<tr><td>5.7</td><td>>=2.1</td></tr>
 </tbody>
 </table>
-
+<h1>Change Logs</h1>
+<h3>Version v2.1.1</h3>
+1.CRUD Module added
+  easy crud module with single command<br />
+  <b>php artisan make:cms-module {module-name} {--crud}</b><br />
+  eg: <br />
+  <code>php artisan make:cms-module test --crud</code><br />
 <h1>Install:</h1>
 <h3>composer require phpworkers/cms<h3>
 

@@ -86,7 +86,7 @@ class LocationsServiceProvider extends ServiceProvider
      */
     public function registerApiRoot(){
         Route::group([
-            'middleware' => ['SiteApi'],
+            'middleware' => [''],
             'namespace' => 'cms\locations\Controllers',
             'prefix' => 'api',
         ], function ($router) {
