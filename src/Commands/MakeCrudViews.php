@@ -14,7 +14,7 @@ class MakeCrudViews extends Command
      */
     //protected $signature = 'make:cms-model {model-name} {module-name} {--c|controller=} {--m|migration=} {--r|resource} {-mc} {-cm} {-mcr} {-crm}';
 
-    protected $signature = 'make:cms-crudviews {module-name} ';
+    protected $signature = 'make:cms-crudviews {module-name} {--rn|resourcename}';
 
     /**
      * The console command description.
@@ -43,10 +43,27 @@ class MakeCrudViews extends Command
         $module_name =  $this->argument('module-name');
 
         $FileGenerator = new FileGenerator;
-        $FileGenerator
+        $obj = $FileGenerator
             ->setPath(base_path().DIRECTORY_SEPARATOR.'cms'.DIRECTORY_SEPARATOR.Cms::getModulesPath().DIRECTORY_SEPARATOR.Cms::getCurrentTheme())
-            ->setModule($module_name)
+            ->setModule($module_name);
+        if($this->option('resourcename')) {
+            $obj = $obj->setResourceName($this->option('--resourcename'));
+        }
+        $obj = $obj
             ->makeCrudViews()
+            ->create();
+
+
+
+        $FileGenerator = new FileGenerator;
+        $obj = $FileGenerator
+            ->setPath(base_path().DIRECTORY_SEPARATOR.'cms'.DIRECTORY_SEPARATOR.Cms::getModulesPath().DIRECTORY_SEPARATOR.Cms::getCurrentTheme())
+            ->setModule($module_name);
+        if($this->option('resourcename')) {
+            $obj = $obj->setResourceName($this->option('--resourcename'));
+        }
+        $obj = $obj
+            ->makeCrudEditViews()
             ->create();
 
         $this->info('crud views created');

@@ -14,7 +14,7 @@ class MakeCrudRoutes extends Command
      */
     //protected $signature = 'make:cms-model {model-name} {module-name} {--c|controller=} {--m|migration=} {--r|resource} {-mc} {-cm} {-mcr} {-crm}';
 
-    protected $signature = 'make:cms-crudroutes {module-name} ';
+    protected $signature = 'make:cms-crudroutes {module-name} {--rn|resourcename}';
 
     /**
      * The console command description.
@@ -44,10 +44,14 @@ class MakeCrudRoutes extends Command
         $controller_name =  ucfirst($this->argument('module-name')).'Controller';
 
         $FileGenerator = new FileGenerator;
-        $FileGenerator
+        $obj = $FileGenerator
             ->setPath(base_path().DIRECTORY_SEPARATOR.'cms'.DIRECTORY_SEPARATOR.Cms::getModulesPath().DIRECTORY_SEPARATOR.Cms::getCurrentTheme())
             ->setClass($controller_name)
-            ->setModule($module_name)
+            ->setModule($module_name);
+        if($this->option('resourcename')) {
+            $obj = $obj->setResourceName($this->option('--resourcename'));
+        }
+        $obj = $obj
             ->makeCrudRoutes()
             ->create();
 

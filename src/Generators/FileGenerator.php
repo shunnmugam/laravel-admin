@@ -37,6 +37,13 @@ class FileGenerator
      * temprory variable
      */
     protected $temprory;
+    /*
+     * resource name for crud
+     */
+    protected $resourcename;
+    /*
+     * filename
+     */
     public $filename;
 
     /*****************Objects*****************/
@@ -96,23 +103,42 @@ class FileGenerator
         $this->path = $path;
         return $this;
     }
+    /*
+     * set table name
+     */
+    public function setTableName($table) {
+        $this->tablename = $table;
+        return $this;
+    }
+    /*
+     * set resource name
+     */
+    public function setResourceName($name) {
+        $this->resourcename = $name;
+        return $this;
+    }
 
 
     /*
      * make controller file from stub
      */
 
-    public function MakeController($resource=false)
+    public function MakeController($resource=false,$crud=false)
     {
         if($resource)
             $filename = __DIR__.'/../stubs/module/Controllers/ModuleRController.stub';
         else
             $filename = __DIR__.'/../stubs/module/Controllers/ModuleController.stub';
 
+        if($crud)
+            $filename = __DIR__.'/../stubs/module/Controllers/ModuleCController.stub';
+
+
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Controllers');
         $contents = $this->changeNamespace($contents);
         $contents = $this->changeClass($contents);
+        $contents = $this->changeCrudControllerContent($contents);
         $this->content = $contents;
         $this->makePath('Controllers');
 
@@ -131,6 +157,7 @@ class FileGenerator
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Models');
         $contents = $this->changeNamespace($contents);
         $contents = $this->changeClass($contents);
+        $contents = $this->changeTable($contents);
         $this->content = $contents;
         $this->makePath('Models');
 
@@ -315,9 +342,12 @@ class FileGenerator
     /*
      * make middleware
      */
-    public function MakeProvider()
+    public function MakeProvider($crud=false)
     {
-        $filename = __DIR__.'/../stubs/module/Providers/provider.stub';
+        if($crud)
+            $filename = __DIR__.'/../stubs/module/Providers/cprovider.stub';
+        else
+            $filename = __DIR__.'/../stubs/module/Providers/provider.stub';
 
         $contents = File::get($filename);
         $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Providers');
@@ -346,6 +376,60 @@ class FileGenerator
         $this->makePath('Database'.DIRECTORY_SEPARATOR.'seeds');
 
         $this->setPath($this->path.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Database'.DIRECTORY_SEPARATOR.'seeds'.DIRECTORY_SEPARATOR.$this->classname.".php");
+
+        return $this;
+    }
+    /*
+     * make crud routes
+     */
+    public function makeCrudRoutes() {
+        $filename = __DIR__.'/../stubs/module/adminroutes.stub';
+
+        $contents = File::get($filename);
+        $contents = $this->changeClass($contents);
+        $contents = $this->changeModule($contents);
+        $this->content = $contents;
+
+        $this->setPath($this->path.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR."adminroutes.php");
+
+        return $this;
+
+    }
+    /*
+     * make crud views
+     */
+    public function makeCrudViews() {
+        $filename = __DIR__.'/../stubs/module/resources/views/admin/index.blade.stub';
+
+        $contents = File::get($filename);
+        $contents = $this->changeModule($contents);
+        $this->content = $contents;
+
+        $this->makePath('resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.
+            "admin");
+
+        $this->setPath($this->path.DIRECTORY_SEPARATOR.$this->modulename.
+            DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR.
+            "admin".DIRECTORY_SEPARATOR."index.blade.php");
+
+        return $this;
+    }
+    /*
+     * make crud edit views
+     */
+    public function makeCrudEditViews() {
+        $filename = __DIR__.'/../stubs/module/resources/views/admin/edit.blade.stub';
+
+        $contents = File::get($filename);
+        $contents = $this->changeModule($contents);
+        $this->content = $contents;
+
+        $this->makePath('resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.
+            "admin");
+
+        $this->setPath($this->path.DIRECTORY_SEPARATOR.$this->modulename.
+            DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR.
+            "admin".DIRECTORY_SEPARATOR."edit.blade.php");
 
         return $this;
     }
@@ -414,6 +498,29 @@ class FileGenerator
     protected function changeEventPath($file)
     {
         return str_replace("{eventpath}",'cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Events'.DIRECTORY_SEPARATOR.$this->event,$file);
+    }
+    /*
+     * change module
+     */
+    protected function changeModule($file) {
+        if($this->resourcename)
+            $value = $this->resourcename;
+        else
+            $value = $this->modulename;
+
+        return $this->changeStrings($file,'{module}',$value);
+    }
+    /*
+     * change crud content from controller
+     */
+    protected function changeCrudControllerContent($contents) {
+        //module
+        $contents = $this->changeModule($contents);
+        //model
+        $contents = $this->changeStrings($contents,'{model}',ucfirst($this->modulename).'Model');
+
+        return $contents;
+
     }
     /*
      * change strings
