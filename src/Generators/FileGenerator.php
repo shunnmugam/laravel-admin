@@ -405,12 +405,20 @@ class FileGenerator
         $contents = $this->changeModule($contents);
         $this->content = $contents;
 
-        $this->makePath('resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.
-            "admin");
-
-        $this->setPath($this->path.DIRECTORY_SEPARATOR.$this->modulename.
+        if($this->resourcename) {
+            $this->makePath('resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.
+                "admin".DIRECTORY_SEPARATOR .$this->resourcename);
+            $path = $this->path . DIRECTORY_SEPARATOR . $this->modulename .
+                DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR .
+                "admin" .DIRECTORY_SEPARATOR .$this->resourcename. DIRECTORY_SEPARATOR . "index.blade.php";
+        } else {
+            $this->makePath('resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.
+                "admin");
+            $path = $this->path.DIRECTORY_SEPARATOR.$this->modulename.
             DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR.
-            "admin".DIRECTORY_SEPARATOR."index.blade.php");
+            "admin".DIRECTORY_SEPARATOR."index.blade.php";
+        }
+        $this->setPath($path);
 
         return $this;
     }
@@ -424,12 +432,23 @@ class FileGenerator
         $contents = $this->changeModule($contents);
         $this->content = $contents;
 
-        $this->makePath('resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.
-            "admin");
 
-        $this->setPath($this->path.DIRECTORY_SEPARATOR.$this->modulename.
-            DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR.
-            "admin".DIRECTORY_SEPARATOR."edit.blade.php");
+
+        if($this->resourcename) {
+            $this->makePath('resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.
+                "admin".DIRECTORY_SEPARATOR .$this->resourcename);
+
+            $path = $this->path . DIRECTORY_SEPARATOR . $this->modulename .
+                DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR .
+                "admin" .DIRECTORY_SEPARATOR .$this->resourcename. DIRECTORY_SEPARATOR . "edit.blade.php";
+        } else {
+            $this->makePath('resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.
+                "admin");
+            $path = $this->path.DIRECTORY_SEPARATOR.$this->modulename.
+                DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR.
+                "admin".DIRECTORY_SEPARATOR."edit.blade.php";
+        }
+        $this->setPath($path);
 
         return $this;
     }
