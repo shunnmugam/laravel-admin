@@ -12,7 +12,7 @@ class MakeProvider extends Command
      *
      * @var string
      */
-    protected $signature = 'make:cms-provider {name} {module-name}';
+    protected $signature = 'make:cms-provider {name} {module-name} {--c|crud}';
 
     /**
      * The console command description.
@@ -46,7 +46,7 @@ class MakeProvider extends Command
             ->setPath(base_path().DIRECTORY_SEPARATOR.'cms'.DIRECTORY_SEPARATOR.Cms::getModulesPath().DIRECTORY_SEPARATOR.Cms::getCurrentTheme())
             ->setClass($name)
             ->setModule($module_name)
-            ->MakeProvider()
+            ->MakeProvider($this->option('crud'))
             ->create();
 
         $this->info('provider created');

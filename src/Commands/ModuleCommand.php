@@ -12,7 +12,7 @@ class ModuleCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:cms-module {module-name}';
+    protected $signature = 'make:cms-module {module-name} {--c|crud}';
 
     /**
      * The console command description.
@@ -61,14 +61,38 @@ class ModuleCommand extends Command
 
         $this->call('make:cms-provider', [
             'name' => ucfirst($this->module_name).'ServiceProvider',
-            'module-name' => $this->module_name
+            'module-name' => $this->module_name,
+            '--crud' => $this->option('crud')
         ]);
 
         $this->call('make:cms-controller', [
             'controller-name' => ucfirst($this->module_name).'Controller',
             'module-name' => $this->module_name,
-            '--resource' => 'default'
+            '--resource' => 'default',
+            '--crud' => $this->option('crud')
         ]);
+
+        if($this->option('crud')) {
+            $this->call('make:cms-crudroutes',[
+                'module-name' => $this->module_name
+            ]);
+
+            $this->call('make:cms-crudviews',[
+                'module-name' => $this->module_name
+            ]);
+
+            $this->call('make:cms-migration',[
+                'name' => 'create_'.$this->module_name.'_table',
+                'module-name' => $this->module_name,
+                '--create' => $this->module_name
+            ]);
+
+            $this->call('make:cms-model',[
+                'model-name' => ucfirst($this->module_name)."Model",
+                'module-name' => $this->module_name,
+                '--table' => $this->module_name
+            ]);
+        }
 
         $this->info('module created :) ');
     }

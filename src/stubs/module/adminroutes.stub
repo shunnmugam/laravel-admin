@@ -1,0 +1,13 @@
+<?php
+/*
+ * get countries data
+ */
+Route::post('get-{module}-data','{class}@getData')->name('get_{module}_data_from_admin');
+/*
+ * bulk action
+ */
+Route::post('do-status-change-for-{module}/{action}','{class}@statusChange')->name('{module}_action_from_admin');
+/*
+* resource controller
+*/
+Route::resource('{module}','{class}');
