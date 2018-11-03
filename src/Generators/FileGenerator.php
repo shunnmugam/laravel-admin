@@ -536,7 +536,13 @@ class FileGenerator
         //module
         $contents = $this->changeModule($contents);
         //model
-        $contents = $this->changeStrings($contents,'{model}',ucfirst($this->modulename).'Model');
+
+        if($this->resourcename)
+            $value = $this->resourcename;
+        else
+            $value = $this->modulename;
+
+        $contents = $this->changeStrings($contents,'{model}',ucfirst($value).'Model');
 
         return $contents;
 

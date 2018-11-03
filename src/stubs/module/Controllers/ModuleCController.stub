@@ -77,7 +77,7 @@ class {class} extends Controller
      */
     public function edit($id)
     {
-        $data = CategoryModel::find($id);
+        $data = {model}::find($id);
         return view('{module}::admin.edit',['layout'=>'edit','data'=>$data]);
     }
 
@@ -186,7 +186,7 @@ class {class} extends Controller
 
         if(!empty($request->selected_{module}))
         {
-            $obj = new CitiesModel();
+            $obj = new {model}();
             foreach ($request->selected_{module} as $k => $v) {
 
                 if($item = $obj->find($v))
