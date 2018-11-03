@@ -12,7 +12,7 @@ class MakeController extends Command
      *
      * @var string
      */
-    protected $signature = 'make:cms-controller {controller-name} {module-name} {--r|resource} {--c|crud} {--rn=}';
+    protected $signature = 'make:cms-controller {controller-name} {module-name} {--r|resource} {--c|crud} {--model=} {--rn}';
 
     /**
      * The console command description.
@@ -45,6 +45,9 @@ class MakeController extends Command
         $obj = $FileGenerator
             ->setPath(base_path().DIRECTORY_SEPARATOR.'cms'.DIRECTORY_SEPARATOR.Cms::getModulesPath().DIRECTORY_SEPARATOR.Cms::getCurrentTheme())
             ->setClass($controller_name);
+        if($this->option('model')) {
+            $obj = $obj->setModelName($this->option('model'));
+        }
         if($this->option('rn')) {
             $obj = $obj->setResourceName($this->option('rn'));
         }

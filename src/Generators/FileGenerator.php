@@ -42,6 +42,10 @@ class FileGenerator
      */
     protected $resourcename;
     /*
+     * model name
+     */
+    protected $modelname;
+    /*
      * filename
      */
     public $filename;
@@ -115,6 +119,13 @@ class FileGenerator
      */
     public function setResourceName($name) {
         $this->resourcename = $name;
+        return $this;
+    }
+    /*
+     * set modelname
+     */
+    public function setModelName($name) {
+        $this->modelname = $name;
         return $this;
     }
 
@@ -537,12 +548,12 @@ class FileGenerator
         $contents = $this->changeModule($contents);
         //model
 
-        if($this->resourcename)
-            $value = $this->resourcename;
+        if($this->modelname)
+            $value = $this->modelname;
         else
             $value = $this->modulename;
 
-        $contents = $this->changeStrings($contents,'{model}',ucfirst($value).'Model');
+        $contents = $this->changeStrings($contents,'{model}',ucfirst($value));
 
         return $contents;
 
