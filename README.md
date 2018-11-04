@@ -28,11 +28,23 @@
 </table>
 <h1>Change Logs</h1>
 <h3>Version v2.1.1</h3>
-1.CRUD Module added<br />
+<ol>
+<li>CRUD Module added<br />
   easy crud module with single command<br />
   <b>php artisan make:cms-module {module-name} {--crud}</b><br />
   eg: <br />
   <code>php artisan make:cms-module test --crud</code><br />
+</li>
+<li>CRUD view<br />
+  create crud views using artisan command<br />
+  <b>php artisan make:cms-crudviews</b><br/>
+  it will create 2 file inside resources/views/admin<br />
+  <ol>
+    <li>index.blade.php</li>
+    <li>edit.blade.php</li>
+  </ol>
+  </li>
+</ol>
 <h1>Install:</h1>
 <h3>composer require phpworkers/cms<h3>
 
