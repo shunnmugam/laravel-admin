@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menus>
+    <group name="Locations" order="0">
+        <menugroup name="Country" icon="fa fa-location-arrow" order="0">
+            <menu name="View Countries" route="country.index" />
+            <menu name="Add Country" route="country.create" />
+            <menu name="Import Country" route="country_import_from_admin" />
+        </menugroup>
+        <menugroup name="State" icon="fa fa-location-arrow" order="1">
+            <menu name="View States" route="state.index" />
+            <menu name="Add State" route="state.create" />
+            <menu name="Import States" route="state_import_from_admin" />
+        </menugroup>
+        <menugroup name="City" icon="fa fa-location-arrow" order="2">
+            <menu name="View Cities" route="city.index" />
+            <menu name="Add City" route="city.create" />
+            <menu name="Import Cities" route="city_import_from_admin" />
+        </menugroup>
+    </group>
+</menus>

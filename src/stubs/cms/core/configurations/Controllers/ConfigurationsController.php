@@ -68,8 +68,8 @@ class ConfigurationsController extends Controller
      */
     public function getModuleList(View $view)
     {
-        $module_list = ModuleModel::select('name','id')
-            ->where('type','=',DB::raw('(SELECT COUNT(*) FROM '.DB::getTablePrefix().(new ModuleModel)->getTable().' as b WHERE '.DB::getTablePrefix().(new ModuleModel)->getTable().'.name=b.name)'))
+        $module_list = ModuleModel::select('name','id','type')
+            // ->where('type','=',DB::raw('(SELECT COUNT(*) FROM '.DB::getTablePrefix().(new ModuleModel)->getTable().' as b WHERE '.DB::getTablePrefix().(new ModuleModel)->getTable().'.name=b.name)'))
             ->where('status',1)
             ->get();
 
@@ -82,7 +82,7 @@ class ConfigurationsController extends Controller
     public function site()
     {
 
-       // echo Cms::getCurrentTheme();exit;
+        // echo Cms::getCurrentTheme();exit;
         $list = File::directories(base_path() . DIRECTORY_SEPARATOR . 'cms' . DIRECTORY_SEPARATOR . Cms::getModulesPath());
         $themes = array();
         foreach ($list as $theme) {
