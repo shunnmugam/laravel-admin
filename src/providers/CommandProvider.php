@@ -26,6 +26,8 @@ class CommandProvider extends ServiceProvider
         'Ramesh\Cms\Commands\MakeNotification',
         'Ramesh\Cms\Commands\MakeProvider',
         'Ramesh\Cms\Commands\MakeSeeder',
+        'Ramesh\Cms\Commands\MakeCrudRoutes',
+        'Ramesh\Cms\Commands\MakeCrudViews',
 
         'Ramesh\Cms\Commands\Migrate',
         'Ramesh\Cms\Commands\Seed',
