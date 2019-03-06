@@ -17,9 +17,9 @@
     "files" : ["src/Helper.php"],
     "minimum-stability": "stable",
     "require": {
-        "laravelcollective/html": "~5.0",
+        "laravelcollective/html": "5.0",
         "yajra/laravel-datatables-oracle": "7.2",
-        "unisharp/laravel-filemanager": "^1.8"
+        "unisharp/laravel-filemanager": "1.8"
     },
     "require-dev": {
 
