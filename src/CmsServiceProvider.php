@@ -21,25 +21,20 @@ class CmsServiceProvider extends ServiceProvider
     {
 
         $configPath = __DIR__ . '/config/lfm.php';
-
         $this->mergeConfigFrom($configPath, 'lfm');
         $this->publishes([
             $configPath => config_path('lfm.php'),
         ], 'config');
-
         $configPath = __DIR__ . '/config/cms.php';
-
         $this->mergeConfigFrom($configPath, 'cms');
         $this->publishes([
             $configPath => config_path('cms.php'),
         ], 'config');
-
         $this->publishes([
-            __DIR__.'\stubs\skin' => public_path('skin'),
+            __DIR__.'/stubs/skin' => public_path('skin'),
         ], 'public');
-
         $this->publishes([
-            __DIR__.'\stubs\cms' => base_path('cms'),
+            __DIR__.'/stubs/cms' => base_path('cms'),
         ], 'public');
 
         Schema::defaultStringLength(191);
