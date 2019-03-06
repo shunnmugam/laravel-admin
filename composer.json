@@ -18,7 +18,7 @@
     "minimum-stability": "stable",
     "require": {
         "laravelcollective/html": "5.0",
-        "yajra/laravel-datatables-oracle": "7.2",
+        "yajra/laravel-datatables-oracle": "6.29.3",
         "unisharp/laravel-filemanager": "1.8"
     },
     "require-dev": {
