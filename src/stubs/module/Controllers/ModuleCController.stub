@@ -44,7 +44,7 @@ class {class} extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => 'required|min:3|max:50|unique:tablename,name',
+            'name' => 'required|min:3|max:50|unique:'.(new {model}())->getTable().',name',
             'desc' => 'required|min:3|max:190',
             'status' => 'required',
         ]);
@@ -91,7 +91,7 @@ class {class} extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'name' => 'required|min:3|max:50|unique:tablename,name,'.$id,
+            'name' => 'required|min:3|max:50|unique:'.(new {model}())->getTable().',name,'.$id,
             'desc' => 'required|min:3|max:190',
             'status' => 'required',
         ]);

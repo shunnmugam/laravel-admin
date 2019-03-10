@@ -15,3 +15,10 @@ function skin($url=false)
         $skin.=$url;
     return $skin;
 }
+/*
+* get theme path
+*/
+function theme_path()
+{
+    return base_path().'/cms/local/'.Cms::getCurrentTheme().'/';
+}

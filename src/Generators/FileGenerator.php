@@ -551,7 +551,7 @@ class FileGenerator
         if($this->modelname)
             $value = $this->modelname;
         else
-            $value = $this->modulename;
+            $value = $this->modulename."Model";
 
         $contents = $this->changeStrings($contents,'{model}',ucfirst($value));
 
