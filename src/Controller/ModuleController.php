@@ -40,7 +40,7 @@ class ModuleController extends CmsController
      */
     public function getPath()
     {
-        return base_path().DIRECTORY_SEPARATOR.parent::getPath().DIRECTORY_SEPARATOR.parent::getModulesLocalPath().DIRECTORY_SEPARATOR.$this->name;
+        return base_path().DIRECTORY_SEPARATOR.parent::getPath().DIRECTORY_SEPARATOR.parent::getModulesLocalPath().parent::getCurrentTheme().DIRECTORY_SEPARATOR.$this->name;
     }
     /*
      * get module core path
