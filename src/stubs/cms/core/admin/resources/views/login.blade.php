@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel Cms | Administrator </title>
+    <title>{{isset(Configurations::getConfig('site')->site_name) ? Configurations::getConfig('site')->site_name : '' }} | Administrator </title>
 
     <!-- Bootstrap -->
     {!!Cms::style('theme/vendors/bootstrap/dist/css/bootstrap.min.css')!!}
