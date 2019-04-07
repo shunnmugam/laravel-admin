@@ -64,7 +64,7 @@ class CmsServiceProvider extends ServiceProvider
         $this->app->register(ModuleServiceProvider::class);
         $this->app->register(CommandProvider::class);
 
-        include('Helper.php');
+        include_once('Helper.php');
 
     }
 

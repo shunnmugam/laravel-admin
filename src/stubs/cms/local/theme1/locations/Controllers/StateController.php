@@ -89,7 +89,7 @@ class StateController extends Controller
     public function edit($id)
     {
         $obj = StatesModel::findOrFail($id);
-        $countries = CountriesModel::orderBy('name')->pluck('name');
+        $countries = CountriesModel::orderBy('name')->pluck('name','id');
         return view('locations::admin.state.edit',['layout'=>'edit','data'=>$obj,'countries'=>$countries]);
     }
 
