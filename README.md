@@ -24,9 +24,15 @@
 <tr><td>5.5</td><td>>=2.1</td></tr>
 <tr><td>5.6</td><td>>=2.1</td></tr>
 <tr><td>5.7</td><td>>=2.1</td></tr>
+<tr><td>5.8</td><td>>=2.2</td></tr>
 </tbody>
 </table>
 <h1>Change Logs</h1>
+<h3>Version v2.2</h3>
+<ol>
+  <li>Data table version update</li>
+  <li>Bug fix</li>
+</ol>
 <h3>Version v2.1.1</h3>
 <ol>
 <li>CRUD Module added<br />
@@ -52,7 +58,7 @@
 <ol>
   <li>Laravel 5.4 or later</li>
   <li>laravelcollective/html: ~5.0</li>
-  <li>yajra/laravel-datatables-oracle: 7.2</li>
+  <li>yajra/laravel-datatables-oracle: ~9.0</li>
   <li>unisharp/laravel-filemanager: ^1.8</li>
 </ol>
 
@@ -70,6 +76,7 @@
         'Cms' => Ramesh\Cms\Facades\Cms::class,<br>
   </li>
   <li>run   php artisan vendor:publish          (Publishing css,js,config files,core modules,theme,etc)</li>
+  <li>run   php artisan vendor:publish --provider="UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider"       (Publishing filemanager resources)</li>
   
   
   

@@ -50,7 +50,7 @@ class AdminAuth extends Controller
             return redirect()->route('backenddashboard');
         }
         else
-            return redirect()->to($this->getRedirectUrl())
+            return redirect()->back()
                 ->withInput($request->input())
                 ->withErrors(['Wrong Information']);
     }

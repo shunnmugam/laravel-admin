@@ -25,11 +25,11 @@ class {class} extends ServiceProvider
     public function register()
     {
 
-           // $this->registerViews();
-            //$this->registerRoot();
-            //$this->registerAdminRoot();
-            //$this->registerMiddleware();
-
+       // $this->registerViews();
+        //$this->registerRoot();
+        //$this->registerAdminRoot();
+        //$this->registerMiddleware();
+        //$this->registerApiRoutes();
     }
 
     public function registerRoot()
@@ -39,8 +39,8 @@ class {class} extends ServiceProvider
             ->namespace('cms\{module}\Controllers')
             ->group(__DIR__ . '/../routes.php');
 
-
     }
+
     public function registerAdminRoot()
     {
 
@@ -48,7 +48,6 @@ class {class} extends ServiceProvider
             ->middleware(['web','Admin'])
             ->namespace('cms\{module}\Controllers')
             ->group(__DIR__ . '/../adminroutes.php');
-
 
     }
 
@@ -80,6 +79,17 @@ class {class} extends ServiceProvider
     public function registerMiddleware()
     {
         app('router')->aliasMiddleware('MiddleWareName', middlewarepath::class);
+    }
+
+    /*
+     * register api routes
+     */
+    public function registerApiRoutes() {
+
+        Route::prefix('api')
+            ->middleware(['UserAuthForApi'])
+            ->namespace('cms\{module}\Controllers')
+            ->group(__DIR__ . '/../apiroutes.php');
     }
 
 }
