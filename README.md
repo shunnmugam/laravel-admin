@@ -25,6 +25,8 @@
 <tr><td>5.6</td><td>>=2.1</td></tr>
 <tr><td>5.7</td><td>>=2.1</td></tr>
 <tr><td>5.8</td><td>>=2.2</td></tr>
+<tr><td>6</td><td>>=2.3</td></tr>
+<tr><td>7</td><td>>=2.3</td></tr>
 </tbody>
 </table>
 <h1>Change Logs</h1>
