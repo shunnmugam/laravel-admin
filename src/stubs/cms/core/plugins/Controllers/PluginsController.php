@@ -5,7 +5,6 @@ namespace cms\core\plugins\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Input;
 
 use Yajra\DataTables\Facades\DataTables;
 

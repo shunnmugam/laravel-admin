@@ -6,6 +6,7 @@ use Auth;
 use cms\core\module\Models\ModuleModel;
 use Session;
 use Cms;
+use Schema;
 //models
 use cms\core\user\Models\UserModel;
 use cms\core\configurations\Models\ConfigurationModel;
@@ -55,15 +56,19 @@ class Configurations
 
     public static function getCurrentTheme()
     {
-        $data = ConfigurationModel::where('name','=','site')->first();
+        if(Schema::hasTable('configurations')) {
+            $data = ConfigurationModel::where('name','=','site')->first();
 
-        if(count((array) $data)>0 && isset($data->parm)) {
-            $data =  json_decode($data->parm);
+            if(count((array) $data)>0 && isset($data->parm)) {
+                $data =  json_decode($data->parm);
 
-            if(isset($data->active_theme))
-                return $data->active_theme;
+                if(isset($data->active_theme))
+                    return $data->active_theme;
+            }
+
+            
         }
-
+        
         return Cms::getThemeConfig()['active'];
 
     }

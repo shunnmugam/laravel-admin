@@ -1,7 +1,3 @@
-@php
-use Illuminate\Support\Facades\Input;
-@endphp
-
 @extends('layout::admin.master')
 
 @section('title','user')
@@ -45,7 +41,7 @@ use Illuminate\Support\Facades\Input;
                     </div>
                     <div id="nav-menus-frame">
 
-                        @if(Input::has('menu'))
+                        @if(request()->has('menu'))
                         <div id="menu-settings-column" class="metabox-holder">
 
                             <div class="clear"></div>
@@ -143,11 +139,11 @@ use Illuminate\Support\Facades\Input;
                                                     <input type="hidden" id="idmenu" value="@if(isset($indmenu)){{$indmenu->id}}@endif" />
                                                 </label>
 
-                                                @if(Input::has('action'))
+                                                @if(request()->has('action'))
                                                 <div class="publishing-action">
                                                     <a onclick="createnewmenu()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Create menu</a>
                                                 </div>
-                                                @elseif(Input::has("menu"))
+                                                @elseif(request()->has("menu"))
                                                 <div class="publishing-action">
                                                     <a onclick="getmenus()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Save menu</a>
                                                 </div>
@@ -162,7 +158,7 @@ use Illuminate\Support\Facades\Input;
                                         <div id="post-body">
                                             <div id="post-body-content">
 
-                                                @if(Input::has("menu"))
+                                                @if(request()->has("menu"))
                                                 <h3>Menu Structure</h3>
                                                 <div class="drag-instructions post-body-plain" style="">
                                                     <p>
@@ -240,11 +236,11 @@ use Illuminate\Support\Facades\Input;
                                         <div id="nav-menu-footer">
                                             <div class="major-publishing-actions">
 
-                                                @if(Input::has('action'))
+                                                @if(request()->has('action'))
                                                 <div class="publishing-action">
                                                     <a onclick="createnewmenu()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Create menu</a>
                                                 </div>
-                                                @elseif(Input::has("menu"))
+                                                @elseif(request()->has("menu"))
                                                 <span class="delete-action"> <a class="submitdelete deletion menu-delete" onclick="deletemenu()" href="javascript:void(9)">Delete menu</a> </span>
                                                 <div class="publishing-action">
                                                     <a onclick="getmenus()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Save menu</a>
