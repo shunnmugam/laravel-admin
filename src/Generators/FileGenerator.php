@@ -380,7 +380,7 @@ class FileGenerator
         $filename = __DIR__.'/../stubs/module/Database/Seeds/seeder.stub';
 
         $contents = File::get($filename);
-        $this->setNamespace('cms'.DIRECTORY_SEPARATOR.Cms::getModulesPath().DIRECTORY_SEPARATOR.Cms::getCurrentTheme().DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Database'.DIRECTORY_SEPARATOR.'seeds');
+        $this->setNamespace('cms'.DIRECTORY_SEPARATOR.$this->modulename.DIRECTORY_SEPARATOR.'Database'.DIRECTORY_SEPARATOR.'seeds');
         $contents = $this->changeNamespace($contents);
         $contents = $this->changeClass($contents);
         $this->content = $contents;
