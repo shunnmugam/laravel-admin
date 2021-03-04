@@ -51,7 +51,7 @@ class Seed extends Command
         {
             if($class) {
                 $this->call('db:seed', [
-                    '--class' =>  Cms::getPath() . '\\' . $module . 'Database\\seeds\\'.$class
+                    '--class' =>  Cms::getPath() . '\\' . $module . '\\Database\\seeds\\'.$class
                 ]);
             }
             else
@@ -59,9 +59,9 @@ class Seed extends Command
                  $module_path = base_path().'/' . Cms::getPath() . '/' . Cms::getModulesPath() . '/'.Cms::getCurrentTheme().'/' . $module . '/Database/seeds';
                 $files = $this->getAllFileInFolder($module_path);
                 foreach ($files as $file) {
-                    echo $class_name = preg_replace('/\..+$/', '', $file);
+                    $class_name = preg_replace('/\..+$/', '', $file);
                     $this->call('db:seed', [
-                        '--class' =>  Cms::getPath() . '\\' .  $module . '/Database/seeds/'.$class_name
+                        '--class' =>  Cms::getPath() . '\\' .  $module . '\\Database\\seeds\\'.$class_name
                     ]);
                 }
 

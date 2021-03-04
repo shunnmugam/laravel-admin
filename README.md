@@ -27,9 +27,15 @@
 <tr><td>5.8</td><td>>=2.2</td></tr>
 <tr><td>6</td><td>>=2.3</td></tr>
 <tr><td>7</td><td>>=2.3</td></tr>
+<tr><td>8</td><td>>=2.4</td></tr>
 </tbody>
 </table>
 <h1>Change Logs</h1>
+<h3>Version v2.4</h3>
+<ol>
+  <li>Data table version update</li>
+  <li>Seed command bug fix</li>
+</ol>
 <h3>Version v2.2</h3>
 <ol>
   <li>Data table version update</li>
