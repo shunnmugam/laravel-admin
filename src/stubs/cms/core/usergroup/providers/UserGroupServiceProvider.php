@@ -34,11 +34,11 @@ class UserGroupServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerViews();
-        //$this->registerRoot();
-        $this->registerAdminRoot();
+        //$this->registerRoute();
+        $this->registerAdminRoute();
     }
 
-    public function registerRoot()
+    public function registerRoute()
     {
         /*
 
@@ -54,7 +54,7 @@ class UserGroupServiceProvider extends ServiceProvider
 
 
     }
-    public function registerAdminRoot()
+    public function registerAdminRoute()
     {
 
         Route::prefix('administrator')

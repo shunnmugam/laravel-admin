@@ -23,32 +23,18 @@ class AdminServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         $this->registerViews();
-        $this->registerRoot();
-        $this->registerAdminRoot();
+        $this->registerRoute();
+        $this->registerAdminRoute();
         $this->registerMiddleware();
     }
 
-    public function registerRoot()
-    {
-        /*
-        $router = new Router;
-        $router ->middleware('web')->group([
-            'namespace' => 'cms\core\user\Controllers',
-            'prefix' => ''
-        ], function ($router) {
-            // Ideally create a seperate apiroutes.php or something similar
-            require __DIR__.'/../routes.php';
-        });
-        */
+    public function registerRoute() {
         include(__DIR__.'/../routes.php');
-
     }
 
-    public function registerAdminRoot()
-    {
+    public function registerAdminRoute() {
         Route::prefix('administrator')
             ->middleware(['web','Admin'])
             ->namespace('cms\core\admin\Controllers')

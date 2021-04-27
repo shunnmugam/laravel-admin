@@ -16,16 +16,6 @@ class LayoutServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //CmsMail::setMailConfig();
-        /*
-        $configPath = __DIR__ . '/../config/config.php';
-
-        $this->mergeConfigFrom($configPath, 'modules');
-        $this->publishes([
-            $configPath => config_path('modules.php'),
-        ], 'config');
-        */
-
     }
 
     /**
@@ -35,11 +25,9 @@ class LayoutServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerRoot();
+        $this->registerRoute();
         $this->registerViews();
     }
-
-
 
     /**
      * Register views.
@@ -63,17 +51,14 @@ class LayoutServiceProvider extends ServiceProvider
             return $path . '/modules/layout';
         }, [$Path]), [$sourcePath,$Path]), 'layout');
     }
-
-    public function registerRoot()
+    /**
+     * route
+     */
+    public function registerRoute()
     {
-
         Route::prefix('')
             ->middleware(['web'])
             ->namespace('cms\core\layout\Controllers')
             ->group(__DIR__ . '/../routes.php');
-
-
     }
-
-
 }

@@ -40,12 +40,12 @@ class MenuServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerViews();
-        $this->registerRoot();
-        $this->registerAdminRoot();
+        $this->registerRoute();
+        $this->registerAdminRoute();
         $this->registerCommand();
     }
 
-    public function registerRoot()
+    public function registerRoute()
     {
         /*
 
@@ -67,7 +67,7 @@ class MenuServiceProvider extends ServiceProvider
 
 
     }
-    public function registerAdminRoot()
+    public function registerAdminRoute()
     {
 
         Route::prefix('administrator')

@@ -38,11 +38,11 @@ class PluginsServiceProvider extends ServiceProvider
     {
         $this->registerViews();
         $this->registerCommand();
-        //$this->registerRoot();
-        $this->registerAdminRoot();
+        //$this->registerRoute();
+        $this->registerAdminRoute();
     }
 
-    public function registerRoot()
+    public function registerRoute()
     {
         /*
 
@@ -58,7 +58,7 @@ class PluginsServiceProvider extends ServiceProvider
 
 
     }
-    public function registerAdminRoot()
+    public function registerAdminRoute()
     {
 
         Route::prefix('administrator')

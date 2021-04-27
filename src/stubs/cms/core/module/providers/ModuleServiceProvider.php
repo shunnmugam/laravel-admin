@@ -21,14 +21,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /*
-        $configPath = __DIR__ . '/../config/config.php';
-
-        $this->mergeConfigFrom($configPath, 'modules');
-        $this->publishes([
-            $configPath => config_path('modules.php'),
-        ], 'config');
-        */
 
     }
 
@@ -40,12 +32,12 @@ class ModuleServiceProvider extends ServiceProvider
     public function register()
     {
         //$this->registerViews();
-        //$this->registerRoot();
-        //$this->registerAdminRoot();
+        //$this->registerRoute();
+        //$this->registerAdminRoute();
         $this->registerCommand();
     }
 
-    public function registerRoot()
+    public function registerRoute()
     {
         /*
 
@@ -61,14 +53,13 @@ class ModuleServiceProvider extends ServiceProvider
 
 
     }
-    public function registerAdminRoot()
+    public function registerAdminRoute()
     {
 
         Route::prefix('administrator')
             ->middleware(['web','Admin'])
             ->namespace('cms\core\user\Controllers')
             ->group(__DIR__ . '/../adminroutes.php');
-
 
     }
 
@@ -102,6 +93,5 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $this->commands($this->commands);
     }
-
 
 }

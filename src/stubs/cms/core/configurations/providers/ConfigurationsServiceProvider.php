@@ -27,27 +27,28 @@ class ConfigurationsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerViews();
-        //$this->registerRoot();
-        $this->registerAdminRoot();
+        //$this->registerRoute();
+        $this->registerAdminRoute();
     }
-
-    public function registerRoot()
-    {
+    /**
+     * web route
+     */
+    public function registerRoute() {
         Route::prefix('')
             ->middleware(['web'])
             ->namespace('cms\core\configurations\Controllers')
             ->group(__DIR__ . '/../routes.php');
-
-
     }
-    public function registerAdminRoot()
+    /**
+     * admin route
+     */
+    public function registerAdminRoute()
     {
 
         Route::prefix('administrator')
             ->middleware(['web','Admin'])
             ->namespace('cms\core\configurations\Controllers')
             ->group(__DIR__ . '/../adminroutes.php');
-
 
     }
 

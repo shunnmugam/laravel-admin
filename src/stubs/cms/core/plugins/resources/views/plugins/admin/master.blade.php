@@ -3,9 +3,8 @@
 @endphp
 @extends('layout::admin.master')
 
-@section('title',$data->name.'|Plugins')
+@section('title',$data->name.'| Plugins')
 @section('style')
-    {!! Cms::style("theme/vendors/switchery/dist/switchery.min.css") !!}
 @endsection
 @section('body')
     <div class="x_content">
@@ -40,4 +39,5 @@
 @endsection
 
 @section('script')
-    {!! Cms::script("theme/vendors/switchery/dist/switchery.min.js") !!}
+    
+@endsection

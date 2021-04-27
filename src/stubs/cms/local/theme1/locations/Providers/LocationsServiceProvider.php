@@ -26,13 +26,13 @@ class LocationsServiceProvider extends ServiceProvider
     {
 
         $this->registerViews();
-        $this->registerRoot();
-        $this->registerAdminRoot();
+        $this->registerRoute();
+        $this->registerAdminRoute();
         //$this->registerMiddleware();
 
     }
 
-    public function registerRoot()
+    public function registerRoute()
     {
         Route::prefix('')
             ->middleware(['web'])
@@ -41,7 +41,7 @@ class LocationsServiceProvider extends ServiceProvider
 
 
     }
-    public function registerAdminRoot()
+    public function registerAdminRoute()
     {
 
         Route::prefix('administrator')

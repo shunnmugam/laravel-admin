@@ -15,8 +15,6 @@ class FeedbackServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-
     }
 
     /**
@@ -27,18 +25,25 @@ class FeedbackServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerViews();
-        $this->registerRoot();
-        $this->registerAdminRoot();
+        $this->registerRoute();
+        $this->registerAdminRoute();
     }
 
-    public function registerRoot()
+    /**
+     * web route
+     */
+    public function registerRoute()
     {
         Route::prefix('')
             ->middleware(['web'])
             ->namespace('cms\core\feedback\Controllers')
             ->group(__DIR__ . '/../routes.php');
     }
-    public function registerAdminRoot()
+
+    /**
+     * admin route
+     */
+    public function registerAdminRoute()
     {
         Route::prefix('administrator')
             ->middleware(['web','Admin'])
