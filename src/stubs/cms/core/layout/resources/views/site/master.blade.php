@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
    {!!Cms::style('theme/vendors/bootstrap/dist/css/bootstrap.min.css')!!}
     {!!Cms::style('css/extra-bootstrap.css')!!}
-	{!!Cms::style('css/animate.min.css')!!}
+	{!!Cms::style('theme/vendors/animate.css/animate.min.css')!!}
 	{!!Cms::style('css/reset.css')!!}
     {!!Cms::style('css/top.css')!!}
 
