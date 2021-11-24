@@ -5,7 +5,6 @@ namespace cms\core\user\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ForgetPasswordMail extends Mailable
 {
@@ -31,6 +30,6 @@ class ForgetPasswordMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('user::mail.user_forget_password')->with('data',$this->user);
+        return $this->markdown('user::mail.user_forget_password')->with('data', $this->user);
     }
 }

@@ -7,19 +7,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Arr;
 
 //helpers
-use DB;
-use User;
-use Session;
-use Cms;
-use Roles;
+use Illuminate\Support\Facades\DB;
+use cms\core\user\helpers\User;
+use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
-use Plugins;
-use Configurations;
-use Event;
-use Mail;
-use CGate;
+use cms\core\configurations\helpers\Configurations;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
+use cms\core\gate\helpers\CGate;
 //events
 use cms\core\user\Events\UserRegisteredEvent;
 //models
@@ -29,6 +27,7 @@ use cms\core\usergroup\Models\UserGroupMapModel;
 
 //mail
 use cms\core\user\Mail\ForgetPasswordMail;
+
 class UserController extends Controller
 {
 
@@ -38,7 +37,6 @@ class UserController extends Controller
             CGate::resouce('user');
             return $next($request);
         });
-
     }
 
     /**
@@ -58,8 +56,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $group = UserGroupModel::where('status',1)->orderBy('group','Asc')->pluck("group","id");
-        return view('user::admin.edit',['layout'=>'create','group'=>$group]);
+        $group = UserGroupModel::where('status', 1)->orderBy('group', 'Asc')->pluck("group", "id");
+        return view('user::admin.edit', ['layout' => 'create', 'group' => $group]);
     }
 
     /**
@@ -76,7 +74,7 @@ class UserController extends Controller
             'password2' => 'required',
             'name' => 'required',
             'username' => 'required|unique:users,username|max:191',
-            'mobile' => 'required|min:9|max:15',
+            'mobile' => 'max:15',
             'group' => 'required|exists:user_groups,id',
             'status' => 'required'
         ]);
@@ -89,12 +87,12 @@ class UserController extends Controller
         $data->mobile = $request->mobile;
         $data->images = $request->image;
 
-        $Hash=Hash::make($request->password);
+        $Hash = Hash::make($request->password);
         $data->password = $Hash;
         $data->status = $request->status;
 
 
-        if($data->save()){
+        if ($data->save()) {
             $usertypemap = new UserGroupMapModel;
             $usertypemap->user_id = $data->id;
             $usertypemap->group_id    = $request->group;
@@ -102,8 +100,7 @@ class UserController extends Controller
 
             $msg = "Users save successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -133,8 +130,8 @@ class UserController extends Controller
     {
         $data = UserModel::with('group')->find($id);
         //print_r($data->group[0]->group);exit;
-        $group = UserGroupModel::where('status',1)->orderBy('group','Asc')->pluck("group","id");
-        return view('user::admin.edit',['layout'=>'edit','group'=>$group,'data'=>$data]);
+        $group = UserGroupModel::where('status', 1)->orderBy('group', 'Asc')->pluck("group", "id");
+        return view('user::admin.edit', ['layout' => 'edit', 'group' => $group, 'data' => $data]);
     }
 
     /**
@@ -147,12 +144,12 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'email' => 'required|unique:users,email,'.$id,
+            'email' => 'required|unique:users,email,' . $id,
             'password' => 'sometimes|same:password2',
             'password2' => 'sometimes',
             'name' => 'required',
-            'username' => 'required|unique:users,username,'.$id,
-            'mobile' => 'required|min:9|max:15',
+            'username' => 'required|unique:users,username,' . $id,
+            'mobile' => 'sometimes|max:15',
             'group' => 'required|exists:user_groups,id',
             'status' => 'required'
         ]);
@@ -164,15 +161,15 @@ class UserController extends Controller
         $data->email = $request->email;
         $data->mobile = $request->mobile;
         $data->images = $request->image;
-        if($request->password) {
+        if ($request->password) {
             $Hash = Hash::make($request->password);
             $data->password = $Hash;
         }
         $data->status = $request->status;
 
 
-        if($data->save()){
-            UserGroupMapModel::where('user_id','=',$id)->delete();
+        if ($data->save()) {
+            UserGroupMapModel::where('user_id', '=', $id)->delete();
             $usertypemap = new UserGroupMapModel;
             $usertypemap->user_id = $data->id;
             $usertypemap->group_id    = $request->group;
@@ -180,8 +177,7 @@ class UserController extends Controller
 
             $msg = "Users save successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -196,28 +192,23 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id,Request $request)
+    public function destroy($id, Request $request)
     {
-        if(!empty($request->selected_users))
-        {
-            if(($key = array_search(1, $request->selected_users)) !== false) {
-                $request->selected_users = array_except($request->selected_users, array($key));
+        if (!empty($request->selected_users)) {
+            if (($key = array_search(1, $request->selected_users)) !== false) {
+                $request->selected_users = Arr::except($request->selected_users, array($key));
             }
             $delObj = new UserModel;
             foreach ($request->selected_users as $k => $v) {
 
                 //echo $v;
-                if($delItem = $delObj->find($v))
-                {
+                if ($delItem = $delObj->find($v)) {
                     $delItem->delete();
-
                 }
-
             }
-
         }
 
-        Session::flash("success","User Deleted Successfully!!");
+        Session::flash("success", "User Deleted Successfully!!");
         return redirect()->route("user.index");
     }
 
@@ -232,43 +223,51 @@ class UserController extends Controller
     {
         CGate::authorize('view-user');
 
-        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
+        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0;
         //$sTart = 0;
-        DB::statement(DB::raw('set @rownum='.$sTart));
+        DB::statement(DB::raw('set @rownum=' . $sTart));
 
 
-        $data = UserModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"users.id as id","users.name","username","email","mobile","user_groups.group",
-            DB::raw('(CASE WHEN '.DB::getTablePrefix().(new UserModel)->getTable().'.status = "0" THEN "Disabled" 
-            WHEN '.DB::getTablePrefix().(new UserModel)->getTable().'.status = "-1" THEN "Trashed"
-            ELSE "Enabled" END) AS status'),"images")
+        $data = UserModel::select(
+            DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+            "users.id as id",
+            "users.name",
+            "username",
+            "email",
+            "mobile",
+            "user_groups.group",
+            DB::raw('(CASE WHEN ' . DB::getTablePrefix() . (new UserModel)->getTable() . '.status = "0" THEN "Disabled" 
+            WHEN ' . DB::getTablePrefix() . (new UserModel)->getTable() . '.status = "-1" THEN "Trashed"
+            ELSE "Enabled" END) AS status'),
+            "images"
+        )
             ->join('user_group_map', 'user_group_map.user_id', '=', 'users.id')
             ->join('user_groups', 'user_groups.id', '=', 'user_group_map.group_id');
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')
-            ->addColumn('check', function($data) {
-                if($data->id != '1')
+            ->addColumn('check', function ($data) {
+                if ($data->id != '1')
                     return $data->rownum;
                 else
                     return '';
             })
-            ->addColumn('actdeact', function($data) {
-                if($data->id != '1'){
-                    $statusbtnvalue=$data->status=="Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
-                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="">'.$statusbtnvalue.'</a>';
-                }
-                else
+            ->addColumn('actdeact', function ($data) {
+                if ($data->id != '1') {
+                    $statusbtnvalue = $data->status == "Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
+                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="">' . $statusbtnvalue . '</a>';
+                } else
                     return '';
             })
-            ->addColumn('action',function($data){
-                return '<a class="editbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="'.route("user.edit",$data->id).'" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
+            ->addColumn('action', function ($data) {
+                return '<a class="editbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="' . route("user.edit", $data->id) . '" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
                 //return $data->id;
             });
 
 
 
         // return $data;
-        if(count((array) $data)==0)
+        if (count((array) $data) == 0)
             return [];
 
         return $datatables->make(true);
@@ -283,28 +282,23 @@ class UserController extends Controller
     {
         CGate::authorize('edit-user');
 
-        if(!empty($request->selected_users))
-        {
-            if(($key = array_search(1, $request->selected_users)) !== false) {
-                $request->selected_users = array_except($request->selected_users, array($key));
+        if (!empty($request->selected_users)) {
+            if (($key = array_search(1, $request->selected_users)) !== false) {
+                $request->selected_users = Arr::except($request->selected_users, array($key));
             }
 
             $obj = new UserModel;
             foreach ($request->selected_users as $k => $v) {
 
                 //echo $v;
-                if($item = $obj->find($v))
-                {
+                if ($item = $obj->find($v)) {
                     $item->status = $request->action;
                     $item->save();
-
                 }
-
             }
-
         }
 
-        Session::flash("success","User Status changed Successfully!!");
+        Session::flash("success", "User Status changed Successfully!!");
         return redirect()->back();
     }
     /*
@@ -324,37 +318,36 @@ class UserController extends Controller
         $data->username  = $request->username;
         $data->email = $request->email;
 
-        $Hash=Hash::make($request->password);
+        $Hash = Hash::make($request->password);
         $data->password = $Hash;
 
-        $config = Configurations::getParm('user',1);
+        $config = Configurations::getParm('user', 1);
         $verification_type = $config->register_verification;
-        if($verification_type==0)
+        if ($verification_type == 0)
             $data->status = 1;
         else
             $data->status = 0;
 
-        $data->remember_token = md5(time() . rand()); ;
+        $data->remember_token = md5(time() . rand());;
 
 
-        if($data->save()){
+        if ($data->save()) {
             $usertypemap = new UserGroupMapModel;
             $usertypemap->user_id = $data->id;
             $usertypemap->group_id    = 2;
             $usertypemap->save();
             Event::fire(new UserRegisteredEvent($data->id));
             $msg = "Users save successfully,Please Chack Your Mail Id";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
         }
-        $url = @Configurations::getParm('user',1)->login_redirection_url;
-        if(!$url)
+        $url = @Configurations::getParm('user', 1)->login_redirection_url;
+        if (!$url)
             $url = route('home');
         else
-            $url = url('/').$url;
+            $url = url('/') . $url;
 
-        return ['status'=>1,'message'=>$msg,'url'=>$url];
+        return ['status' => 1, 'message' => $msg, 'url' => $url];
     }
     /*
      * user registration from frond end
@@ -368,9 +361,8 @@ class UserController extends Controller
         ]);
 
 
-        if(Configurations::getParm('user',1)->allow_user_registration!=1)
-        {
-            Session::flash("error","Register is blocked");
+        if (Configurations::getParm('user', 1)->allow_user_registration != 1) {
+            Session::flash("error", "Register is blocked");
             return redirect()->route('home');
         }
         $this->validate($request, [
@@ -384,11 +376,11 @@ class UserController extends Controller
         $data->username  = $request->username;
         $data->email = $request->email;
 
-        $Hash=Hash::make($request->password);
+        $Hash = Hash::make($request->password);
         $data->password = $Hash;
-        $config = Configurations::getParm('user',1);
+        $config = Configurations::getParm('user', 1);
         $verification_type = @$config->register_verification;
-        if($verification_type==0)
+        if ($verification_type == 0)
             $data->status = 1;
         else
             $data->status = 0;
@@ -396,19 +388,18 @@ class UserController extends Controller
         $data->remember_token = md5(time() . rand());
 
 
-        if($data->save()){
+        if ($data->save()) {
             $usertypemap = new UserGroupMapModel;
             $usertypemap->user_id = $data->id;
             $usertypemap->group_id    = 2;
             $usertypemap->save();
             Event::fire(new UserRegisteredEvent($data->id));
             $msg = "Users save successfully,Please Chack Your Mail Id";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
         }
 
-        Session::flash("success",$msg);
+        Session::flash("success", $msg);
         return redirect()->back();
 
         //return ['status'=>1,'message'=>$msg];
@@ -423,12 +414,12 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::check(['username'=>$request->username,'password'=>$request->password,'status'=>1]);
+        $user = User::check(['username' => $request->username, 'password' => $request->password, 'status' => 1]);
 
-        if($user) {
-            $users = UserModel::where('username','=',$request->username)->first();
-            Session::put(['ACTIVE_USER' => strval($users->id)
-                ,'ACTIVE_USERNAME' => $users->username,
+        if ($user) {
+            $users = UserModel::where('username', '=', $request->username)->first();
+            Session::put([
+                'ACTIVE_USER' => strval($users->id), 'ACTIVE_USERNAME' => $users->username,
                 'ACTIVE_EMAIL' => $users->email
             ]);
             //change offline to online
@@ -437,18 +428,16 @@ class UserController extends Controller
             $users->lastactive = Carbon::now();
             $users->save();
 
-            $url = @Configurations::getParm('user',1)->login_redirection_url;
+            $url = @Configurations::getParm('user', 1)->login_redirection_url;
 
-            if(!$url)
+            if (!$url)
                 $url = route('home');
             else
-                $url = url('/').$url;
+                $url = url('/') . $url;
 
-            return ['status'=>1,'message'=>'Success','url'=>$url];
-
-        }
-        else
-            return ['status'=>0,'message'=>'user name and password is missmatch'];
+            return ['status' => 1, 'message' => 'Success', 'url' => $url];
+        } else
+            return ['status' => 0, 'message' => 'user name and password is missmatch'];
     }
     /*
      * user login
@@ -460,12 +449,12 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::check(['username'=>$request->username,'password'=>$request->password,'status'=>1]);
+        $user = User::check(['username' => $request->username, 'password' => $request->password, 'status' => 1]);
 
-        if($user) {
-            $users = UserModel::where('username','=',$request->username)->first();
-            Session::put(['ACTIVE_USER' => strval($users->id)
-                ,'ACTIVE_USERNAME' => $users->username,
+        if ($user) {
+            $users = UserModel::where('username', '=', $request->username)->first();
+            Session::put([
+                'ACTIVE_USER' => strval($users->id), 'ACTIVE_USERNAME' => $users->username,
                 'ACTIVE_EMAIL' => $users->email
             ]);
             //change offline to online
@@ -474,21 +463,17 @@ class UserController extends Controller
             $users->lastactive = Carbon::now();
             $users->save();
 
-            $url = @Configurations::getParm('user',1)->login_redirection_url;
+            $url = @Configurations::getParm('user', 1)->login_redirection_url;
 
-            if(!$url)
+            if (!$url)
                 $url = route('home');
             else
-                $url = url('/').$url;
+                $url = url('/') . $url;
 
-            Session::flash("success","Login Successfull");
+            Session::flash("success", "Login Successfull");
             return redirect($url);
-
-
-        }
-        else
-        {
-            Session::flash("error","user name or password is missmatch");
+        } else {
+            Session::flash("error", "user name or password is missmatch");
             return redirect()->back();
         }
     }
@@ -497,47 +482,43 @@ class UserController extends Controller
      */
     public function activate($token)
     {
-        $users = UserModel::where('remember_token','=',$token)->first();
-        if(count((array) $users)) {
+        $users = UserModel::where('remember_token', '=', $token)->first();
+        if (count((array) $users)) {
             $users->status = 1;
-            $users->remember_token='';
+            $users->remember_token = '';
             $users->save();
-            Session::flash("success","Account activated Successfully");
-        }
-        else
-            Session::flash("error","Wrong Datas");
+            Session::flash("success", "Account activated Successfully");
+        } else
+            Session::flash("error", "Wrong Datas");
 
         return redirect()->route('home');
-
     }
     /*
      * forget password
      */
     public function forgetPassword(Request $request)
     {
-        $users = UserModel::with('group')->where('email','=',$request->email)->first();
-        if(count((array) $users)) {
+        $users = UserModel::with('group')->where('email', '=', $request->email)->first();
+        if (count((array) $users)) {
             $user_group = User::getUserGroup($users->id);
 
-            if(in_array(1,$user_group))
-            {
-                return ['status'=>0,'message'=>'Restricted Area'];
+            if (in_array(1, $user_group)) {
+                return ['status' => 0, 'message' => 'Restricted Area'];
             }
-            $users->remember_token= md5(time() . rand());
+            $users->remember_token = md5(time() . rand());
             $users->save();
             \CmsMail::setMailConfig();
             Mail::to($users->email)->queue(new ForgetPasswordMail($users));
-            Session::flash("success","Please Check Your Mail");
+            Session::flash("success", "Please Check Your Mail");
 
-            if($request->ajax()) {
-                return ['status'=>1,'message'=>'Please Check Your Mail'];
+            if ($request->ajax()) {
+                return ['status' => 1, 'message' => 'Please Check Your Mail'];
             }
-        }
-        else
-            Session::flash("error","Wrong Email");
+        } else
+            Session::flash("error", "Wrong Email");
 
-        if($request->ajax()) {
-            return ['status'=>0,'message'=>'Wrong Email'];
+        if ($request->ajax()) {
+            return ['status' => 0, 'message' => 'Wrong Email'];
         }
 
         return redirect()->route('home');
@@ -547,12 +528,11 @@ class UserController extends Controller
      */
     public function verifyForgetPassword($token)
     {
-        $users = UserModel::where('remember_token','=',$token)->first();
-        if(count((array) $users)) {
-            return view('user::site.password_change',['token'=>$token]);
-        }
-        else
-            Session::flash("error","Wrong Datas,Please Try agin Later");
+        $users = UserModel::where('remember_token', '=', $token)->first();
+        if (count((array) $users)) {
+            return view('user::site.password_change', ['token' => $token]);
+        } else
+            Session::flash("error", "Wrong Datas,Please Try agin Later");
 
         return redirect()->route('home');
     }
@@ -564,19 +544,17 @@ class UserController extends Controller
             'token' => 'required'
         ]);
 
-        $users = UserModel::where('remember_token','=',$request->token)->first();
-        if(count((array) $users)) {
-            $users->remember_token='';
-            $Hash=Hash::make($request->password);
+        $users = UserModel::where('remember_token', '=', $request->token)->first();
+        if (count((array) $users)) {
+            $users->remember_token = '';
+            $Hash = Hash::make($request->password);
             $users->password = $Hash;
             $users->save();
-            Session::flash("success","Password Update Successfully");
-        }
-        else
-            Session::flash("error","Wrong Datas,Please Try agin Later");
+            Session::flash("success", "Password Update Successfully");
+        } else
+            Session::flash("error", "Wrong Datas,Please Try agin Later");
 
         return redirect()->route('home');
-
     }
     /*
      * user logout
@@ -594,12 +572,11 @@ class UserController extends Controller
 
         $request->session()->flush();
 
-        $url = @Configurations::getParm('user',1)->logout_redirection_url;
-        if(!$url)
+        $url = @Configurations::getParm('user', 1)->logout_redirection_url;
+        if (!$url)
             $url = '/';
-        Session::flash("success","Logout Successfull");
+        Session::flash("success", "Logout Successfull");
         return redirect($url);
-
     }
     /*
      * my account page
@@ -608,7 +585,7 @@ class UserController extends Controller
     {
         $user = User::getUser();
 
-        return view('user::site.user',['data'=>$user]);
+        return view('user::site.user', ['data' => $user]);
     }
     /*
      * update account
@@ -617,10 +594,10 @@ class UserController extends Controller
     {
         $id = User::getUser()->id;
         $this->validate($request, [
-            'email' => 'required|email|unique:users,email,'.$id,
+            'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'sometimes',
             'name' => 'required',
-            'username' => 'required|unique:users,username,'.$id,
+            'username' => 'required|unique:users,username,' . $id,
             'mobile' => 'min:9|max:15',
         ]);
 
@@ -628,24 +605,23 @@ class UserController extends Controller
         $data->name = mb_convert_case($request->name, MB_CASE_TITLE, "UTF-8");
         $data->username  = $request->username;
         $data->email = $request->email;
-        if($request->mobile)
+        if ($request->mobile)
             $data->mobile = $request->mobile;
-        if($request->image) {
+        if ($request->image) {
             $user_obj = new User;
-            $img = $user_obj->imageCreate($request->image,'user'.DIRECTORY_SEPARATOR);
+            $img = $user_obj->imageCreate($request->image, 'user' . DIRECTORY_SEPARATOR);
             $data->images = $img;
         }
-        if($request->password) {
+        if ($request->password) {
             $Hash = Hash::make($request->password);
             $data->password = $Hash;
         }
 
 
-        if($data->save()){
+        if ($data->save()) {
             $msg = "Account updated successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -658,9 +634,8 @@ class UserController extends Controller
      */
     public function getConfigurationData()
     {
-        $group = UserGroupModel::where('status',1)->where('id','!=',1)->orderBy('group','Asc')->pluck("group","id");
+        $group = UserGroupModel::where('status', 1)->where('id', '!=', 1)->orderBy('group', 'Asc')->pluck("group", "id");
 
-        return ['user_group'=>$group];
+        return ['user_group' => $group];
     }
-
 }

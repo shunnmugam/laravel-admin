@@ -4,16 +4,13 @@ namespace cms\core\feedback\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-
 use Yajra\DataTables\Facades\DataTables;
 
 //helpers
-use DB;
-use User;
-use Session;
-use CGate;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use cms\core\gate\helpers\CGate;
+use cms\core\user\helpers\User;
 //models
 use cms\core\feedback\Models\FeedBackModel;
 
@@ -26,7 +23,6 @@ class FeedBackController extends Controller
             CGate::resouce('feedback');
             return $next($request);
         });
-
     }
 
     /**
@@ -46,7 +42,7 @@ class FeedBackController extends Controller
      */
     public function create()
     {
-        return view('feedback::admin.edit',['layout'=>'create']);
+        return view('feedback::admin.edit', ['layout' => 'create']);
     }
 
     /**
@@ -57,7 +53,7 @@ class FeedBackController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'username' => 'required',
             'email' => 'required',
             'message' => 'required'
@@ -69,18 +65,16 @@ class FeedBackController extends Controller
         $obj->email = $request->email;
         $obj->status = $request->status;
 
-        if($obj->save()){
+        if ($obj->save()) {
             $msg = "Feedback save successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
 
         Session::flash($class_name, $msg);
         return redirect()->route('feedback.index');
-
     }
 
     /**
@@ -91,7 +85,6 @@ class FeedBackController extends Controller
      */
     public function show($id)
     {
-
     }
 
     /**
@@ -103,7 +96,7 @@ class FeedBackController extends Controller
     public function edit($id)
     {
         $data = FeedBackModel::findorFail($id);
-        return view('feedback::admin.edit',['data'=>$data,'layout'=>'edit']);
+        return view('feedback::admin.edit', ['data' => $data, 'layout' => 'edit']);
     }
 
     /**
@@ -115,11 +108,11 @@ class FeedBackController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-        'username' => 'required',
-        'email' => 'required',
-        'message' => 'required'
-    ]);
+        $this->validate($request, [
+            'username' => 'required',
+            'email' => 'required',
+            'message' => 'required'
+        ]);
 
         $obj = FeedBackModel::find($id);
         $obj->username = $request->username;
@@ -127,11 +120,10 @@ class FeedBackController extends Controller
         $obj->email = $request->email;
         $obj->status = $request->status;
 
-        if($obj->save()){
+        if ($obj->save()) {
             $msg = "Feedback save successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -146,10 +138,9 @@ class FeedBackController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id,Request $request)
+    public function destroy($id, Request $request)
     {
-        foreach($request->selected_feedbacks as $feedback)
-        {
+        foreach ($request->selected_feedbacks as $feedback) {
             $obj = FeedBackModel::find($feedback)->delete();
         }
         Session::flash('success', 'Feedback deleted success');
@@ -167,30 +158,30 @@ class FeedBackController extends Controller
     {
         CGate::authorize('view-feedback');
 
-        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
+        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0;
         //$sTart = 0;
-        DB::statement(DB::raw('set @rownum='.$sTart));
+        DB::statement(DB::raw('set @rownum=' . $sTart));
 
 
-        $data = FeedBackModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","username","email","message");
+        $data = FeedBackModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'), "id", "username", "email", "message");
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')
-            ->addColumn('check', function($data) {
-                if($data->id != '1')
+            ->addColumn('check', function ($data) {
+                if ($data->id != '1')
                     return $data->rownum;
                 else
                     return '';
             })
-            ->addColumn('action',function($data){
-                return '<a class="editbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="'.route("feedback.edit",$data->id).'" >Edit</a>';
+            ->addColumn('action', function ($data) {
+                return '<a class="editbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="' . route("feedback.edit", $data->id) . '" >Edit</a>';
                 //return $data->id;
             });
 
 
 
         // return $data;
-        if(count((array) $data)==0)
+        if (count((array) $data) == 0)
             return [];
 
         return $datatables->make(true);
@@ -205,24 +196,19 @@ class FeedBackController extends Controller
     {
         CGate::authorize('edit-feedback');
 
-        if(!empty($request->selected_feedbacks))
-        {
+        if (!empty($request->selected_feedbacks)) {
             $obj = new FeedBackModel;
             foreach ($request->selected_feedbacks as $k => $v) {
 
                 //echo $v;
-                if($item = $obj->find($v))
-                {
+                if ($item = $obj->find($v)) {
                     $item->status = $request->action;
                     $item->save();
-
                 }
-
             }
-
         }
 
-        Session::flash("success","Feedback Status changed Successfully!!");
+        Session::flash("success", "Feedback Status changed Successfully!!");
         return redirect()->back();
     }
     /*
@@ -234,14 +220,13 @@ class FeedBackController extends Controller
         $obj->username = $request->username;
         $obj->message = $request->message;
         $obj->email = $request->email;
-        if($request->image) {
-            $usr_obj = new \User;
+        if ($request->image) {
+            $usr_obj = new User;
 
-            $obj->image = $usr_obj->imageCreate($request->image,'feedback/user/');
+            $obj->image = $usr_obj->imageCreate($request->image, 'feedback/user/');
         }
         $obj->save();
 
         return 1;
-
     }
 }

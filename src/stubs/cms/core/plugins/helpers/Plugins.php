@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ramesh
- * Date: 9/9/2017
- * Time: 5:05 PM
- */
+
 namespace cms\core\plugins\helpers;
 //helpers
 use Cms;
-use User;
 //models
 use cms\core\plugins\Models\PluginsModel;
 
@@ -22,19 +16,17 @@ class Plugins
     public static function registerPlugins()
     {
         $ids = array();
-        foreach(Cms::getPlugins() as $module => $plugin)
-        {
+        foreach (Cms::getPlugins() as $module => $plugin) {
             //$role_value['module'] = $module;
             //$role_value['id'] = $role['id'];
             //$role_value['type'] = $role['type'];
             $plugin_value['plugins'] =  include($plugin['plugins']);
 
-            foreach ( $plugin_value['plugins'] as $plugin_name => $plugin_valu) {
+            foreach ($plugin_value['plugins'] as $plugin_name => $plugin_valu) {
                 $row = PluginsModel::select('id')
                     ->where('name', '=', $plugin_name)
                     ->first();
-                if(count((array) $row))
-                {
+                if (count((array) $row)) {
                     $row = PluginsModel::find($row->id);
                     $row->name = $plugin_name;
                     $row->version  = $plugin_valu['version'];
@@ -44,9 +36,7 @@ class Plugins
                     $row->save();
 
                     $ids[] = $row->id;
-                }
-                else
-                {
+                } else {
                     $row = new PluginsModel;
                     $row->name = $plugin_name;
                     $row->version  = $plugin_valu['version'];
@@ -62,14 +52,14 @@ class Plugins
             }
         }
         //delete not avalable plugins
-        PluginsModel::whereNotIn('id',$ids)->delete();
+        PluginsModel::whereNotIn('id', $ids)->delete();
     }
     /*
      * get name
      */
     public static function getName($plugin_id)
     {
-        return count((array) $data = self::getOptions($plugin_id))>0 ? $data->name : '';
+        return count((array) $data = self::getOptions($plugin_id)) > 0 ? $data->name : '';
     }
     /*
      * get plugins
@@ -77,10 +67,10 @@ class Plugins
     public static function getParm($plugin_id)
     {
         $parm = PluginsModel::select('parms')
-            ->where('id','=',$plugin_id)
-            ->where('status',1)
+            ->where('id', '=', $plugin_id)
+            ->where('status', 1)
             ->first();
-        return (count((array) $parm)>0) ? $parm->parm : array();
+        return (count((array) $parm) > 0) ? $parm->parm : array();
     }
     /*
      * get options
@@ -88,35 +78,31 @@ class Plugins
     public static function getOptions($plugin_id)
     {
         $parm = PluginsModel::select('*')
-            ->where('id','=',$plugin_id)
-            ->where('status',1)
+            ->where('id', '=', $plugin_id)
+            ->where('status', 1)
             ->first();
-        return (count((array) $parm)>0) ? $parm : array();
+        return (count((array) $parm) > 0) ? $parm : array();
     }
 
     public static function get($name)
     {
-        $plugin = PluginsModel::where('name','=',$name)
-                    ->where('status',1)
-                    ->first();
+        $plugin = PluginsModel::where('name', '=', $name)
+            ->where('status', 1)
+            ->first();
 
-        if(count((array) $plugin)==0)
-            return ['',''];
+        if (count((array) $plugin) == 0)
+            return ['', ''];
 
-        $action = explode('@',$plugin->action);
+        $action = explode('@', $plugin->action);
 
-        $class= $action[0];
-        $function= $action[1];
+        $class = $action[0];
+        $function = $action[1];
         $obj =  new $class;
 
         $data = $obj->$function();
 
         //print_r(json_decode($plugin->parms));exit;
 
-        return [$plugin->view,$data,json_decode($plugin->parms)];
-
-
+        return [$plugin->view, $data, json_decode($plugin->parms)];
     }
-
-
 }

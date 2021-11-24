@@ -4,11 +4,6 @@ namespace Ramesh\Cms\providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
-
-
-use Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider;
-use Intervention\Image\ImageServiceProvider;
-
 use Cms;
 
 class ModuleServiceProvider extends ServiceProvider
@@ -20,7 +15,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
     }
 
     /**
@@ -32,17 +26,14 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $this->registerLibrary();
 
-        if(!config('cms') || config('cms')=='')
-        {
+        if (!config('cms') || config('cms') == '') {
             //first time
-        }
-        else{
+        } else {
             $this->registerNamespace();
 
             $this->registerComposerAutoload();
             $this->registerHelpers();
         }
-
     }
     /*
      * register module providers
@@ -51,7 +42,7 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $res = Cms::allModuleProvider();
         //print_r($res);exit;
-        
+
         foreach ($res as $key => $provider) {
             $this->app->register($provider);
         }
@@ -65,28 +56,24 @@ class ModuleServiceProvider extends ServiceProvider
         $loader = require base_path() . '/vendor/autoload.php';
         $composers = Cms::allModulesComposer();
         foreach ($composers as $composer) {
-            foreach($composer['autoload'] as $autoload) {
+            foreach ($composer['autoload'] as $autoload) {
                 foreach ($autoload as $key => $value)
-                    $loader->setPsr4($key,base_path().DIRECTORY_SEPARATOR.$value);
+                    $loader->setPsr4($key, base_path() . DIRECTORY_SEPARATOR . $value);
             }
         }
-
-
     }
     protected function registerNamespace()
     {
         $modules = Cms::allModules();
         $loader = require base_path() . '/vendor/autoload.php';
-        foreach($modules as $module)
-        {
-            if($module['type']=='local')
-            {
-                $loader->setPsr4('cms\\'.$module['name'].'\\',$module['path']);
+        foreach ($modules as $module) {
+            if ($module['type'] == 'local') {
+                $loader->setPsr4('cms\\' . $module['name'] . '\\', $module['path']);
             }
         }
 
         $this->registerProviders();
-       // exit;
+        // exit;
     }
     /*
      * Register Helpers
@@ -94,8 +81,8 @@ class ModuleServiceProvider extends ServiceProvider
     protected function registerHelpers()
     {
 
-        foreach(Cms::allModulesHelpers() as $aliaas => $value) {
-            $this->app->booting(function () use($aliaas,$value) {
+        foreach (Cms::allModulesHelpers() as $aliaas => $value) {
+            $this->app->booting(function () use ($aliaas, $value) {
                 $loader = AliasLoader::getInstance();
                 $loader->alias($aliaas, $value);
             });
@@ -112,6 +99,5 @@ class ModuleServiceProvider extends ServiceProvider
 
         $loader = AliasLoader::getInstance();
         $loader->alias('Image', \Intervention\Image\Facades\Image::class);
-
     }
 }

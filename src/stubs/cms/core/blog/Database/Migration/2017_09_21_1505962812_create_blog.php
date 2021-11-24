@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateBlog extends Migration
 {
@@ -17,7 +18,7 @@ class CreateBlog extends Migration
             $table->increments('id');
             $table->string('title')->unique();
             $table->integer('category_id')->unsigned();
-            $table->string('content',15000);
+            $table->string('content', 15000);
             $table->string('image')->nullable();
             $table->string('author')->nullable();
             $table->integer('created_by');

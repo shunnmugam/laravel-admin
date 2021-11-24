@@ -4,9 +4,6 @@ namespace cms\core\search\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-
-
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
@@ -16,7 +13,7 @@ class SearchController extends Controller
 {
     function index(Request $request)
     {
-        if($request->search!='') {
+        if ($request->search != '') {
             $all_module = Cms::allModules();
 
             $search_array = array();
@@ -41,14 +38,12 @@ class SearchController extends Controller
 
                     $data[] = $temp[$t_key];
                 }
-
             }
-        }
-        else
+        } else
             $data = array();
 
 
-        $currentPage = LengthAwarePaginator::resolveCurrentPage()-1;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage() - 1;
 
         //Create a new Laravel collection from the array data
         $collection = new Collection($data);
@@ -61,15 +56,12 @@ class SearchController extends Controller
         $currentPageSearchResults = $collection->slice($currentPage * $perPage, $perPage)->all();
 
         //Create our paginator and pass it to the view
-        $result= new LengthAwarePaginator($currentPageSearchResults, count((array) $collection), $perPage);
+        $result = new LengthAwarePaginator($currentPageSearchResults, count((array) $collection), $perPage);
 
         //print_r($paginatedSearchResults);exit;
 
         $result->setPath('/search');
 
-       return view('search::site.result',compact('result'));
-
+        return view('search::site.result', compact('result'));
     }
-
-
 }

@@ -7,8 +7,6 @@ use Closure;
 
 use User;
 
-//models
-use cms\core\role\Models\PermissionModel;
 class UserCheck
 {
     /**
@@ -20,8 +18,7 @@ class UserCheck
      */
     public function handle($request, Closure $next)
     {
-        if(!User::isLogin())
-        {
+        if (!User::isLogin()) {
             return redirect()->route('login');
         }
 

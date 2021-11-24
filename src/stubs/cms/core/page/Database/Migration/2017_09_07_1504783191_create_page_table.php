@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreatePageTable extends Migration
 {
@@ -17,7 +18,7 @@ class CreatePageTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('url');
-            $table->string('page_content',15000);
+            $table->string('page_content', 15000);
             $table->string('can')->nullable();
             $table->integer('status')->default(1);
             $table->timestamp('created_at')->useCurrent();

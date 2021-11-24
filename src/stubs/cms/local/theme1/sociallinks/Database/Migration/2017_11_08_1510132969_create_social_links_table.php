@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateSocialLinksTable extends Migration
 {
@@ -16,7 +17,7 @@ class CreateSocialLinksTable extends Migration
         Schema::create('social_link', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->string('link',5000);
+            $table->string('link', 5000);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

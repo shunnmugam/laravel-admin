@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Arr;
 
 //helpers
 use DB;
@@ -30,7 +31,6 @@ class MenuController extends Controller
             \CGate::SuperAdminonly();
             return $next($request);
         });
-
     }
 
     /**
@@ -50,8 +50,8 @@ class MenuController extends Controller
      */
     public function create()
     {
-        $group = UserGroupModel::where('status',1)->orderBy('group','Asc')->pluck("group","id");
-        return view('menu::admin.edit',['layout'=>'create','group'=>$group]);
+        $group = UserGroupModel::where('status', 1)->orderBy('group', 'Asc')->pluck("group", "id");
+        return view('menu::admin.edit', ['layout' => 'create', 'group' => $group]);
     }
 
     /**
@@ -81,12 +81,12 @@ class MenuController extends Controller
         $data->mobile = $request->mobile;
         $data->images = $request->image;
 
-        $Hash=Hash::make($request->password);
+        $Hash = Hash::make($request->password);
         $data->password = $Hash;
         $data->status = $request->status;
 
 
-        if($data->save()){
+        if ($data->save()) {
             $usertypemap = new UserGroupMapModel;
             $usertypemap->user_id = $data->id;
             $usertypemap->group_id    = $request->group;
@@ -94,8 +94,7 @@ class MenuController extends Controller
 
             $msg = "Users save successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -125,8 +124,8 @@ class MenuController extends Controller
     {
         $data = UserModel::with('group')->find($id);
         //print_r($data->group[0]->group);exit;
-        $group = UserGroupModel::where('status',1)->orderBy('group','Asc')->pluck("group","id");
-        return view('user::admin.edit',['layout'=>'edit','group'=>$group,'data'=>$data]);
+        $group = UserGroupModel::where('status', 1)->orderBy('group', 'Asc')->pluck("group", "id");
+        return view('user::admin.edit', ['layout' => 'edit', 'group' => $group, 'data' => $data]);
     }
 
     /**
@@ -139,11 +138,11 @@ class MenuController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'email' => 'required|unique:users,email,'.$id,
+            'email' => 'required|unique:users,email,' . $id,
             'password' => 'sometimes|same:password2',
             'password2' => 'sometimes',
             'name' => 'required',
-            'username' => 'required|unique:users,username,'.$id,
+            'username' => 'required|unique:users,username,' . $id,
             'mobile' => 'required|min:9|max:15',
             'group' => 'required|exists:user_groups,id',
             'status' => 'required'
@@ -156,15 +155,15 @@ class MenuController extends Controller
         $data->email = $request->email;
         $data->mobile = $request->mobile;
         $data->images = $request->image;
-        if($request->password) {
+        if ($request->password) {
             $Hash = Hash::make($request->password);
             $data->password = $Hash;
         }
         $data->status = $request->status;
 
 
-        if($data->save()){
-            UserGroupMapModel::where('user_id','=',$id)->delete();
+        if ($data->save()) {
+            UserGroupMapModel::where('user_id', '=', $id)->delete();
             $usertypemap = new UserGroupMapModel;
             $usertypemap->user_id = $data->id;
             $usertypemap->group_id    = $request->group;
@@ -172,8 +171,7 @@ class MenuController extends Controller
 
             $msg = "Users save successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -188,9 +186,10 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id,Request $request)
+    public function destroy($id, Request $request)
     {
-        print_r($request->selected_users);exit;
+        print_r($request->selected_users);
+        exit;
     }
 
     /*
@@ -202,41 +201,40 @@ class MenuController extends Controller
      */
     public function getData(Request $request)
     {
-        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
+        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0;
         //$sTart = 0;
-        DB::statement(DB::raw('set @rownum='.$sTart));
+        DB::statement(DB::raw('set @rownum=' . $sTart));
 
 
-        $data = UserModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"users.id as id","name","username","email","mobile","user_groups.group",DB::raw('(CASE WHEN '.DB::getTablePrefix().'users.status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'),"images")
+        $data = UserModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'), "users.id as id", "name", "username", "email", "mobile", "user_groups.group", DB::raw('(CASE WHEN ' . DB::getTablePrefix() . 'users.status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'), "images")
             ->join('user_group_map', 'user_group_map.user_id', '=', 'users.id')
             ->join('user_groups', 'user_groups.id', '=', 'user_group_map.group_id')
             ->get();
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')
-            ->addColumn('check', function($data) {
-                if($data->id != '1')
+            ->addColumn('check', function ($data) {
+                if ($data->id != '1')
                     return $data->rownum;
                 else
                     return '';
             })
-            ->addColumn('actdeact', function($data) {
-                if($data->id != '1'){
-                    $statusbtnvalue=$data->status=="Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
-                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="">'.$statusbtnvalue.'</a>';
-                }
-                else
+            ->addColumn('actdeact', function ($data) {
+                if ($data->id != '1') {
+                    $statusbtnvalue = $data->status == "Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
+                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="">' . $statusbtnvalue . '</a>';
+                } else
                     return '';
             })
-            ->addColumn('action',function($data){
-                return '<a class="editbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="'.route("user.edit",$data->id).'" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
+            ->addColumn('action', function ($data) {
+                return '<a class="editbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="' . route("user.edit", $data->id) . '" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
                 //return $data->id;
             });
 
 
 
         // return $data;
-        if(count((array) $data)==0)
+        if (count((array) $data) == 0)
             return [];
 
         return $datatables->make(true);
@@ -250,41 +248,34 @@ class MenuController extends Controller
     function statusChange(Request $request)
     {
 
-        if(!empty($request->selected_users))
-        {
-            if(($key = array_search(1, $request->selected_users)) !== false) {
-                $request->selected_users = array_except($request->selected_users, array($key));
+        if (!empty($request->selected_users)) {
+            if (($key = array_search(1, $request->selected_users)) !== false) {
+                $request->selected_users = Arr::except($request->selected_users, array($key));
             }
 
             $obj = new UserModel;
             foreach ($request->selected_users as $k => $v) {
 
                 //echo $v;
-                if($item = $obj->find($v))
-                {
+                if ($item = $obj->find($v)) {
                     $item->status = $request->action;
                     $item->save();
-
                 }
-
             }
-
         }
 
-        Session::flash("success","User Status changed Successfully!!");
+        Session::flash("success", "User Status changed Successfully!!");
         return redirect()->back();
     }
 
     function getMenuUrl()
     {
-        $pages = PageModel::where('status',1)->select('title','url','id')->get();
+        $pages = PageModel::where('status', 1)->select('title', 'url', 'id')->get();
 
-        if(count((array) $pages)==0)
+        if (count((array) $pages) == 0)
             $pages = array();
 
-        return json_encode(array('status'=>1,'pages'=>$pages));
-
-
+        return json_encode(array('status' => 1, 'pages' => $pages));
     }
 
     function menuAssign()
@@ -293,25 +284,23 @@ class MenuController extends Controller
 
         $permissions = AdminMenuPermissionModel::get();
         $permission = array();
-        foreach ($permissions as $datas)
-        {
+        foreach ($permissions as $datas) {
             $permission[$datas->group_id][$datas->menu_id] = $datas->status;
         }
 
         $menus = AdminMenuModel::get();
 
-        return view('wmenu::admin.menu_assign',['permission'=>$permission,'groups'=>$groups,'menus'=>$menus]);
+        return view('wmenu::admin.menu_assign', ['permission' => $permission, 'groups' => $groups, 'menus' => $menus]);
     }
 
     function doMenuAssign(Request $request)
     {
-        foreach($request->role as $group_id => $group)
-        {
+        foreach ($request->role as $group_id => $group) {
             foreach ($group as $menu_id => $role) {
 
-                $obj = AdminMenuPermissionModel::where('menu_id',$menu_id)
-                    ->where('group_id',$group_id)->first();
-                if(count((array) $obj)==0)
+                $obj = AdminMenuPermissionModel::where('menu_id', $menu_id)
+                    ->where('group_id', $group_id)->first();
+                if (count((array) $obj) == 0)
                     $obj = new AdminMenuPermissionModel;
 
                 $obj->menu_id = $menu_id;

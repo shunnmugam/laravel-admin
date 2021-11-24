@@ -1,6 +1,6 @@
 <?php
-namespace Ramesh\Cms\Controller;
 
+namespace Ramesh\Cms\Controller;
 
 class ModulesController extends CmsController
 {
@@ -8,7 +8,6 @@ class ModulesController extends CmsController
 
     public function __construct()
     {
-
     }
 
     /*
@@ -18,8 +17,4 @@ class ModulesController extends CmsController
     {
         return $this->name;
     }
-
-
-
-
 }

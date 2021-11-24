@@ -79,14 +79,14 @@
             </div>
 
 
-                <div class="item form-group">
-                    <label for="thumbnail" class="control-label col-md-3 col-sm-3 col-xs-12">Blog Image</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                    <span class="input-group-btn">
-                        @include('layout::widget.image',['name'=>'image','id'=>'image','value'=>@$data->image])
-                    </span>
-                    </div>
+            <div class="item form-group">
+                <label for="thumbnail" class="control-label col-md-3 col-sm-3 col-xs-12">Profile Image</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                <span class="input-group-btn">
+                    @include('layout::widget.image',['name'=>'image','id'=>'image','value'=>@$data->image])
+                </span>
                 </div>
+            </div>
 
 
 

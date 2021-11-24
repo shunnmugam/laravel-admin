@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateModuleTable extends Migration
 {
@@ -19,7 +20,7 @@ class CreateModuleTable extends Migration
             $table->string('version');
             $table->string('configuration_view')->nullable();
             $table->string('configuration_data')->nullable();
-            $table->string('configuration_parm',15000)->nullable();
+            $table->string('configuration_parm', 15000)->nullable();
             $table->integer('type')->comment('1=>core,2=>local');
             $table->integer('status');
             $table->timestamp('created_at')->useCurrent();

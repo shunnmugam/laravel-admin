@@ -1,15 +1,15 @@
 <?php
+
 namespace cms\core\configurations\Controllers;
 
 use App\Http\Controllers\Controller;
 use cms\core\module\Models\ModuleModel;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Session;
-use DB;
-use Configurations;
+use Illuminate\Support\Facades\Session;
+use cms\core\configurations\helpers\Configurations;
 use Cms;
-use File;
+use Illuminate\Support\Facades\File;
 
 //models
 use cms\core\configurations\Models\ConfigurationModel;
@@ -26,22 +26,20 @@ class ConfigurationsController extends Controller
     {
         $config_data = ModuleModel::findorFail($module_id);
         $datas = '';
-        if($config_data->configuration_data)
-        {
-            $action = explode('@',$config_data->configuration_data);
+        if ($config_data->configuration_data) {
+            $action = explode('@', $config_data->configuration_data);
 
-            $class= $action[0];
-            $function= $action[1];
+            $class = $action[0];
+            $function = $action[1];
             $obj =  new $class;
 
             $datas = $obj->$function();
         }
 
-        if($config_data->configuration_parm)
-        {
+        if ($config_data->configuration_parm) {
             $config_data->configuration_parm = json_decode($config_data->configuration_parm);
         }
-        return view('configurations::admin.module',['data'=>$config_data,'datas'=>$datas]);
+        return view('configurations::admin.module', ['data' => $config_data, 'datas' => $datas]);
     }
     /*
      * save module configuration
@@ -68,12 +66,12 @@ class ConfigurationsController extends Controller
      */
     public function getModuleList(View $view)
     {
-        $module_list = ModuleModel::select('name','id','type')
+        $module_list = ModuleModel::select('name', 'id', 'type')
             // ->where('type','=',DB::raw('(SELECT COUNT(*) FROM '.DB::getTablePrefix().(new ModuleModel)->getTable().' as b WHERE '.DB::getTablePrefix().(new ModuleModel)->getTable().'.name=b.name)'))
-            ->where('status',1)
+            ->where('status', 1)
             ->get();
 
-        $view->with('module_list',$module_list);
+        $view->with('module_list', $module_list);
     }
     /********************************** site Configurations ************************************/
     /*
@@ -87,25 +85,25 @@ class ConfigurationsController extends Controller
         $themes = array();
         foreach ($list as $theme) {
             $ee = explode("\\", $theme);
-            if(count((array) $ee)==1)
+            if (count((array) $ee) == 1)
                 $ee = explode("/", $theme);
-            if(count((array) $ee)==1)
+            if (count((array) $ee) == 1)
                 $ee = explode(DIRECTORY_SEPARATOR, $theme);
             $themes[end($ee)] = end($ee);
         }
 
-        $data = json_decode(@ConfigurationModel::where('name','=','site')->first()->parm);
+        $data = json_decode(@ConfigurationModel::where('name', '=', 'site')->first()->parm);
 
         //echo $data->site_online;exit;
-        return view('configurations::admin.site',['data'=>$data,'themes'=>$themes]);
+        return view('configurations::admin.site', ['data' => $data, 'themes' => $themes]);
     }
     /*
      * site configuration save
      */
     public function sitesave(Request $request)
     {
-        $obj = ConfigurationModel::where('name','=','site')->first();
-        if(count((array) $obj)==0)
+        $obj = ConfigurationModel::where('name', '=', 'site')->first();
+        if (count((array) $obj) == 0)
             $obj = new ConfigurationModel;
 
         $form_data = $request->all();
@@ -127,20 +125,19 @@ class ConfigurationsController extends Controller
     {
         $malier = \CmsMail::getMailerList();
         $mailer_names = array();
-        foreach($malier as  $name => $value)
-        {
+        foreach ($malier as  $name => $value) {
             $mailer_names[$name] = $name;
         }
         $data = Configurations::getConfig('mail');
-        return view('configurations::admin.mail',['data'=>$data,'mailer'=>$mailer_names]);
+        return view('configurations::admin.mail', ['data' => $data, 'mailer' => $mailer_names]);
     }
     /*
      * mail configuratoin save
      */
     function mailsave(Request $request)
     {
-        $obj = ConfigurationModel::where('name','=','mail')->first();
-        if(count((array) $obj)==0)
+        $obj = ConfigurationModel::where('name', '=', 'mail')->first();
+        if (count((array) $obj) == 0)
             $obj = new ConfigurationModel;
 
         $form_data = $request->all();

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateAdminMenuPermission extends Migration
 {
@@ -23,7 +24,6 @@ class CreateAdminMenuPermission extends Migration
 
             $table->foreign('menu_id')->references('id')->on('admin_menu')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('group_id')->references('id')->on('user_groups')->onDelete('cascade')->onUpdate('cascade');
-
         });
     }
 

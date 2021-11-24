@@ -1,2 +1,5 @@
 <?php
-Route::get('search','SearchController@index');
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('search', 'SearchController@index');

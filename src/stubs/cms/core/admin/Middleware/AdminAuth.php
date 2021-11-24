@@ -3,9 +3,8 @@
 namespace cms\core\admin\Middleware;
 
 use Closure;
-use Session;
-use User;
-use CGate;
+use cms\core\gate\helpers\CGate;
+
 class AdminAuth
 {
     /**
@@ -17,18 +16,15 @@ class AdminAuth
      */
     public function handle($request, Closure $next)
     {
-        if(!ctype_digit(Session::get('ACTIVE_USER')) || !filter_var(Session::get('ACTIVE_EMAIL'), FILTER_VALIDATE_EMAIL)){
+        if (!ctype_digit($request->session()->get('ACTIVE_USER')) || !filter_var($request->session()->get('ACTIVE_EMAIL'), FILTER_VALIDATE_EMAIL)) {
             return redirect('administrator/login');
-
         }
-        if(CGate::allows('Backend Access')!=true)
-        {
+        if (CGate::allows('Backend Access') != true) {
             $request->session()->flush();
-            Session::flash("error","Access Denied");
+            $request->session()->flash("error", "Access Denied");
             return redirect('administrator/login');
         }
 
         return $next($request);
     }
-
 }

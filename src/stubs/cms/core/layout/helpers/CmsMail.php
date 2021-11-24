@@ -1,20 +1,20 @@
 <?php
+
 namespace cms\core\layout\helpers;
 
-use Config;
-use Configurations;
+use Illuminate\Support\Facades\Config;
+use cms\core\configurations\helpers\Configurations;
 use Cms;
 
-use cms\core\configurations\Models\ConfigurationModel;
 class CmsMail
 {
     /*
      * set mail config
      */
-    public static function setMailConfig($config=[])
+    public static function setMailConfig($config = [])
     {
-        if(count((array) $config)==0) {
-            $mailer=Configurations::getConfig('mail');
+        if (count((array) $config) == 0) {
+            $mailer = Configurations::getConfig('mail');
             $mail = (object) self::getMailerList($mailer->from_mailer);
             $config = array(
                 'driver' => $mail->driver,
@@ -29,15 +29,15 @@ class CmsMail
             );
         }
 
-        Config::set('mail',$config);
+        Config::set('mail', $config);
     }
     /*
      * get mailer list
      */
-    public static function getMailerList($mailer_name='')
+    public static function getMailerList($mailer_name = '')
     {
-        $data = include(Cms::module('layout')->getCorePath().DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'mailer.php');
-        if($mailer_name!='')
+        $data = include(Cms::module('layout')->getCorePath() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'mailer.php');
+        if ($mailer_name != '')
             $data = $data[$mailer_name];
         return $data;
     }

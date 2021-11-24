@@ -4,7 +4,8 @@ namespace Ramesh\Cms\Commands;
 
 use Illuminate\Console\Command;
 use Cms;
-use File;
+use Illuminate\Support\Facades\File;
+
 class Seed extends Command
 {
     /**
@@ -47,40 +48,33 @@ class Seed extends Command
 
         $class =  $this->option('class');
 
-        if($module)
-        {
-            if($class) {
+        if ($module) {
+            if ($class) {
                 $this->call('db:seed', [
-                    '--class' =>  Cms::getPath() . '\\' . $module . '\\Database\\seeds\\'.$class
+                    '--class' =>  Cms::getPath() . '\\' . $module . '\\Database\\seeds\\' . $class
                 ]);
-            }
-            else
-            {
-                 $module_path = base_path().'/' . Cms::getPath() . '/' . Cms::getModulesPath() . '/'.Cms::getCurrentTheme().'/' . $module . '/Database/seeds';
+            } else {
+                $module_path = base_path() . '/' . Cms::getPath() . '/' . Cms::getModulesPath() . '/' . Cms::getCurrentTheme() . '/' . $module . '/Database/seeds';
                 $files = $this->getAllFileInFolder($module_path);
                 foreach ($files as $file) {
                     $class_name = preg_replace('/\..+$/', '', $file);
                     $this->call('db:seed', [
-                        '--class' =>  Cms::getPath() . '\\' .  $module . '\\Database\\seeds\\'.$class_name
+                        '--class' =>  Cms::getPath() . '\\' .  $module . '\\Database\\seeds\\' . $class_name
                     ]);
                 }
-
             }
-        }else
-        {
+        } else {
             $cms = Cms::allModulesPath(false);
-            foreach ($cms as $module)
-            {
+            foreach ($cms as $module) {
 
 
-                if($class) {
-                    if (File::exists(base_path().'/' . $module . '/Database/seeds/'.$class.'.php')) {
+                if ($class) {
+                    if (File::exists(base_path() . '/' . $module . '/Database/seeds/' . $class . '.php')) {
                         $this->call('db:seed', [
                             '--class' => $module . '\\Database\\seeds\\' . $class
                         ]);
                     }
-                }
-                else {
+                } else {
 
                     $files = $this->getAllFileInFolder(base_path() . '/' . $module . '/Database/seeds');
                     //print_r($files);
@@ -94,10 +88,9 @@ class Seed extends Command
                         //echo 'hai';
                     }
                 }
-
             }
         }
-          //echo 'success';
+        //echo 'success';
     }
 
     protected function getAllFileInFolder($folder)
@@ -108,7 +101,6 @@ class Seed extends Command
             foreach ($files as $file) {
                 $path[] = $file->getfileName();
             }
-
         }
         return $path;
     }

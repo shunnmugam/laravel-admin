@@ -2,9 +2,7 @@
 
 namespace cms\core\admin\Controllers;
 
-use User;
-use Hash;
-use Session;
+use cms\core\user\helpers\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -32,24 +30,24 @@ class AdminAuth extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::check(['username'=>$request->username,'password'=>$request->password]);
+        $user = User::check(['username' => $request->username, 'password' => $request->password]);
 
-        if($user) {
-            $users = UserModel::where('username','=',$request->username)->first();
-            Session::put(['ACTIVE_USER' => strval($users->id)
-                ,'ACTIVE_USERNAME' => $users->username,
+        if ($user) {
+            $users = UserModel::where('username', '=', $request->username)->first();
+            $request->session()->put([
+                'ACTIVE_USER' => strval($users->id), 'ACTIVE_USERNAME' => $users->username,
                 'ACTIVE_GROUP' => 'Super Admin',
                 'ACTIVE_EMAIL' => $users->email,
                 'ACTIVE_MOBILE' => $users->mobile,
-                'ACTIVE_USERIMAGE' => $users->images]);
+                'ACTIVE_USERIMAGE' => $users->images
+            ]);
             //change offline to online
             $users->online = 1;
             $users->ip = request()->ip();
             $users->lastactive = Carbon::now();
             $users->save();
             return redirect()->route('backenddashboard');
-        }
-        else
+        } else
             return redirect()->back()
                 ->withInput($request->input())
                 ->withErrors(['Wrong Information']);
@@ -78,8 +76,7 @@ class AdminAuth extends Controller
 
         $request->session()->flush();
 
-        Session::flash("success","Logout Successfull");
+        $request->session()->flash("success", "Logout Successfull");
         return redirect('administrator/login');
     }
-
 }

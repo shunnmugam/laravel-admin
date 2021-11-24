@@ -7,12 +7,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-
-
-use Mail;
-use CmsMail;
+use Illuminate\Support\Facades\Mail;
 use cms\core\newsletter\Mail\NewsLetterMail;
-use cms\core\newsletter\Models\NewsLetterModel;
 
 class SendNewsLetter implements ShouldQueue
 {
@@ -26,11 +22,10 @@ class SendNewsLetter implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($to,$content)
+    public function __construct($to, $content)
     {
         $this->to = $to;
         $this->contents = $content;
-
     }
 
     /**
@@ -40,8 +35,6 @@ class SendNewsLetter implements ShouldQueue
      */
     public function handle()
     {
-
-
         //CmsMail::setMailConfig();
         Mail::to($this->to)->queue(new NewsLetterMail($this->contents));
     }

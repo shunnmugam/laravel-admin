@@ -1,6 +1,6 @@
 <?php
-namespace Ramesh\Cms\Controller;
 
+namespace Ramesh\Cms\Controller;
 
 class ModuleController extends CmsController
 {
@@ -26,28 +26,26 @@ class ModuleController extends CmsController
      */
     public function getJson()
     {
-
     }
     /*
      * get module id
      */
     public function getId()
     {
-
     }
     /*
      * get module path
      */
     public function getPath()
     {
-        return base_path().DIRECTORY_SEPARATOR.parent::getPath().DIRECTORY_SEPARATOR.parent::getModulesLocalPath().parent::getCurrentTheme().DIRECTORY_SEPARATOR.$this->name;
+        return base_path() . DIRECTORY_SEPARATOR . parent::getPath() . DIRECTORY_SEPARATOR . parent::getModulesLocalPath() . parent::getCurrentTheme() . DIRECTORY_SEPARATOR . $this->name;
     }
     /*
      * get module core path
      */
     public function getCorePath()
     {
-        return base_path().DIRECTORY_SEPARATOR.parent::getPath().DIRECTORY_SEPARATOR.parent::getModulesCorePath().DIRECTORY_SEPARATOR.$this->name;
+        return base_path() . DIRECTORY_SEPARATOR . parent::getPath() . DIRECTORY_SEPARATOR . parent::getModulesCorePath() . DIRECTORY_SEPARATOR . $this->name;
     }
 
     /**********get configuration values*****************/
@@ -61,7 +59,4 @@ class ModuleController extends CmsController
     {
         return parent::getConfig()['module'];
     }
-
-
-
 }

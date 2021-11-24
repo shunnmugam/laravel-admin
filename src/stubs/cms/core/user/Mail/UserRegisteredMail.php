@@ -5,10 +5,10 @@ namespace cms\core\user\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 //models
 use cms\core\user\Models\UserModel;
+
 class UserRegisteredMail extends Mailable
 {
     use Queueable, SerializesModels;
@@ -35,7 +35,7 @@ class UserRegisteredMail extends Mailable
     public function build()
     {
         $id = $this->user_id;
-        $data = UserModel::with('group')->where('id',$id)->first();
-        return $this->markdown('user::mail.user_register')->with('data',$data);
+        $data = UserModel::with('group')->where('id', $id)->first();
+        return $this->markdown('user::mail.user_register')->with('data', $data);
     }
 }

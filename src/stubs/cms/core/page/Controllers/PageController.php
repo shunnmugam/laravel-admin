@@ -4,15 +4,13 @@ namespace cms\core\page\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-
 use Yajra\DataTables\Facades\DataTables;
 
 //helpers
-use DB;
-use User;
-use Session;
-use CGate;
+use Illuminate\Support\Facades\DB;
+use cms\core\user\helpers\User;
+use Illuminate\Support\Facades\Session;
+use cms\core\gate\helpers\CGate;
 //models
 use cms\core\page\Models\PageModel;
 use cms\core\usergroup\Models\UserGroupModel;
@@ -23,10 +21,9 @@ class PageController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            CGate::resouce('page',['show']);
+            CGate::resouce('page', ['show']);
             return $next($request);
         });
-
     }
     /**
      * Display a listing of the resource.
@@ -45,8 +42,8 @@ class PageController extends Controller
      */
     public function create()
     {
-        $group = UserGroupModel::where('status',1)->orderBy('group','Asc')->pluck("group","id");
-        return view('page::admin.edit',['layout'=>'create','group'=>$group]);
+        $group = UserGroupModel::where('status', 1)->orderBy('group', 'Asc')->pluck("group", "id");
+        return view('page::admin.edit', ['layout' => 'create', 'group' => $group]);
     }
 
     /**
@@ -58,7 +55,7 @@ class PageController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'url' => 'required|unique:'.(new PageModel)->getTable().',url|max:15',
+            'url' => 'required|unique:' . (new PageModel)->getTable() . ',url|max:15',
             'title' => 'required',
             'page_content' => 'required',
             'can' => 'sometimes',
@@ -74,12 +71,11 @@ class PageController extends Controller
         $data->can = $request->can;
 
 
-        if($data->save()){
+        if ($data->save()) {
 
             $msg = "Users save successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -96,21 +92,21 @@ class PageController extends Controller
      */
     public function show($name)
     {
-        $data = PageModel::where('url','=',$name)->first();
+        $data = PageModel::where('url', '=', $name)->first();
         $can = $data->can;
-        if($can===NULL)
-            return view('page::site.page',['data'=>$data]);
-        else
-        {
+        if ($can === NULL)
+            return view('page::site.page', ['data' => $data]);
+        else {
             $allow = 0;
-            foreach (explode(',',$can) as $group) {
-                if(in_array($group,(User::getUserGroup()) ? User::getUserGroup() : array(0) ))
-                    $allow =1;
+            foreach (explode(',', $can) as $group) {
+                if (in_array($group, (User::getUserGroup()) ? User::getUserGroup() : array(0)))
+                    $allow = 1;
             }
-            if($allow==1)
-                return view('page::site.page',['data'=>$data]);
+            if ($allow == 1)
+                return view('page::site.page', ['data' => $data]);
             else
-                echo "Access Denied";exit;
+                echo "Access Denied";
+            exit;
         }
     }
 
@@ -124,8 +120,8 @@ class PageController extends Controller
     {
         $data = PageModel::find($id);
         //print_r($data->group[0]->group);exit;
-        $group = UserGroupModel::where('status',1)->orderBy('group','Asc')->pluck("group","id");
-        return view('page::admin.edit',['layout'=>'edit','group'=>$group,'data'=>$data]);
+        $group = UserGroupModel::where('status', 1)->orderBy('group', 'Asc')->pluck("group", "id");
+        return view('page::admin.edit', ['layout' => 'edit', 'group' => $group, 'data' => $data]);
     }
 
     /**
@@ -138,7 +134,7 @@ class PageController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'url' => 'required|max:15|unique:'.(new PageModel)->getTable().',url,'.$id,
+            'url' => 'required|max:15|unique:' . (new PageModel)->getTable() . ',url,' . $id,
             'title' => 'required',
             'page_content' => 'required',
             'can' => 'sometimes',
@@ -151,14 +147,13 @@ class PageController extends Controller
         $data->url  = $request->url;
         $data->page_content = $request->page_content;
         $data->status = $request->status;
-        $data->can = ($request->can) ? implode(',',$request->can) : NULL;
+        $data->can = ($request->can) ? implode(',', $request->can) : NULL;
 
-        if($data->save()){
+        if ($data->save()) {
 
             $msg = "Users save successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -173,11 +168,10 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id,Request $request)
+    public function destroy($id, Request $request)
     {
 
-        foreach ($request->selected_pages as $page)
-        {
+        foreach ($request->selected_pages as $page) {
             PageModel::find($page)->delete();
         }
         Session::flash('success', 'Page Deleted Successfully');
@@ -195,37 +189,41 @@ class PageController extends Controller
     {
         CGate::authorize('view-page');
 
-        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
+        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0;
         //$sTart = 0;
-        DB::statement(DB::raw('set @rownum='.$sTart));
+        DB::statement(DB::raw('set @rownum=' . $sTart));
 
 
-        $data = PageModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","title","url",
-            DB::raw('(CASE WHEN '.DB::getTablePrefix().(new PageModel)->getTable().'.status = "0" THEN "Disabled"
-            WHEN '.DB::getTablePrefix().(new PageModel)->getTable().'.status = "-1" THEN "Trashed"
-             ELSE "Enabled" END) AS status'));
+        $data = PageModel::select(
+            DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+            "id",
+            "title",
+            "url",
+            DB::raw('(CASE WHEN ' . DB::getTablePrefix() . (new PageModel)->getTable() . '.status = "0" THEN "Disabled"
+            WHEN ' . DB::getTablePrefix() . (new PageModel)->getTable() . '.status = "-1" THEN "Trashed"
+             ELSE "Enabled" END) AS status')
+        );
 
         $datatables = Datatables::of($data)
-            ->addColumn('check', function($data) {
-                    return $data->rownum;
+            ->addColumn('check', function ($data) {
+                return $data->rownum;
             })
-            ->addColumn('actdeact', function($data) {
-                if($data->id != '1'){
-                    $statusbtnvalue=$data->status=="Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
-                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="">'.$statusbtnvalue.'</a>';
-                }
-                else
+            ->addColumn('actdeact', function ($data) {
+                if ($data->id != '1') {
+                    $statusbtnvalue = $data->status == "Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
+                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="">' . $statusbtnvalue . '</a>';
+                } else
                     return '';
             })
-            ->addColumn('action',function($data){
-                return '<a class="editbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="'.route("page.edit",$data->id).'" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
+            ->addColumn('action', function ($data) {
+                return '<a class="editbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="' . route("page.edit", $data->id) . '" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
                 //return $data->id;
             });
 
 
 
         // return $data;
-        if(count((array) $data)==0)
+        if (count((array) $data) == 0)
             return [];
 
         return $datatables->make(true);
@@ -239,24 +237,19 @@ class PageController extends Controller
     function statusChange(Request $request)
     {
         CGate::authorize('edit-page');
-        if(!empty($request->selected_pages))
-        {
-            $obj = new PageModel ;
+        if (!empty($request->selected_pages)) {
+            $obj = new PageModel;
             foreach ($request->selected_pages as $k => $v) {
 
                 //echo $v;
-                if($item = $obj->find($v))
-                {
+                if ($item = $obj->find($v)) {
                     $item->status = $request->action;
                     $item->save();
-
                 }
-
             }
-
         }
 
-        Session::flash("success","Page Status changed Successfully!!");
+        Session::flash("success", "Page Status changed Successfully!!");
         return redirect()->back();
     }
 }

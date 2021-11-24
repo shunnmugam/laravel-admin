@@ -4,16 +4,12 @@ namespace cms\core\plugins\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-
 use Yajra\DataTables\Facades\DataTables;
 
 //helpers
-use DB;
-use Session;
-use Cms;
-use Plugins;
-use CGate;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use cms\core\gate\helpers\CGate;
 
 
 //models
@@ -27,7 +23,6 @@ class PluginsController extends Controller
             CGate::resouce('plugins');
             return $next($request);
         });
-
     }
 
     /**
@@ -47,7 +42,6 @@ class PluginsController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -58,7 +52,6 @@ class PluginsController extends Controller
      */
     public function store(Request $request)
     {
-
     }
 
     /**
@@ -81,7 +74,7 @@ class PluginsController extends Controller
     public function edit($id)
     {
         $data = PluginsModel::find($id);
-        return view('plugins::plugins.admin.master',['data'=>$data]);
+        return view('plugins::plugins.admin.master', ['data' => $data]);
     }
 
     /**
@@ -111,12 +104,11 @@ class PluginsController extends Controller
         $data->status = $request->status;
 
 
-        if($data->save()){
+        if ($data->save()) {
 
             $msg = "Plugins save successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -131,9 +123,9 @@ class PluginsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id,Request $request)
+    public function destroy($id, Request $request)
     {
-       // print_r($request->selected_users);exit;
+        // print_r($request->selected_users);exit;
     }
 
     /*
@@ -145,39 +137,38 @@ class PluginsController extends Controller
      */
     public function getData(Request $request)
     {
-        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
+        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0;
         //$sTart = 0;
-        DB::statement(DB::raw('set @rownum='.$sTart));
+        DB::statement(DB::raw('set @rownum=' . $sTart));
 
 
-        $data = PluginsModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","name","version",DB::raw('(CASE WHEN '.DB::getTablePrefix().(new PluginsModel)->getTable().'.status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'))
+        $data = PluginsModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'), "id", "name", "version", DB::raw('(CASE WHEN ' . DB::getTablePrefix() . (new PluginsModel)->getTable() . '.status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'))
             ->get();
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')
-            ->addColumn('check', function($data) {
-                if($data->id != '1')
+            ->addColumn('check', function ($data) {
+                if ($data->id != '1')
                     return $data->rownum;
                 else
                     return '';
             })
-            ->addColumn('actdeact', function($data) {
-                if($data->id != '1'){
-                    $statusbtnvalue=$data->status=="Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
-                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="">'.$statusbtnvalue.'</a>';
-                }
-                else
+            ->addColumn('actdeact', function ($data) {
+                if ($data->id != '1') {
+                    $statusbtnvalue = $data->status == "Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
+                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="">' . $statusbtnvalue . '</a>';
+                } else
                     return '';
             })
-            ->addColumn('action',function($data){
-                return '<a class="editbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="'.route("plugin.edit",$data->id).'" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
+            ->addColumn('action', function ($data) {
+                return '<a class="editbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="' . route("plugin.edit", $data->id) . '" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
                 //return $data->id;
             });
 
 
 
         // return $data;
-        if(count((array) $data)==0)
+        if (count((array) $data) == 0)
             return [];
 
         return $datatables->make(true);
@@ -191,26 +182,21 @@ class PluginsController extends Controller
     function statusChange(Request $request)
     {
 
-        if(!empty($request->selected_plugins))
-        {
+        if (!empty($request->selected_plugins)) {
 
 
             $obj = new PluginsModel;
             foreach ($request->selected_plugins as $k => $v) {
 
                 //echo $v;
-                if($item = $obj->find($v))
-                {
+                if ($item = $obj->find($v)) {
                     $item->status = $request->action;
                     $item->save();
-
                 }
-
             }
-
         }
 
-        Session::flash("success","Plugins Status changed Successfully!!");
+        Session::flash("success", "Plugins Status changed Successfully!!");
         return redirect()->back();
     }
 }

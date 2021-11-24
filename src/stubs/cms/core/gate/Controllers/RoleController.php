@@ -1,4 +1,5 @@
 <?php
+
 namespace cms\core\gate\Controllers;
 
 
@@ -11,7 +12,7 @@ use cms\core\usergroup\Models\UserGroupModel;
 use cms\core\module\Models\ModuleModel;
 use cms\core\gate\Models\HasPermissionModel;
 
-use CGate;
+use cms\core\gate\helpers\CGate;
 
 class RoleController extends Controller
 {
@@ -21,14 +22,13 @@ class RoleController extends Controller
             CGate::SuperAdminonly();
             return $next($request);
         });
-
     }
 
     public function getRoles()
     {
         CGate::registerPermission();
-       //echo  \CGate::allows('create-blog');
-        $module = ModuleModel::with('permissions')->where('status',1)->get();
+        //echo  \CGate::allows('create-blog');
+        $module = ModuleModel::with('permissions')->where('status', 1)->get();
         $groups = UserGroupModel::get();
 
 
@@ -54,26 +54,24 @@ class RoleController extends Controller
 
         $permissions = HasPermissionModel::get();
         $permission = array();
-        foreach ($permissions as $datas)
-        {
+        foreach ($permissions as $datas) {
             $permission[$datas->group_id][$datas->permission_id] = $datas->status;
         }
 
 
-        return view('gate::admin.gates',['data'=>'','groups'=>$groups,'module'=>$module,'permission'=>$permission]);
+        return view('gate::admin.gates', ['data' => '', 'groups' => $groups, 'module' => $module, 'permission' => $permission]);
     }
     /*
      * save function
      */
     public function save(Request $request)
     {
-        foreach($request->role as $group_id => $group)
-        {
+        foreach ($request->role as $group_id => $group) {
             foreach ($group as $role_id => $role) {
 
-                $obj = HasPermissionModel::where('permission_id',$role_id)
-                                ->where('group_id',$group_id)->first();
-                if(count((array) $obj)==0)
+                $obj = HasPermissionModel::where('permission_id', $role_id)
+                    ->where('group_id', $group_id)->first();
+                if (count((array) $obj) == 0)
                     $obj = new HasPermissionModel;
 
                 $obj->permission_id = $role_id;
@@ -84,7 +82,5 @@ class RoleController extends Controller
         }
 
         return redirect('administrator/roles-permissions');
-
     }
-
 }

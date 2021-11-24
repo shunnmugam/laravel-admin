@@ -3,9 +3,7 @@
 namespace Ramesh\Cms\Commands;
 
 use Illuminate\Console\Command;
-use Ramesh\Cms\CmsServiceProvider;
-use Cms;
-use App;
+
 class CmsPublish extends Command
 {
     /**

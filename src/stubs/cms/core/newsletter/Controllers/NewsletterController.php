@@ -4,14 +4,11 @@ namespace cms\core\newsletter\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use CGate;
-use DB;
-use User;
-use Session;
-use Mail;
-use CmsMail;
+use cms\core\gate\helpers\CGate;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
 use cms\core\newsletter\Mail\NewsLetterMail;
-use cms\core\newsletter\Jobs\SendNewsLetter;
 
 use Yajra\DataTables\Facades\DataTables;
 
@@ -28,7 +25,6 @@ class NewsletterController extends Controller
             CGate::resouce('newsletter');
             return $next($request);
         });
-
     }
 
     /**
@@ -48,7 +44,7 @@ class NewsletterController extends Controller
      */
     public function create()
     {
-        return view('newsletter::admin.edit',['layout'=>'create']);
+        return view('newsletter::admin.edit', ['layout' => 'create']);
     }
 
     /**
@@ -59,7 +55,7 @@ class NewsletterController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'email' => 'required|email|unique:newsletter_subscribers,email',
             'status' => 'required'
         ]);
@@ -67,12 +63,10 @@ class NewsletterController extends Controller
         $obj = new NewsLetterModel;
         $obj->email = $request->email;
         $obj->status = isset($request->status) ? $request->status : 1;
-        if($obj->save())
-        {
+        if ($obj->save()) {
             $msg = "Subscriber Created successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -101,8 +95,7 @@ class NewsletterController extends Controller
     public function edit($id)
     {
         $data = NewsLetterModel::findOrFail($id);
-        return view('newsletter::admin.edit',['layout'=>'edit','data'=>$data]);
-
+        return view('newsletter::admin.edit', ['layout' => 'edit', 'data' => $data]);
     }
 
     /**
@@ -114,20 +107,18 @@ class NewsletterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-            'email' => 'required|email|unique:newsletter_subscribers,email,'.$id,
+        $this->validate($request, [
+            'email' => 'required|email|unique:newsletter_subscribers,email,' . $id,
             'status' => 'required'
         ]);
 
         $obj =  NewsLetterModel::findOrFail($id);
         $obj->email = $request->email;
         $obj->status = $request->status;
-        if($obj->save())
-        {
+        if ($obj->save()) {
             $msg = "Subscriber Updated successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -142,26 +133,21 @@ class NewsletterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id,Request $request)
+    public function destroy($id, Request $request)
     {
-        if(!empty($request->selected_users))
-        {
+        if (!empty($request->selected_users)) {
 
             $delObj = new NewsLetterModel();
             foreach ($request->selected_users as $k => $v) {
 
                 //echo $v;
-                if($delItem = $delObj->find($v))
-                {
+                if ($delItem = $delObj->find($v)) {
                     $delItem->delete();
-
                 }
-
             }
-
         }
 
-        Session::flash("success","Subscriber Deleted Successfully!!");
+        Session::flash("success", "Subscriber Deleted Successfully!!");
         return redirect()->route("subscriber.index");
     }
 
@@ -178,38 +164,37 @@ class NewsletterController extends Controller
     {
         CGate::authorize('view-newsletter');
 
-        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
+        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0;
         //$sTart = 0;
-        DB::statement(DB::raw('set @rownum='.$sTart));
+        DB::statement(DB::raw('set @rownum=' . $sTart));
 
 
-        $data = NewsLetterModel::select('*',DB::raw('@rownum  := @rownum  + 1 AS rownum'),DB::raw('(CASE WHEN status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'));
+        $data = NewsLetterModel::select('*', DB::raw('@rownum  := @rownum  + 1 AS rownum'), DB::raw('(CASE WHEN status = "0" THEN "Disabled" ELSE "Enabled" END) AS status'));
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')
-            ->addColumn('check', function($data) {
-                if($data->id != '1')
+            ->addColumn('check', function ($data) {
+                if ($data->id != '1')
                     return $data->rownum;
                 else
                     return '';
             })
-            ->addColumn('actdeact', function($data) {
-                if($data->id != '1'){
-                    $statusbtnvalue=$data->status=="Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
-                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="">'.$statusbtnvalue.'</a>';
-                }
-                else
+            ->addColumn('actdeact', function ($data) {
+                if ($data->id != '1') {
+                    $statusbtnvalue = $data->status == "Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
+                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="">' . $statusbtnvalue . '</a>';
+                } else
                     return '';
             })
-            ->addColumn('action',function($data){
-                return '<a class="editbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="'.route("subscriber.edit",$data->id).'" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
+            ->addColumn('action', function ($data) {
+                return '<a class="editbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="' . route("subscriber.edit", $data->id) . '" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
                 //return $data->id;
             });
 
 
 
         // return $data;
-        if(count((array) $data)==0)
+        if (count((array) $data) == 0)
             return [];
 
         return $datatables->make(true);
@@ -224,24 +209,19 @@ class NewsletterController extends Controller
     {
         CGate::authorize('edit-newsletter');
 
-        if(!empty($request->selected_users))
-        {
+        if (!empty($request->selected_users)) {
             $obj = new NewsLetterModel();
             foreach ($request->selected_users as $k => $v) {
 
                 //echo $v;
-                if($item = $obj->find($v))
-                {
+                if ($item = $obj->find($v)) {
                     $item->status = $request->action;
                     $item->save();
-
                 }
-
             }
-
         }
 
-        Session::flash("success","User Status changed Successfully!!");
+        Session::flash("success", "User Status changed Successfully!!");
         return redirect()->back();
     }
 
@@ -255,14 +235,14 @@ class NewsletterController extends Controller
     /*
      * send email to all
      */
-    public function sendMail(Request $request,Schedule $schedule)
+    public function sendMail(Request $request, Schedule $schedule)
     {
 
 
-        $to = NewsLetterModel::where('status','=',1)->pluck('email');
+        $to = NewsLetterModel::where('status', '=', 1)->pluck('email');
 
         \CmsMail::setMailConfig();
-        if(count((array) $to)!=0) {
+        if (count((array) $to) != 0) {
             $to = $to->toArray();
 
 
@@ -271,17 +251,16 @@ class NewsletterController extends Controller
             $when = \Carbon\Carbon::now()->addMinutes(1);
             //dispatch(new SendNewsLetter($to,$request->contents));
             foreach ($to as $to_mail)
-                Mail::to($to_mail)->later($when,new NewsLetterMail($request->contents));
+                Mail::to($to_mail)->later($when, new NewsLetterMail($request->contents));
         }
 
-        Session::flash("success","Mail Send Successfully!!");
+        Session::flash("success", "Mail Send Successfully!!");
         return redirect()->back();
-
     }
 
     function storeFromSite(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'email' => 'required|email|unique:newsletter_subscribers,email',
             'status' => 'sometimes'
         ]);
@@ -289,14 +268,12 @@ class NewsletterController extends Controller
         $obj = new NewsLetterModel;
         $obj->email = $request->email;
         $obj->status = isset($request->status) ? $request->status : 1;
-        if($obj->save())
-        {
+        if ($obj->save()) {
             Mail::to($request->email)->queue(new SubscriptionConfirmMail());
 
             $msg = "Join successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -307,7 +284,7 @@ class NewsletterController extends Controller
 
     function removeFromSite(Request $request)
     {
-        NewsLetterModel::where(DB::raw('md5(email)') , $request->address)->delete();
+        NewsLetterModel::where(DB::raw('md5(email)'), $request->address)->delete();
 
         Session::flash('success', 'un subscribe successfully');
         return redirect()->route('home');
@@ -316,6 +293,5 @@ class NewsletterController extends Controller
     //plugin
     function Plugindisplay()
     {
-
     }
 }

@@ -4,16 +4,14 @@ namespace cms\core\usergroup\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Arr;
 
 use Yajra\DataTables\Facades\DataTables;
 
 //helpers
-use DB;
-use User;
-use Session;
-use CGate;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use cms\core\gate\helpers\CGate;
 
 //models
 use cms\core\usergroup\Models\UserGroupModel;
@@ -27,7 +25,6 @@ class UserGroupController extends Controller
             CGate::resouce('usergroup');
             return $next($request);
         });
-
     }
 
 
@@ -48,7 +45,7 @@ class UserGroupController extends Controller
      */
     public function create()
     {
-        return view('usergroup::admin.edit',['layout'=>'create']);
+        return view('usergroup::admin.edit', ['layout' => 'create']);
     }
 
     /**
@@ -60,7 +57,7 @@ class UserGroupController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'group' => 'required|unique:'.(new UserGroupModel)->getTable().',group|max:191',
+            'group' => 'required|unique:' . (new UserGroupModel)->getTable() . ',group|max:191',
             'status' => 'required'
         ]);
 
@@ -70,11 +67,10 @@ class UserGroupController extends Controller
         $data->status = $request->status;
 
 
-        if($data->save()){
+        if ($data->save()) {
             $msg = "Group save successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -103,7 +99,7 @@ class UserGroupController extends Controller
     public function edit($id)
     {
         $data = UserGroupModel::find($id);
-        return view('usergroup::admin.edit',['layout'=>'edit','data'=>$data]);
+        return view('usergroup::admin.edit', ['layout' => 'edit', 'data' => $data]);
     }
 
     /**
@@ -116,7 +112,7 @@ class UserGroupController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'group' => 'required|unique:'.(new UserGroupModel)->getTable().',group,'.$id,
+            'group' => 'required|unique:' . (new UserGroupModel)->getTable() . ',group,' . $id,
             'status' => 'required'
         ]);
 
@@ -124,11 +120,10 @@ class UserGroupController extends Controller
         $data->group = mb_convert_case($request->group, MB_CASE_TITLE, "UTF-8");
         $data->status = $request->status;
 
-        if($data->save()){
+        if ($data->save()) {
             $msg = "Group Update successfully";
             $class_name = "success";
-        }
-        else{
+        } else {
             $msg = "Something went wrong !! Please try again later !!";
             $class_name = "error";
         }
@@ -143,33 +138,27 @@ class UserGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id,Request $request)
+    public function destroy($id, Request $request)
     {
         //print_r($request->selected_groups);exit;
 
-        if(!empty($request->selected_groups))
-        {
-            if(($key = array_search(1, $request->selected_groups)) !== false) {
-                $request->selected_groups = array_except($request->selected_groups, array($key));
+        if (!empty($request->selected_groups)) {
+            if (($key = array_search(1, $request->selected_groups)) !== false) {
+                $request->selected_groups = Arr::except($request->selected_groups, array($key));
             }
 
             $delObj = new UserGroupModel;
             foreach ($request->selected_groups as $k => $v) {
 
                 //echo $v;
-                if($delItem = $delObj->find($v))
-                {
+                if ($delItem = $delObj->find($v)) {
                     $delItem->delete();
-
                 }
-
             }
-
         }
 
-        Session::flash("success","User Group Deleted Successfully!!");
+        Session::flash("success", "User Group Deleted Successfully!!");
         return redirect()->route("usergroup.index");
-
     }
 
     /*
@@ -184,41 +173,44 @@ class UserGroupController extends Controller
 
         CGate::authorize('view-usergroup');
 
-        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0 ;
+        $sTart = ctype_digit($request->get('start')) ? $request->get('start') : 0;
         //$sTart = 0;
-        DB::statement(DB::raw('set @rownum='.$sTart));
+        DB::statement(DB::raw('set @rownum=' . $sTart));
 
 
-        $data = UserGroupModel::select(DB::raw('@rownum  := @rownum  + 1 AS rownum'),"id","group",
-            DB::raw('(CASE WHEN '.DB::getTablePrefix().(new UserGroupModel)->getTable().'.status = "0" THEN "Disabled"
-             WHEN '.DB::getTablePrefix().(new UserGroupModel)->getTable().'.status = "-1" THEN "Trashed"
-             ELSE "Enabled" END) AS status'));
+        $data = UserGroupModel::select(
+            DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+            "id",
+            "group",
+            DB::raw('(CASE WHEN ' . DB::getTablePrefix() . (new UserGroupModel)->getTable() . '.status = "0" THEN "Disabled"
+             WHEN ' . DB::getTablePrefix() . (new UserGroupModel)->getTable() . '.status = "-1" THEN "Trashed"
+             ELSE "Enabled" END) AS status')
+        );
 
         $datatables = Datatables::of($data)
             //->addColumn('check', '{!! Form::checkbox(\'selected_users[]\', $id, false, array(\'id\'=> $rownum, \'class\' => \'catclass\')); !!}{!! Html::decode(Form::label($rownum,\'<span></span>\')) !!}')
-            ->addColumn('check', function($data) {
-                if($data->id != '1')
+            ->addColumn('check', function ($data) {
+                if ($data->id != '1')
                     return $data->rownum;
                 else
                     return '';
             })
-            ->addColumn('actdeact', function($data) {
-                if($data->id != '1'){
-                    $statusbtnvalue=$data->status=="Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
-                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="">'.$statusbtnvalue.'</a>';
-                }
-                else
+            ->addColumn('actdeact', function ($data) {
+                if ($data->id != '1') {
+                    $statusbtnvalue = $data->status == "Enabled" ? "<i class='glyphicon glyphicon-remove'></i>&nbsp;&nbsp;Disable" : "<i class='glyphicon glyphicon-ok'></i>&nbsp;&nbsp;Enable";
+                    return '<a class="statusbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="">' . $statusbtnvalue . '</a>';
+                } else
                     return '';
             })
-            ->addColumn('action',function($data){
-                return '<a class="editbutton btn btn-default" data-toggle="modal" data="'.$data->id.'" href="'.route("usergroup.edit",$data->id).'" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
+            ->addColumn('action', function ($data) {
+                return '<a class="editbutton btn btn-default" data-toggle="modal" data="' . $data->id . '" href="' . route("usergroup.edit", $data->id) . '" ><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>';
                 //return $data->id;
             });
 
 
 
         // return $data;
-        if(count((array) $data)==0)
+        if (count((array) $data) == 0)
             return [];
 
         return $datatables->make(true);
@@ -233,28 +225,23 @@ class UserGroupController extends Controller
     {
         CGate::authorize('edit-usergroup');
 
-        if(!empty($request->selected_groups))
-        {
-            if(($key = array_search(1, $request->selected_groups)) !== false) {
-                $request->selected_groups = array_except($request->selected_groups, array($key));
+        if (!empty($request->selected_groups)) {
+            if (($key = array_search(1, $request->selected_groups)) !== false) {
+                $request->selected_groups = Arr::except($request->selected_groups, array($key));
             }
 
             $obj = new UserGroupModel;
             foreach ($request->selected_groups as $k => $v) {
 
                 //echo $v;
-                if($item = $obj->find($v))
-                {
+                if ($item = $obj->find($v)) {
                     $item->status = $request->action;
                     $item->save();
-
                 }
-
             }
-
         }
 
-        Session::flash("success","User Group Status Changed Successfully!!");
+        Session::flash("success", "User Group Status Changed Successfully!!");
         return redirect()->back();
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreatePluginsTable extends Migration
 {
@@ -17,7 +18,7 @@ class CreatePluginsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('version');
-            $table->string('parms',15000)->nullable();
+            $table->string('parms', 15000)->nullable();
             $table->string('action')->nullable();
             $table->string('view')->nullable();
             $table->string('adminview')->nullable();
