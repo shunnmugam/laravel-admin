@@ -1,147 +1,175 @@
-<h1>Content Management System using laravel framework</h1>
+# Content Management System using laravel framework
 
-<h1>Features:</h1><ol>
-<li>Cms</li>
-<li>Admin interface</li>
-<li>Module based app</li>
-<li>Theme based</li>
-<li>Plugins</li>
-<li>Roles and Permissions</li>
-<li>Menu creation</li>
-<li>User Management</li>
-<li>Page Creation</li>
-<li>Mail configurations</li>
-<li>Site Configuration,etc</li>
+## Features:
+
+1. Cms
+2. Admin interface
+3. Module based app
+4. Theme based
+5. Plugins
+6. Roles and Permissions
+7. Menu creation
+8. User Management
+9. Page Creation
+10. Mail configurations
+11. Site Configuration,etc
 </ol>
 
-<h1>Version</h1>
-<table>
-<thead>
-<tr><th>Laravel Version</th><th>Version</th></tr>
-</thead>
-<tbody>
-<tr><td>5.4</td><td>1.0 to 2.0</td></tr>
-<tr><td>5.5</td><td>>=2.1</td></tr>
-<tr><td>5.6</td><td>>=2.1</td></tr>
-<tr><td>5.7</td><td>>=2.1</td></tr>
-<tr><td>5.8</td><td>>=2.2</td></tr>
-<tr><td>6</td><td>>=2.3</td></tr>
-<tr><td>7</td><td>>=2.3</td></tr>
-<tr><td>8</td><td>>=2.4</td></tr>
-</tbody>
-</table>
-<h1>Change Logs</h1>
-<h3>Version v2.4</h3>
-<ol>
-  <li>Data table version update</li>
-  <li>Seed command bug fix</li>
-</ol>
-<h3>Version v2.2</h3>
-<ol>
-  <li>Data table version update</li>
-  <li>Bug fix</li>
-</ol>
-<h3>Version v2.1.1</h3>
-<ol>
-<li>CRUD Module added<br />
-  easy crud module with single command<br />
-  <b>php artisan make:cms-module {module-name} {--crud}</b><br />
-  eg: <br />
-  <code>php artisan make:cms-module test --crud</code><br />
-</li>
-<li>CRUD view<br />
-  create crud views using artisan command<br />
-  <b>php artisan make:cms-crudviews</b><br/>
-  it will create 2 file inside resources/views/admin<br />
-  <ol>
-    <li>index.blade.php</li>
-    <li>edit.blade.php</li>
-  </ol>
-  </li>
-</ol>
-<h1>Install:</h1>
-<h3>composer require phpworkers/cms<h3>
+## Version
 
-<h1>Requiremments:</h1>
-<ol>
-  <li>Laravel 5.4 or later</li>
-  <li>laravelcollective/html: ~5.0</li>
-  <li>yajra/laravel-datatables-oracle: ~9.0</li>
-  <li>unisharp/laravel-filemanager: ^1.8</li>
-</ol>
+| Laravel Version | Version    |
+| --------------- | ---------- |
+| 5.4             | 1.0 to 2.0 |
+| 5.5             | >=2.1      |
+| 5.6             | >=2.1      |
+| 5.7             | >=2.1      |
+| 5.8             | >=2.2      |
+| 6               | >=2.3      |
+| 7               | >=2.3      |
+| 8               | >=2.4      |
 
-<h1>After Install:</h1>
-<ol>
-  <li>Add following Lines to config/app.php providers array<br>
-     //html<br>
-        Collective\Html\HtmlServiceProvider::class,<br>
-        //datatable<br>
-        Yajra\DataTables\DatatablesServiceProvider::class,<br>
-    Ramesh\Cms\CmsServiceProvider::class,<br></li>
-  <li>Add Following Lines to config/app.php  aliases array<br>
-        'Form' => Collective\Html\FormFacade::class,<br>
-        'Html' => Collective\Html\HtmlFacade::class,<br>
-        'Cms' => Ramesh\Cms\Facades\Cms::class,<br>
-  </li>
-  <li>run   php artisan vendor:publish          (Publishing css,js,config files,core modules,theme,etc)</li>
-  <li>run   php artisan vendor:publish --provider="UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider"       (Publishing filemanager resources)</li>
-  
-  
-  
-  <li>Run Following commands</li>
-  <li>composer dump-autoload</li>
-  <li>php artisan cms-migrate            (Migrate our tables)</li>
-  <li>php artisan db:cms-seed    (Seeding)
-  <li>php artisan update:cms-module      (register modules to table)</li>
-  <li>php artisan update:cms-plugins     (register plugins)</li>
-  <li>php artisan update:cms-menu        (regiser menus)</li>
-  <li>Open your web.php<br>
-    Remove Following Lines(route)<br>
-    Route::get('/', function () {<br>
-      return view('welcome');<br>
-    });</br>
-  </li>
-  <li>now go to your site(localhost:8000)</li>
-  <li>localhost:8000/administrator<br>
-  <h3>Username : admin </h3>
-  <h3>Password : admin123</h3>
-  </li>
-</ol>
-<h1>Documents</h1>
-    <ul>
-      <li>Folder Structure</li>
-      <li>Theme</li>
-      <li>What is Module?</li>
-      <li>Core</li>
-      <li>Local</li>
-      <li>List of core modules</li>
-      <li>Create Own module
-      <li>Artisian Commands</li>
-      <li>Skin</li>
-      <li>Helper</li>
-      <li>Core Helper functions</li>
-      <li>Plugins</li>
-    </ul>
-<h3>Folder Structure</h3>
-<p>
-  <h4>Main path</h4>
-<br>
-  cms (main)<br>
-    |<br>
-    |__core<br>
-    |  |<br>
-    |  |__core modules<br>
-    |<br>
-    |<br>
-    |__local<br>
-     &nbsp|<br>
-     &nbsp|__themes<br>
-     &nbsp&nbsp|<br>
-     &nbsp&nbsp|__local modules<br>
+## Change Logs
 
+### Version v2.4
 
+1. Data table version update
+2. Seed command bug fix
 
-  1.cms : cms path is the main path of our app,that contain 
+### Version v2.2
+
+1. Data table version update
+2. Bug fix
+
+### Version v2.1.1
+
+1. CRUD Module added
+   easy crud module with single command
+
+-   ##### `php artisan make:cms-module {module-name} {--crud}`
+    eg:
+    ```bash
+    php artisan make:cms-module test --crud
+    ```
+
+2. CRUD view
+   create crud views using artisan command
+
+-   ##### `php artisan make:cms-crudviews`
+
+    it will create 2 file inside resources/views/admin
+
+    `index.blade.php`
+    `edit.blade.php`
+
+## Install:
+
+```bash
+composer require phpworkers/cms
+```
+
+## Requiremments:
+
+1. Laravel 5.4 or later
+2. laravelcollective/html: ~5.0
+3. yajra/laravel-datatables-oracle: ~9.0
+4. unisharp/laravel-filemanager: ^1.8
+
+## After Install:
+
+```php
+// Add following Lines to `config/app.php` providers array
+//html
+Collective\Html\HtmlServiceProvider::class,
+//datatable
+Yajra\DataTables\DatatablesServiceProvider::class,
+Ramesh\Cms\CmsServiceProvider::class,
+
+// Add Following Lines to `config/app.php`  aliases array
+'Form' => Collective\Html\FormFacade::class,
+'Html' => Collective\Html\HtmlFacade::class,
+'Cms' => Ramesh\Cms\Facades\Cms::class,
+```
+
+##### Then Run Following commands
+
+```sh
+# Publishing css,js,config files,core modules,theme,etc
+php artisan vendor:publish
+
+# Publishing filemanager resources
+php artisan vendor:publish --provider="UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider"
+
+composer dump-autoload
+
+# Migrate our tables
+php artisan cms-migrate
+
+# Seeding
+php artisan db:cms-seed
+
+#register modules to table
+php artisan update:cms-module
+
+#register plugins
+php artisan update:cms-plugins
+
+#regiser menus
+php artisan update:cms-menu
+```
+
+Open your `route/web.php` and remove rollowing lines(route)
+
+```php
+Route::get('/', function () {
+    return view('welcome');
+});
+```
+
+then run
+
+```sh
+php artisan serve
+```
+
+and open [localhost:8000/administrator](localhost:8000/administrator)
+
+##### Username : admin
+
+##### Password : admin123
+
+## Documents
+
+-   Folder Structure
+-   Theme
+-   What is Module?
+-   Core
+-   Local
+-   List of core modules
+-   Create Own module
+-   Artisian Commands
+-   Skin
+-   Helper
+-   Core Helper functions
+-   Plugins
+
+### Folder Structure
+
+#### Main path
+
+```tree
+  cms (main)
+    |
+    |__core
+    |  |
+    |  |__core modules
+    |
+    |__local
+        |
+        |__themes
+            |
+            |__local modules
+
+1.cms : cms path is the main path of our app,that contain
 
       1.1 : core
       1.2 : local
@@ -153,58 +181,71 @@
     1.2 : local : local path contain theme,we can create multiple theme
 
       1.2.1 : local modules -> theme path contain number of local module(user create module)
-</p>
-<h4>Skin path</h4>
-<br>
-<p>
+```
+
+#### Skin path
+
+```tree
   public
-    public (main)<br>
-    |<br>
-    |_skin<br>
-    &nbsp;|<br>
-    &nbsp;|__theme name<br>
-    &nbsp;&nbsp;&nbsp;|<br>
-    &nbsp;&nbsp;&nbsp;|__css,js,vendor,fonts,etc <br>
-    
+    public (main)
+    |
+    |_skin
+        |
+        |__theme name
+                |
+                |__css,js,vendor,fonts,etc
+
     1 : public ->public folder is default folder in laravel
 
         1.1 : skin -> skin folder is our assets folder
 
         1.1.1 : theme name -> folder name is theme name , that contain css, fonts ,js,etc
-</p>
-<h3>
-  Theme
-</h3>
+```
+
+### Theme
+
 Theme is main part of our package,we can create multiple theme,our package is theme and moduler based,all theme is placed on cms->local folder <br>
-Default theme is <b>theme1</b>
+Default theme is **theme1**
 
-<h4>Create Theme</h4>
-  Just create new folder inside of cms->local.<br>
+#### Create Theme
 
-<h4>Change theme</h4>
-  If you want to change theme?its very easy <br>
-  Go to adminpanel->site configuration->change theme <br>
-<br>
-<br>
-<h3>Modules</h3>
+Just create new folder inside of cms->local
+
+#### Change theme
+
+If you want to change theme?its very easy <br>
+Go to adminpanel->site configuration->change theme <br>
+
+### Modules
+
 Module is is a mechanism to group controller, views, modules, etc that are related, otherword module is pice of code or package of laravel
 
-<h3>Core</h3>
-core is folder,that contain core modules <b>(pre-defind)</b> Module<br>
-<i>Note: Don't change any code of core module's </i>
+### Core
 
-<h3>Local</h3>
+core is folder,that contain core modules **(pre-defind)** Module<br>
+
+> Note: Don't change any code of core module's
+
+### Local
+
 local folder contain local module,which is created by user
 
-<h3>Create own module</h3>
-<b>php artisan make:cms-module {module-name} </b>
-<br>
-eg : <b>php artisan make:cms-module helloworld</b>
+### Create own module
+
+**php artisan make:cms-module {module-name}**
+
+eg :
+
+```bash
+php artisan make:cms-module helloworld
+```
+
 <br>helloworld module is created under current theme folder
 <br>
 then register our module to database for feature use
 <br>
 <b>php artisan update:cms-module</b> <br />
+
 <h5>Where is the entry point (provider) of the module?</h5>
 open provider folder under cms/local/{module} <br />
 that provider is same as laravel provider so boot and register method is important and additionaly we have some functions <br />
@@ -239,19 +280,17 @@ thats all :) ,lets see files in modules,<br>
 <li>helpers ->folder</li>
 </ol>
 
-<h4>module.json</h4>
-<code>
-  {
-  "name": "helloworld",
-  "version": "0.0.1",
-  "type" : "local",
-  "providers": [
-    "Providers\\HelloworldServiceProvider"
-  ]
-}
+#### module.json
 
-</code>
-<br>
+```json
+{
+    "name": "helloworld",
+    "version": "0.0.1",
+    "type": "local",
+    "providers": ["Providers\\HelloworldServiceProvider"]
+}
+```
+
 <table>
   <thead>
     <tr>
@@ -776,4 +815,3 @@ eg:
 
 <h1>What is next?</h1>
   now i am working on moving this package to react,V3.O will release soon
-
