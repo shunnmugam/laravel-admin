@@ -80,10 +80,12 @@ class Seed extends Command
                     //print_r($files);
                     foreach ($files as $file) {
                         $class_name = preg_replace('/\..+$/', '', $file);
+                        $m = ltrim($module, '/');
+                        $m = str_replace('/', '\\', $m);
+                        $m =  str_replace('local\\'.Cms::getCurrentTheme().'\\', '', $m);
                         $this->call('db:seed', [
-                            '--class' =>  Cms::getPath() . '\\' .  $module . '\\Database\\seeds\\' . $class_name
+                            '--class' => $m . '\\Database\\seeds\\' . $class_name
                         ]);
-                        //echo 'hai';
                     }
                 }
             }
